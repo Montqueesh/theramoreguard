@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+    background-color: #000;
+    font-family: "Playfair Display", serif;
+    color: #fff;
+    margin: 0;
+}
+
+.container {
+    margin: auto;
+    max-width: 1200px;
+    padding: 0 3rem;
+}
+
+.header-wrapper {
+    background: linear-gradient(to bottom, #00000099, #00000099), url(assets/yogg.jpg);
+    background-size: cover;
+    background-position: center 63%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 3rem;
+}
+
+.header__logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 48px;
+    font-weight: 400;
+    transition: all .3s ease-in-out;
+}
+
+.header__logo:hover {
+    opacity: 0.8;
+}
+
+.header nav {
+    font-family: "Roboto", sans-serif;
+}
+
+.header nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: 0;
+}
+
+.header nav>ul>li {
+    display: inline-block;
+    position: relative;
+    margin-left: 26px;
+}
+
+.header nav li a {
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 24px;
+    transition: ease-in-out 0.2s;
+}
+
+.header nav li a:hover,
+.header nav li a:focus {
+    opacity: 0.8;
+}
+
+.header nav li ul {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    background: #000000;
+    width: 200px;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 3px 12px rgba(0, 0, 0, .12);
+    margin-top: 12px;
+    border-radius: 5px;
+    padding: .6em;
+    transition: all .3s ease-in-out;
+    transform: scale(1, 0);
+    transform-origin: top;
+    z-index: 1000;
+    text-align: left;
+    left: -15px;
+    border: 1px solid #E6C339;
+}
+
+.header nav li:hover ul {
+    transform: scale(1, 1);
+}
+
+.header nav li:hover ul,
+.header nav li ul:hover {
+    opacity: 1;
+    visibility: visible;
+    margin-left: 0;
+}
+
+.header nav li ul li {
+    display: block;
+}
+
+.header nav li ul a {
+    color: #000;
+    display: block;
+    padding: 8.3px 18.6px;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.header nav li ul a:hover {
+    color: #0e7fbc;
+}
+
+.discord-button {
+    padding: 8px 20px;
+    border: 1px solid #E6C339;
+    border-radius: 5px;
+    color: #E6C339 !important;
+    opacity: 1 !important;
+}
+
+.discord-button:hover {
+    background-color: #E6C339;
+    color: #000 !important;
+}
+
+.button-row a:hover {
+    opacity: 0.8;
+}
+
+#about {
+    font-size: 22px;
+    padding: 3rem 0;
+    font-weight: 400;
+    letter-spacing: .5px;
+    background: linear-gradient(135deg, #00000095, #00000095), url(assets/dargons.jpg);
+    font-family: "Roboto", sans-serif;
+    background-position: bottom right;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border-top: 1px solid #a48715;
+}
+
+#about p {
+    line-height: 36px;
+    opacity: 0.8;
+}
+
+#about h1 {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #fff;
+    font-weight: 500;
+    font-family: "Playfair Display", serif;
+}
+
+#about h3 {
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.block {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 500;
+    padding: 3rem;
+    border-top: 1px solid #a48715;
+}
+
+.block h2 {
+    margin: 0;
+    padding-bottom: 3rem;
+}
+
+.memories {
+    background-color: #00000099;
+    border-top: 1px solid #a48715;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+    row-gap: 3rem;
+    padding: 3rem;
+}
+
+.memories p {
+    font-size: 24px;
+    font-family: "Roboto", sans-serif;
+}
+
+.memories .memory {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+}
+
+.memories .memory img {
+    max-width: 100%;
+    height: 322px;
+    object-fit: cover;
+}
+
+.vanilla {
+    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/og-vanilla.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.tbc {
+    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/tbc.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.wotlk {
+    background: linear-gradient(to bottom, #00000099, #000000), url(assets/yogg.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.footer {
+    width: 100% !important;
+    content: "";
+    display: block;
+}
+
+.footer .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    line-height: 36px;
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    padding: 3rem;
+}
+
+.footer .container a {
+    color: #E6C339;
+    text-decoration: none;
+}
+
+.footer .container a:hover {
+    text-decoration: underline;
+}
+
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 15px 20px;
+    border-radius: 35px;
+    font-size: 18px;
+    background-color: #000;
+    border: 2px solid #E6C339;
+    font-family: "Roboto", sans-serif;
+    transition: 0.1s
+}
+
+#myBtn:hover {
+    bottom: 25px;
+}
+
+#myBtn i {
+    margin-left: 8px;
+}
+
+@media screen and (max-width: 1144px) {
+    .header nav {
+        display: none;
+    }
+
+    .header-wrapper {
+        height: initial;
+    }
+}
+
+@media screen and (max-width: 698px) {
+
+    .container {
+        padding: 2rem;
+    }
+
+    .header {
+        padding: 2rem;
+    }
+
+    #about {
+        padding-top: 0;
+    }
+}
+
+@media screen and (max-width: 912px) {
+    .memories {
+        grid-template-columns: 1fr;
+    }
+
+    .memories .memory img {
+        max-width: 100%;
+        min-height: initial;
+    }
+
+    .block {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .block h2 {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .footer .container {
+        font-size: 18px;
+    }
+}
