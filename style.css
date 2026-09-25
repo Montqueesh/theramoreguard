@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     background-color: #000;
@@ -87,10 +89,12 @@ body {
     border: 1px solid #E6C339;
 }
 
-.header nav li:hover ul {
+.header nav li:hover ul,
+.header nav li:focus-within ul {
     transform: scale(1, 1);
 }
 
+.header nav li:focus-within ul,
 .header nav li:hover ul,
 .header nav li ul:hover {
     opacity: 1;
@@ -279,12 +283,40 @@ body {
 }
 
 @media screen and (max-width: 1144px) {
-    .header nav {
-        display: none;
+    .header {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .header nav>ul>li:first-child {
+        margin-left: 0;
     }
 
     .header-wrapper {
         height: initial;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .header__logo {
+        font-size: 32px;
+    }
+
+    .header nav>ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        row-gap: 16px;
+    }
+
+    .header nav>ul>li {
+        margin: 0 8px;
+    }
+
+    .header nav li a {
+        font-size: 18px;
     }
 }
 
