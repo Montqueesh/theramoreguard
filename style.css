@@ -411,7 +411,8 @@ body {
 
 @media screen and (max-width: 650px) {
     .footer .container {
-        font-size: 18px;
+        font-size: min(18px, 5vw);
+        padding: 3rem 16px;
     }
 }
 
