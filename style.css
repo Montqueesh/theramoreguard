@@ -211,6 +211,35 @@ body {
     object-fit: cover;
 }
 
+/* Collapsible sections (gallery.js) */
+
+.memories.is-collapsed .memory:nth-child(n+5) {
+    display: none;
+}
+
+.memories-toggle {
+    align-self: center;
+    padding: 8px 20px;
+    border: 1px solid #E6C339;
+    border-radius: 5px;
+    background: transparent;
+    color: #E6C339;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    transition: ease-in-out 0.2s;
+}
+
+.memories-toggle:hover {
+    background-color: #E6C339;
+    color: #000;
+}
+
+.memories-toggle:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
 .vanilla {
     background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/og-vanilla.jpg);
     background-size: cover;
