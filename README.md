@@ -54,7 +54,7 @@ Every gallery image gets a link made from its filename: lowercase, spaces and un
 
 The examples below add a WoW Forever section.
 
-1. In `index.html`, copy a whole section, from `<div class="MoP block" id="MoP">` to its closing `</div>`, and paste it after the last section. Give it a new class and a unique `id` (for example `class="forever block" id="forever"`), change the `<h2>` heading, and replace the memories.
+1. In `index.html`, copy a whole section, from `<div class="MoP block" id="MoP">` to its closing `</div>`, and paste it after the last section (it must stay inside the page's `<main>` element, which ends just before the footer). Give it a new class and a unique `id` (for example `class="forever block" id="forever"`), change the `<h2>` heading, and replace the memories.
 2. Add a nav link for it in the "Guild Memories" menu near the top of `index.html`:
    `<li><a href="#forever" class="subnav">WoW Forever</a></li>`
 3. Create a folder for its screenshots, such as `assets/forever/`.

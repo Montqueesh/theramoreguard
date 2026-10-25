@@ -195,7 +195,8 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     font-family: "Playfair Display", serif;
 }
 
-#about h3 {
+#about h2 {
+    margin: 1em 0;
     font-size: 22px;
     letter-spacing: 1px;
 }
