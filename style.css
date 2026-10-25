@@ -15,6 +15,31 @@ body {
     padding: 0 3rem;
 }
 
+/* "Skip to content": off screen until it gets keyboard focus */
+.skip-link {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    padding: 12px 20px;
+    border: 2px solid #E6C339;
+    background: #000;
+    color: #E6C339;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    transform: translateY(-100%);
+}
+
+.skip-link:focus {
+    transform: none;
+}
+
+/* main takes focus when the skip link is used; no ring around the whole page */
+#main:focus {
+    outline: none;
+}
+
 .header-wrapper {
     background: linear-gradient(to bottom, #00000099, #00000099), url(assets/yogg.jpg);
     background-size: cover;
