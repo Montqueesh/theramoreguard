@@ -604,6 +604,57 @@ html.lightbox-open #myBtn {
     cursor: default;
 }
 
+.lightbox__copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 140px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 2px solid #E6C339;
+    border-radius: 26px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #E6C339;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color .2s ease-in-out, color .2s ease-in-out;
+}
+
+.lightbox__copy svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.lightbox__copy:hover:not(:disabled) {
+    background-color: #E6C339;
+    color: #000;
+}
+
+.lightbox__copy:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.lightbox__copy:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.lightbox__copy-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 .lightbox__close {
     position: absolute;
     top: 14px;
@@ -678,7 +729,8 @@ html.lightbox-open #myBtn {
 @media (prefers-reduced-motion: reduce) {
     .memories .memory img,
     .lightbox__img,
-    .lightbox__btn {
+    .lightbox__btn,
+    .lightbox__copy {
         transition: none;
     }
 

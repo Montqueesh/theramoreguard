@@ -27,6 +27,9 @@
     '<div class="lightbox__controls">' +
     '<button type="button" class="lightbox__btn lightbox__prev" aria-label="Previous image">' + icon("M15 5l-7 7 7 7") + "</button>" +
     '<span class="lightbox__counter"></span>' +
+    '<button type="button" class="lightbox__copy">' +
+    icon("M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1") +
+    '<span class="lightbox__copy-label">Copy link</span></button>' +
     '<button type="button" class="lightbox__btn lightbox__next" aria-label="Next image">' + icon("M9 5l7 7-7 7") + "</button>" +
     "</div>" +
     "</div>" +
@@ -42,6 +45,8 @@
   const counter = dialog.querySelector(".lightbox__counter");
   const prevBtn = dialog.querySelector(".lightbox__prev");
   const nextBtn = dialog.querySelector(".lightbox__next");
+  const copyBtn = dialog.querySelector(".lightbox__copy");
+  const copyLabel = dialog.querySelector(".lightbox__copy-label");
   const status = dialog.querySelector(".lightbox__status");
 
   let items = []; // gallery images in the open section
@@ -50,6 +55,42 @@
   let savedScrollY = 0;
   let loadToken = 0; // ignores load events from images we've already moved past
   let zoomed = false;
+  let copyTimer = 0;
+
+  // Shareable links: each gallery image gets an id from its filename, or from
+  // a data-slug attribute, e.g. Ragnaros.PNG -> #ragnaros and
+  // "Protector Kaolan-N.jpg" -> #protector-kaolan-n. Links match without
+  // regard to case, so ids are checked for collisions the same way.
+  const SITE_URL = "https://www.theramoreguard.com/";
+  const imageBySlug = new Map();
+  const slugByImage = new Map();
+  const takenIds = new Set();
+  document.querySelectorAll("[id]").forEach(function (el) {
+    takenIds.add(el.id.toLowerCase());
+  });
+
+  function slugFor(galleryImg) {
+    if (galleryImg.dataset.slug) return galleryImg.dataset.slug.trim().toLowerCase();
+    const file = decodeURIComponent(galleryImg.getAttribute("src").split("/").pop());
+    return file.replace(/\.[^.]+$/, "").toLowerCase()
+      .replace(/[\s_]+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  galleryImages.forEach(function (galleryImg) {
+    const slug = slugFor(galleryImg);
+    if (!slug || takenIds.has(slug)) {
+      console.error('Gallery link "#' + slug + '" for ' + galleryImg.getAttribute("src") +
+        " is empty or already used by another id or image. Give the image a unique data-slug.");
+      return;
+    }
+    takenIds.add(slug);
+    imageBySlug.set(slug, galleryImg);
+    slugByImage.set(galleryImg, slug);
+    galleryImg.id = slug;
+  });
 
   // Make every gallery image open the viewer by click, tap, Enter or Space.
   galleryImages.forEach(function (galleryImg) {
@@ -89,6 +130,7 @@
   dialog.addEventListener("close", function () {
     loadToken++;
     setZoom(false);
+    setHash("");
     img.removeAttribute("src");
     document.documentElement.classList.remove("lightbox-open");
     if (window.scrollY !== savedScrollY) window.scrollTo({ top: savedScrollY, behavior: "instant" });
@@ -111,6 +153,9 @@
     status.textContent = "Image " + (index + 1) + " of " + items.length + ": " + galleryImg.alt;
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === items.length - 1;
+    copyBtn.disabled = !slugByImage.has(galleryImg);
+    resetCopyLabel();
+    setHash(slugByImage.get(galleryImg) || "");
     keepFocusInside();
 
     img.onload = function () {
@@ -133,6 +178,80 @@
     const pre = new Image();
     pre.decoding = "async";
     pre.src = items[i].src;
+  }
+
+  // The address bar follows the image on screen. replaceState keeps browsing
+  // out of the back-button history and never scrolls the page.
+  function setHash(slug) {
+    history.replaceState(history.state, "", location.pathname + location.search + (slug ? "#" + slug : ""));
+  }
+
+  // Open the image a shared link points at, expanding its section if needed.
+  // Section links like #cataclysm don't match an image and scroll as usual.
+  function openFromHash() {
+    let slug = "";
+    try {
+      slug = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+    } catch (e) {
+      return;
+    }
+    const target = imageBySlug.get(slug);
+    if (!target || dialog.open) return;
+    const section = target.closest(".block");
+    if (section) section.dispatchEvent(new CustomEvent("gallery:expand"));
+    target.scrollIntoView({ block: "center", behavior: "instant" });
+    open(target);
+  }
+
+  // Copy link: Clipboard API, then the older copy command, then a prompt.
+  copyBtn.addEventListener("click", function () {
+    const slug = slugByImage.get(items[index]);
+    if (!slug) return;
+    const url = SITE_URL + "#" + slug;
+    copyText(url).then(function () {
+      copyLabel.textContent = "Link copied";
+      status.textContent = "Link copied to clipboard.";
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(resetCopyLabel, 2000);
+    }, function () {
+      window.prompt("Copy this link:", url);
+    });
+  });
+
+  function resetCopyLabel() {
+    clearTimeout(copyTimer);
+    copyLabel.textContent = "Copy link";
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return legacyCopy(text);
+  }
+
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      // Inside the dialog, because a modal dialog makes the rest of the page inert.
+      const field = document.createElement("textarea");
+      field.className = "lightbox__copy-field";
+      field.value = text;
+      field.setAttribute("readonly", "");
+      dialog.appendChild(field);
+      field.select();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch (e) {
+        copied = false;
+      }
+      field.remove();
+      copyBtn.focus();
+      if (copied) resolve();
+      else reject();
+    });
   }
 
   function go(step) {
@@ -160,8 +279,11 @@
     dialog.close();
   });
 
-  // Arrow keys browse; Tab cycles through the viewer's buttons only.
-  dialog.addEventListener("keydown", function (e) {
+  // Arrow keys browse; Tab cycles through the viewer's buttons only. Listening
+  // on the document keeps this working even if focus has slipped out of the
+  // dialog (a page that loads with an image link can lose it).
+  document.addEventListener("keydown", function (e) {
+    if (!dialog.open) return;
     if (e.key === "ArrowLeft") {
       e.preventDefault();
       go(-1);
@@ -169,7 +291,7 @@
       e.preventDefault();
       go(1);
     } else if (e.key === "Tab") {
-      const focusable = [closeBtn, prevBtn, nextBtn].filter(function (b) {
+      const focusable = [closeBtn, prevBtn, copyBtn, nextBtn].filter(function (b) {
         return !b.disabled;
       });
       const pos = focusable.indexOf(document.activeElement);
@@ -314,4 +436,12 @@
     swipe = null;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
   }, { passive: true });
+
+  openFromHash();
+  window.addEventListener("hashchange", openFromHash);
+  // Arriving with an image link, the browser's own jump to that id can pull
+  // focus out of the open viewer while the page finishes loading.
+  window.addEventListener("load", function () {
+    if (dialog.open && !dialog.contains(document.activeElement)) closeBtn.focus();
+  });
 })();
