@@ -1,27 +1,30 @@
-// Get the button:
-let mybutton = document.getElementById("myBtn");
+// Footer year and the Back to top button.
+(function () {
+  "use strict";
 
-// Footer copyright year
-document.getElementById("year").textContent = new Date().getFullYear();
+  const button = document.getElementById("myBtn");
 
-// When the user scrolls down 20px from the top of the document, show the button.
-// Only touch the DOM when the visibility actually changes.
-let buttonVisible = false;
-window.addEventListener("scroll", scrollFunction, { passive: true });
-scrollFunction();
+  // Footer copyright year
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-function scrollFunction() {
-  let shouldShow = window.scrollY > 20;
-  if (shouldShow !== buttonVisible) {
-    buttonVisible = shouldShow;
-    mybutton.style.display = shouldShow ? "block" : "none";
+  // When the user scrolls down 20px from the top of the document, show the button.
+  // Only touch the DOM when the visibility actually changes.
+  let buttonVisible = false;
+  function updateButton() {
+    const shouldShow = window.scrollY > 20;
+    if (shouldShow !== buttonVisible) {
+      buttonVisible = shouldShow;
+      button.style.display = shouldShow ? "block" : "none";
+    }
   }
-}
+  window.addEventListener("scroll", updateButton, { passive: true });
+  updateButton();
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+  // When the user clicks on the button, scroll to the top of the document
+  button.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
 
 // "Guild Memories" menu. Without JavaScript it is a plain link to the gallery.
 // Here it becomes a disclosure button: tap, click, Enter or Space toggles the
