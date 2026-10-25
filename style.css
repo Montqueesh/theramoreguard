@@ -412,7 +412,8 @@ body {
 @media screen and (max-width: 650px) {
     .footer .container {
         font-size: min(18px, 5vw);
-        padding: 3rem 16px;
+        /* Extra bottom room so the fixed "Back to top" button doesn't cover the footer link */
+        padding: 3rem 16px 6rem;
     }
 }
 
