@@ -1,0 +1,12 @@
+* text=auto eol=lf
+
+# Images and fonts are binary (both cases: some screenshots are .PNG)
+*.png binary
+*.PNG binary
+*.jpg binary
+*.JPG binary
+*.jpeg binary
+*.JPEG binary
+*.ico binary
+*.webp binary
+*.woff2 binary
