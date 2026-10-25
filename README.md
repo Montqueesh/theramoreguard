@@ -10,7 +10,7 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 | --- | --- |
 | `index.html` | The whole site: header, About, and one gallery section per expansion |
 | `style.css` | All styles, including each section's banner image |
-| `script.js` | Back-to-top button and the footer's copyright year |
+| `script.js` | Back-to-top button, the footer's copyright year and the "Guild Memories" dropdown (a button that opens the expansion links) |
 | `gallery.js` | Collapsible gallery sections ("Show all N memories") |
 | `lightbox.js` | Click-to-enlarge viewer and shareable image links |
 | `404.html` | The "page not found" page; GitHub Pages serves it for any missing URL |
