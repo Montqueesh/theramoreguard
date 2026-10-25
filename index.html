@@ -35,15 +35,16 @@
 </head>
 
 <body>
-    <div class="header-wrapper">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="header-wrapper">
         <div class="header container">
             <a href="/" class="header__logo">THE THERAMORE GUARD</a>
-            <nav class="primary pull-right hidden-xs-down">
+            <nav class="primary pull-right hidden-xs-down" aria-label="Main">
                 <ul>
 
                     <li class="p-r-1"><a href="#about">About</a></li>
                     <li class="p-r-1"><a href="#memories-block">Guild Memories <svg class="chevron" viewBox="0 0 512 512" aria-hidden="true"><path d="M64 192l192 192 192-192"/></svg></a>
-                        <ul>
+                        <ul id="nav-memories">
                             <li><a href="#vanilla" class="subnav">Classic</a></li>
                             <li><a href="#tbc" class="subnav">The Burning Crusade</a></li>
                             <li><a href="#wotlk" class="subnav">Wrath of the Lich King</a></li>
@@ -56,21 +57,22 @@
                 </ul>
             </nav>
         </div>
-    </div>
+    </header>
+    <main id="main" tabindex="-1">
     <div class="main-wrapper">
         <div id="about">
             <div class="container">
                 <h1>About The Theramore Guard</h1>
 
-                <h3>Guild History</h3>
+                <h2>Guild History</h2>
                     <p>The Theramore Guard is a World of Warcraft Classic guild founded on the Grobbulus (NA) server in 2019. Established by Greyshield as the original Guild Master, the guild was created to be a community where polite and respectful players could come together to level, roleplay, engage in PvP, and tackle raid/PvE content as a unified force. Starting with a core team of 20 raiders alongside our sister guild &lt;Stormpike Militia&gt;, we embarked on memorable adventures, taking down Onyxia, Ragnaros in Molten Core, and Nefarian in Blackwing Lair.</p>
                     <p>As we progressed through WoW Classic, leadership transitioned to a Guild Master committee consisting of Desan, Nisharu, Poderick, Hollie, and Montqueesh. Under this collaborative leadership, the guild successfully cleared Ahn'Qiraj and prepared for the challenges ahead. When the co-GM structure dissolved, Poderick took on the role of Guild Master, with Montqueesh as his steadfast right hand, guiding the guild through the end of WoW Classic and into The Burning Crusade.</p>
                     <p>In September 2021, Montqueesh became the Guild Master, ushering in a new era for the Theramore Guard. With the support of key officers, Montqueesh led the guild through The Burning Crusade and into Wrath of the Lich King, continuing our tradition of success. In August 2022, Boarrior was appointed as co-Guild Master, solidifying a leadership team that, as of 2026, includes distinguished officers such as Holidaze, DaPepis, Anethyst, and Frawl, all working together to keep the guild strong and thriving.</p>
-                <h3>Raiding Excellence</h3>
+                <h2>Raiding Excellence</h2>
                     <p>Raiding has always been at the heart of the Theramore Guard’s journey. When we ventured into the temple of Ahn’Qiraj, we recognized the need for reinforcements and were fortunate to ally with members of &lt;Sanguine&gt;. This collaboration led to our triumph over C’Thun and later, Kel’Thuzad in Naxxramas. These victories were a testament to our guild’s strategic planning and collective effort.</p>
                     <p>As we entered The Burning Crusade, the guild conquered a series of challenging raids, from Karazhan to Black Temple. Although Sunwell Plateau proved to be a formidable challenge, we ultimately cleared it in early Wrath of the Lich King Classic, further proving our resilience and dedication.</p>
                     <p>Today, the Theramore Guard continues to push the boundaries of what we can achieve together, consistently clearing end-game content and setting new goals as a guild.</p>
-                <h3>PvP Resilience</h3>
+                <h2>PvP Resilience</h2>
                     <p>The Theramore Guard has always been a thorn in the Horde’s side. Whether it is dominating in PvP battlegrounds, raiding Orgrimmar with &lt;No Mercy Mafia&gt;, defending the Alliance’s home cities, or claiming the Tol Barad territory, the Guard continues to be active in the war against the Horde. </p>
             </div>
         </div>
@@ -81,19 +83,19 @@
 
             <div class="memories container">
                 <div class="memory">
-                    <img src="assets/vanilla/mc.jpg" alt="Theramore Guard raid group beside Ragnaros's hammer in the lava of Molten Core" loading="lazy" decoding="async">
+                    <img src="assets/vanilla/mc.jpg" width="2560" height="1440" alt="Theramore Guard raid group beside Ragnaros's hammer in the lava of Molten Core" loading="lazy" decoding="async">
                     <p>Theramore Guard clears Molten Core</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/vanilla/nefarian.jpg" alt="Theramore Guard raid gathered around Nefarian's body in Blackwing Lair" loading="lazy" decoding="async">
+                    <img src="assets/vanilla/nefarian.jpg" width="600" height="300" alt="Theramore Guard raid gathered around Nefarian's body in Blackwing Lair" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Nefarian</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/vanilla/cthun.jpg" alt="Theramore Guard and Sanguine raiders in C'Thun's chamber after the kill" loading="lazy" decoding="async">
+                    <img src="assets/vanilla/cthun.jpg" width="600" height="300" alt="Theramore Guard and Sanguine raiders in C'Thun's chamber after the kill" loading="lazy" decoding="async">
                     <p>TG and Sanguine defeat C'Thun</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/vanilla/naxx40.jpg" alt="Theramore Guard raid in Kel'Thuzad's chamber after clearing Naxxramas" loading="lazy" decoding="async">
+                    <img src="assets/vanilla/naxx40.jpg" width="2098" height="1175" alt="Theramore Guard raid in Kel'Thuzad's chamber after clearing Naxxramas" loading="lazy" decoding="async">
                     <p>Theramore Guard clears Naxxramas</p>
                 </div>
             </div>
@@ -103,43 +105,43 @@
 
             <div class="memories container">
                 <div class="memory">
-                    <img src="assets/tbc/kara.jpg" alt="Theramore Guard raiders gathered in Deadwind Pass after clearing Karazhan" loading="lazy" decoding="async">
+                    <img src="assets/tbc/kara.jpg" width="600" height="300" alt="Theramore Guard raiders gathered in Deadwind Pass after clearing Karazhan" loading="lazy" decoding="async">
                     <p>Theramore Guard clears Karazhan</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/tf.jpg" alt="Poderick and Boarrior on a rocky hillside after obtaining Thunderfury" loading="lazy" decoding="async">
+                    <img src="assets/tbc/tf.jpg" width="600" height="300" alt="Poderick and Boarrior on a rocky hillside after obtaining Thunderfury" loading="lazy" decoding="async">
                     <p>Poderick and Boarrior obtain Thunderfury</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/mag.jpg" alt="Theramore Guard raid in Magtheridon's Lair after the kill" loading="lazy" decoding="async">
+                    <img src="assets/tbc/mag.jpg" width="600" height="300" alt="Theramore Guard raid in Magtheridon's Lair after the kill" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Magtheridon</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/ssc.jpg" alt="Theramore Guard raid on Lady Vashj's platform in Serpentshrine Cavern" loading="lazy" decoding="async">
+                    <img src="assets/tbc/ssc.jpg" width="600" height="300" alt="Theramore Guard raid on Lady Vashj's platform in Serpentshrine Cavern" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Lady Vashj</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/tk.jpg" alt="Theramore Guard raid in Kael'thas Sunstrider's chamber in Tempest Keep" loading="lazy" decoding="async">
+                    <img src="assets/tbc/tk.jpg" width="600" height="300" alt="Theramore Guard raid in Kael'thas Sunstrider's chamber in Tempest Keep" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Kael'thas</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/Hyjal%202.PNG" alt="Boarrior and a tiger companion relaxing in the forests of Mount Hyjal" loading="lazy" decoding="async">
+                    <img src="assets/tbc/Hyjal%202.PNG" width="1600" height="900" alt="Boarrior and a tiger companion relaxing in the forests of Mount Hyjal" loading="lazy" decoding="async">
                     <p>Hanging out in Hyjal</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/mh.jpg" alt="Theramore Guard raid in the grassy field where Archimonde fell" loading="lazy" decoding="async">
+                    <img src="assets/tbc/mh.jpg" width="600" height="300" alt="Theramore Guard raid in the grassy field where Archimonde fell" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Archimonde</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/bt.jpg" alt="Theramore Guard raid gathered around Illidan Stormrage's body in Black Temple" loading="lazy" decoding="async">
+                    <img src="assets/tbc/bt.jpg" width="600" height="300" alt="Theramore Guard raid gathered around Illidan Stormrage's body in Black Temple" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Illidan</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/tbc/kalec.PNG" alt="Theramore Guard raid on the Sunwell terrace after freeing Kalecgos" loading="lazy" decoding="async">
+                    <img src="assets/tbc/kalec.PNG" width="1600" height="900" alt="Theramore Guard raid on the Sunwell terrace after freeing Kalecgos" loading="lazy" decoding="async">
                     <p>Theramore Guard frees Kalecgos from Sathrovarr's control</p>
                 </div>                
                 <div class="memory">
-                    <img src="assets/tbc/sunwell.png" alt="Theramore Guard raid in Kil'jaeden's chamber after clearing the Sunwell Plateau" loading="lazy" decoding="async">
+                    <img src="assets/tbc/sunwell.png" width="1600" height="900" alt="Theramore Guard raid in Kil'jaeden's chamber after clearing the Sunwell Plateau" loading="lazy" decoding="async">
                     <p>Theramore Guard clears the Sunwell Plateau</p>
                 </div>
             </div>
@@ -149,59 +151,59 @@
 
             <div class="memories container">
                 <div class="memory">
-                    <img src="assets/wotlk/naxx.jpg" alt="Theramore Guard raid in Kel'Thuzad's chamber after clearing Naxxramas" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/naxx.jpg" width="1000" height="558" alt="Theramore Guard raid in Kel'Thuzad's chamber after clearing Naxxramas" loading="lazy" decoding="async">
                     <p>Theramore Guard clears Naxxramas</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/plagued.jpg" alt="Guild members riding their new Plagued Proto-Drakes in a snowy landscape" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/plagued.jpg" width="1939" height="915" alt="Guild members riding their new Plagued Proto-Drakes in a snowy landscape" loading="lazy" decoding="async">
                     <p>First Plagued Proto Drakes</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/yogg.jpg" alt="Theramore Guard raid in front of Yogg-Saron's body in Ulduar" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/yogg.jpg" width="1900" height="900" alt="Theramore Guard raid in front of Yogg-Saron's body in Ulduar" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Yogg Saron</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/salty.jpg" alt="Montqueesh and guildmates standing on a shoreline at sunset" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/salty.jpg" width="1900" height="900" alt="Montqueesh and guildmates standing on a shoreline at sunset" loading="lazy" decoding="async">
                     <p>Montqueesh is Salty</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/alg10.jpg" alt="Theramore Guard raid on Algalon's star-filled platform in Ulduar" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/alg10.jpg" width="1681" height="900" alt="Theramore Guard raid on Algalon's star-filled platform in Ulduar" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Algalon</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/vals.jpg" alt="Sairos and Frog glowing with Val'anyr's effect among guildmates" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/vals.jpg" width="1086" height="664" alt="Sairos and Frog glowing with Val'anyr's effect among guildmates" loading="lazy" decoding="async">
                     <p>Sairos and Frog obtain Val'anyr</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/ony25.png" alt="Theramore Guard raid beside Onyxia's body in her lair" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/ony25.png" width="1500" height="800" alt="Theramore Guard raid beside Onyxia's body in her lair" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Onyxia</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/ally-steeds.png" alt="Guild members mounted on armored Swift Alliance Steeds" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/ally-steeds.png" width="1600" height="900" alt="Guild members mounted on armored Swift Alliance Steeds" loading="lazy" decoding="async">
                     <p>Swift Alliance Steeds</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/heroic-anub-25.jpg" alt="Theramore Guard raid around Anub'arak's body in Trial of the Crusader" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/heroic-anub-25.jpg" width="1600" height="900" alt="Theramore Guard raid around Anub'arak's body in Trial of the Crusader" loading="lazy" decoding="async">
                     <p>Theramore Guard defeats Anub'Arak (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/ICCHangout.png" alt="Yowza in bear form with Nipaswipes and Azzrael in Icecrown Citadel" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/ICCHangout.png" width="1600" height="900" alt="Yowza in bear form with Nipaswipes and Azzrael in Icecrown Citadel" loading="lazy" decoding="async">
                     <p>Yowza, Nipaswipes and Azzrael hanging out in ICC</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/ProfessorPutricide25heroic.PNG" alt="Theramore Guard raid in Professor Putricide's lab after the heroic kill" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/ProfessorPutricide25heroic.PNG" width="1600" height="900" alt="Theramore Guard raid in Professor Putricide's lab after the heroic kill" loading="lazy" decoding="async">
                     <p>Theramore Guard kills Professor Putricide (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/KyrrShadowmourne.PNG" alt="Kyrr with Shadowmourne, surrounded by guildmates in Icecrown Citadel" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/KyrrShadowmourne.PNG" width="1600" height="900" alt="Kyrr with Shadowmourne, surrounded by guildmates in Icecrown Citadel" loading="lazy" decoding="async">
                     <p>Kyrr crafts Shadowmourne, the legendary axe!</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/LKheroic1.PNG" alt="Theramore Guard raid on the Frozen Throne after defeating the heroic Lich King" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/LKheroic1.PNG" width="1600" height="900" alt="Theramore Guard raid on the Frozen Throne after defeating the heroic Lich King" loading="lazy" decoding="async">
                     <p>Theramore Guard kills Lich King (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/wotlk/Halion1.PNG" alt="Theramore Guard raid beside Halion's body in the Ruby Sanctum" loading="lazy" decoding="async">
+                    <img src="assets/wotlk/Halion1.PNG" width="1600" height="900" alt="Theramore Guard raid beside Halion's body in the Ruby Sanctum" loading="lazy" decoding="async">
                     <p>Theramore Guard kills Halion in the Ruby Sanctum</p>
                 </div>
             </div>
@@ -211,147 +213,147 @@
 
             <div class="memories container">
                 <div class="memory">
-                    <img src="assets/cataclysm/lobster.PNG" alt="Montqueesh swarmed by giant lobsters on a snowy hillside" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/lobster.PNG" width="1600" height="900" alt="Montqueesh swarmed by giant lobsters on a snowy hillside" loading="lazy" decoding="async">
                     <p>Montqueesh is attacked by lobsters</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Argaloth.jpg" alt="Theramore Guard raid beside Argaloth's body in Baradin Hold" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Argaloth.jpg" width="2560" height="1440" alt="Theramore Guard raid beside Argaloth's body in Baradin Hold" loading="lazy" decoding="async">
                     <p>TG kills Argaloth in Baradin Hold</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/To4W-Al'Akir.png" alt="Theramore Guard raid on Al'Akir's platform in Throne of the Four Winds" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/To4W-Al'Akir.png" width="1600" height="900" alt="Theramore Guard raid on Al'Akir's platform in Throne of the Four Winds" loading="lazy" decoding="async">
                     <p>TG clears Throne of the Four Winds</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Halfus.jpg" alt="Theramore Guard raid around Halfus Wyrmbreaker's body in the Bastion of Twilight" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Halfus.jpg" width="1900" height="900" alt="Theramore Guard raid around Halfus Wyrmbreaker's body in the Bastion of Twilight" loading="lazy" decoding="async">
                     <p>TG kills Halfus Wyrmbreaker in BoT</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/ValionaTheralion.jpg" alt="Theramore Guard raid after defeating Valiona and Theralion in the Bastion of Twilight" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/ValionaTheralion.jpg" width="1900" height="900" alt="Theramore Guard raid after defeating Valiona and Theralion in the Bastion of Twilight" loading="lazy" decoding="async">
                     <p>TG kills Valiona & Theralion in BoT</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Maloriak.PNG" alt="Theramore Guard raid beside Maloriak's body in Blackwing Descent" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Maloriak.PNG" width="1900" height="600" alt="Theramore Guard raid beside Maloriak's body in Blackwing Descent" loading="lazy" decoding="async">
                     <p>TG kills Maloriak in BWD</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Atramedes.jpg" alt="Theramore Guard raid beside Atramedes's body in Blackwing Descent" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Atramedes.jpg" width="1900" height="900" alt="Theramore Guard raid beside Atramedes's body in Blackwing Descent" loading="lazy" decoding="async">
                     <p>TG kills Atramedes in BWD</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Chimaeron.jpg" alt="Theramore Guard raid beside Chimaeron's body in Blackwing Descent" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Chimaeron.jpg" width="1900" height="900" alt="Theramore Guard raid beside Chimaeron's body in Blackwing Descent" loading="lazy" decoding="async">
                     <p>TG kills Chimaeron in BWD</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/nef1.jpg" alt="Theramore Guard raid beside Nefarian's body after clearing Blackwing Descent" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/nef1.jpg" width="1600" height="900" alt="Theramore Guard raid beside Nefarian's body after clearing Blackwing Descent" loading="lazy" decoding="async">
                     <p>TG ends Nefarian to clear Blackwing Descent</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/doopyashes3.PNG" alt="Doopyboopy flying on the Ashes of Al'ar phoenix mount" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/doopyashes3.PNG" width="1596" height="936" alt="Doopyboopy flying on the Ashes of Al'ar phoenix mount" loading="lazy" decoding="async">
                     <p>Doopyboopy/Boarrior obtains the Ashes of Al'ar</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/zithashes.PNG" alt="Zithmyr flying on the Ashes of Al'ar phoenix mount" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/zithashes.PNG" width="1600" height="900" alt="Zithmyr flying on the Ashes of Al'ar phoenix mount" loading="lazy" decoding="async">
                     <p>Zithmyr obtains the Ashes of Al'ar</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Halfus_Heroic_10.PNG" alt="Theramore Guard raid after the heroic Halfus Wyrmbreaker kill" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Halfus_Heroic_10.PNG" width="1523" height="682" alt="Theramore Guard raid after the heroic Halfus Wyrmbreaker kill" loading="lazy" decoding="async">
                     <p>TG kills Halfus Wyrmbreaker (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Magmaw10Heroic.jpg" alt="Theramore Guard raid beside Magmaw's body after the heroic kill" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Magmaw10Heroic.jpg" width="1600" height="900" alt="Theramore Guard raid beside Magmaw's body after the heroic kill" loading="lazy" decoding="async">
                     <p>TG kills Magmaw (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Atramedes10Heroic.PNG" alt="Theramore Guard raid beside Atramedes's body after the heroic kill" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Atramedes10Heroic.PNG" width="1600" height="900" alt="Theramore Guard raid beside Atramedes's body after the heroic kill" loading="lazy" decoding="async">
                     <p>TG kills Atramedes (Heroic)</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/shannox1.PNG" alt="Theramore Guard raid beside Shannox's body in Firelands" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/shannox1.PNG" width="1600" height="900" alt="Theramore Guard raid beside Shannox's body in Firelands" loading="lazy" decoding="async">
                     <p>TG defeats Shannox in Firelands</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/fire2.PNG" alt="Theramore Guard raid in front of Lord Rhyolith's molten remains in Firelands" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/fire2.PNG" width="1600" height="900" alt="Theramore Guard raid in front of Lord Rhyolith's molten remains in Firelands" loading="lazy" decoding="async">
                     <p>TG defeats Lord Ryolith</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/beth-thilac.PNG" alt="Theramore Guard raid beside Beth'tilac's body in her Firelands lair" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/beth-thilac.PNG" width="1600" height="900" alt="Theramore Guard raid beside Beth'tilac's body in her Firelands lair" loading="lazy" decoding="async">
                     <p>TG defeats Beth'tilac</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/alysraz.PNG" alt="Theramore Guard raid around Alysrazor's fallen body in Firelands" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/alysraz.PNG" width="1600" height="900" alt="Theramore Guard raid around Alysrazor's fallen body in Firelands" loading="lazy" decoding="async">
                     <p>TG defeats Alysrazor</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/bale2.PNG" alt="Theramore Guard raid in front of Baleroc's body at the Firelands bridge" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/bale2.PNG" width="1600" height="900" alt="Theramore Guard raid in front of Baleroc's body at the Firelands bridge" loading="lazy" decoding="async">
                     <p>TG defeats Baleroc</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/domo1.PNG" alt="Theramore Guard raid around a guild banner after defeating Majordomo Staghelm" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/domo1.PNG" width="1600" height="900" alt="Theramore Guard raid around a guild banner after defeating Majordomo Staghelm" loading="lazy" decoding="async">
                     <p>TG defeats Majordomo Staghelm</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/holi1.PNG" alt="Holidaze and Montqueesh readying for battle in Firelands" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/holi1.PNG" width="1600" height="900" alt="Holidaze and Montqueesh readying for battle in Firelands" loading="lazy" decoding="async">
                     <p>Holidaze and Montqueesh preparing to fight</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Ragnaros.PNG" alt="Theramore Guard raid in Sulfuron Keep after defeating Ragnaros" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Ragnaros.PNG" width="1600" height="900" alt="Theramore Guard raid in Sulfuron Keep after defeating Ragnaros" loading="lazy" decoding="async">
                     <p>TG destroys Ragnaros, the final boss of Firelands</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/DoopyDragonwrath.PNG" alt="Doopyboopy in Tarecgosa's dragon form after earning Dragonwrath" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/DoopyDragonwrath.PNG" width="1600" height="900" alt="Doopyboopy in Tarecgosa's dragon form after earning Dragonwrath" loading="lazy" decoding="async">
                     <p>Doopyboopy earns the legendary staff Dragonwrath, Tarecgosa's Rest</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/IcybitsDragonwrath.PNG" alt="Icybits in Tarecgosa's dragon form over a city after earning Dragonwrath" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/IcybitsDragonwrath.PNG" width="1600" height="900" alt="Icybits in Tarecgosa's dragon form over a city after earning Dragonwrath" loading="lazy" decoding="async">
                     <p>Icybits earns the legendary staff Dragonwrath, Tarecgosa's Rest</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/AzuDragonwrath.PNG" alt="Achuwu bathed in light after earning the legendary staff Dragonwrath" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/AzuDragonwrath.PNG" width="1600" height="900" alt="Achuwu bathed in light after earning the legendary staff Dragonwrath" loading="lazy" decoding="async">
                     <p>Achuwu earns the legendary staff Dragonwrath, Tarecgosa's Rest</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/HolidazeDragonwrath.png" alt="Holidaze with Dragonwrath on a floating platform, Tarecgosa's dragon form nearby" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/HolidazeDragonwrath.png" width="1600" height="900" alt="Holidaze with Dragonwrath on a floating platform, Tarecgosa's dragon form nearby" loading="lazy" decoding="async">
                     <p>Holidaze earns the legendary staff Dragonwrath, Tarecgosa's Rest</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/WarlordZonozz.PNG" alt="Theramore Guard raid by a guild banner after defeating Warlord Zon'ozz in Dragon Soul" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/WarlordZonozz.PNG" width="1600" height="900" alt="Theramore Guard raid by a guild banner after defeating Warlord Zon'ozz in Dragon Soul" loading="lazy" decoding="async">
                     <p>TG defeats Warlord Zon'ozz in Dragon Soul</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/YorsahjTheUnsleeping.PNG" alt="Theramore Guard raid around Yor'sahj the Unsleeping's body in Dragon Soul" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/YorsahjTheUnsleeping.PNG" width="1600" height="900" alt="Theramore Guard raid around Yor'sahj the Unsleeping's body in Dragon Soul" loading="lazy" decoding="async">
                     <p>TG defeats Yor'sahj the Unsleeping</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/KryptonightWitchcraft.PNG" alt="Kryptonight engulfed in a blinding pillar of light beside a guild banner" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/KryptonightWitchcraft.PNG" width="1600" height="900" alt="Kryptonight engulfed in a blinding pillar of light beside a guild banner" loading="lazy" decoding="async">
                     <p>Kryptonight performs witchcraft!</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Hagara.PNG" alt="Theramore Guard raid by guild banners after defeating Hagara the Stormbinder" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Hagara.PNG" width="1600" height="900" alt="Theramore Guard raid by guild banners after defeating Hagara the Stormbinder" loading="lazy" decoding="async">
                     <p>TG defeats Hagara the Stormbinder</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/WarmasterBlackhorn.PNG" alt="Theramore Guard raid on the Skyfire's deck after defeating Warmaster Blackhorn" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/WarmasterBlackhorn.PNG" width="1600" height="900" alt="Theramore Guard raid on the Skyfire's deck after defeating Warmaster Blackhorn" loading="lazy" decoding="async">
                     <p>TG defeats Warmaster Blackhorn</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/DeathwingPrep2.PNG" alt="Theramore Guard raid gathered by a guild banner before facing Deathwing" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/DeathwingPrep2.PNG" width="1600" height="900" alt="Theramore Guard raid gathered by a guild banner before facing Deathwing" loading="lazy" decoding="async">
                     <p>The Guard prepares to vanquish Deathwing</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/CedrellaStaff.PNG" alt="Cedrella in Tarecgosa's dragon form over the sea after earning Dragonwrath" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/CedrellaStaff.PNG" width="1600" height="900" alt="Cedrella in Tarecgosa's dragon form over the sea after earning Dragonwrath" loading="lazy" decoding="async">
                     <p>Cedrella earns the legendary staff Dragonwrath, Tarecgosa's Rest</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/dargons.PNG" alt="Guild members lined up on blue drakes in a Dalaran courtyard" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/dargons.PNG" width="1600" height="900" alt="Guild members lined up on blue drakes in a Dalaran courtyard" loading="lazy" decoding="async">
                     <p>Dragons in Dalaran!</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/Deathwing.jpg" alt="Theramore Guard raid on the final platform after defeating Deathwing" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/Deathwing.jpg" width="1600" height="900" alt="Theramore Guard raid on the final platform after defeating Deathwing" loading="lazy" decoding="async">
                     <p>The Guard defeats Deathwing and clears Dragon Soul!</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/cataclysm/MontDaggers.PNG" alt="Montqueesh wielding the legendary Fangs of the Father daggers on a Stormwind wall" loading="lazy" decoding="async">
+                    <img src="assets/cataclysm/MontDaggers.PNG" width="1600" height="900" alt="Montqueesh wielding the legendary Fangs of the Father daggers on a Stormwind wall" loading="lazy" decoding="async">
                     <p>Montqueesh earns the legendary Fangs of the Father daggers</p>
                 </div>
             </div>
@@ -361,63 +363,64 @@
 
             <div class="memories container">
                 <div class="memory">
-                    <img src="assets/MoP/Calmstream-90-first.jpg" alt="Calmstream, a pandaren, with the character panel showing level 90" loading="lazy" decoding="async">
+                    <img src="assets/MoP/Calmstream-90-first.jpg" width="1600" height="900" alt="Calmstream, a pandaren, with the character panel showing level 90" loading="lazy" decoding="async">
                     <p>Calmstream/Yoteboy reaches level 90 first</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/elegon.jpg" alt="The Guard raid on Elegon's platform in Mogu'shan Vaults" loading="lazy" decoding="async">
+                    <img src="assets/MoP/elegon.jpg" width="1600" height="900" alt="The Guard raid on Elegon's platform in Mogu'shan Vaults" loading="lazy" decoding="async">
                     <p>The Guard defeats Elegon</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/serpents.jpg" alt="Icybits, Cedrella and Calmstream on their cloud serpent mounts" loading="lazy" decoding="async">
+                    <img src="assets/MoP/serpents.jpg" width="1600" height="900" alt="Icybits, Cedrella and Calmstream on their cloud serpent mounts" loading="lazy" decoding="async">
                     <p>Icybits, Cedrella and Calmstream master their serpents</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/MSV-clear.jpg" alt="The Guard raid in the Will of the Emperor chamber after clearing Mogu'shan Vaults" loading="lazy" decoding="async">
+                    <img src="assets/MoP/MSV-clear.jpg" width="1600" height="900" alt="The Guard raid in the Will of the Emperor chamber after clearing Mogu'shan Vaults" loading="lazy" decoding="async">
                     <p>The Guard clears Mogu'shan Vaults</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/Garalon2.PNG" alt="The Guard raid by guild banners after defeating Garalon in the Heart of Fear" loading="lazy" decoding="async">
+                    <img src="assets/MoP/Garalon2.PNG" width="1600" height="900" alt="The Guard raid by guild banners after defeating Garalon in the Heart of Fear" loading="lazy" decoding="async">
                     <p>The Guard defeats Garalon in the Heart of Fear</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/Krypto-tendies.jpg" alt="Kryptonight burning to a crisp in a pool of fire" loading="lazy" decoding="async">
+                    <img src="assets/MoP/Krypto-tendies.jpg" width="1600" height="900" alt="Kryptonight burning to a crisp in a pool of fire" loading="lazy" decoding="async">
                     <p>Kryptonight is cooked</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/WindLordMeljarak.jpg" alt="The Guard raid by guild banners after defeating Wind Lord Mel'jarak" loading="lazy" decoding="async">
+                    <img src="assets/MoP/WindLordMeljarak.jpg" width="1600" height="900" alt="The Guard raid by guild banners after defeating Wind Lord Mel'jarak" loading="lazy" decoding="async">
                     <p>The Guard defeats Wind Lord Mel'jarak in the HoF</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/Protector%20Kaolan-N.jpg" alt="The Guard raid by guild banners after defeating the Protectors of the Endless" loading="lazy" decoding="async">
+                    <img src="assets/MoP/Protector%20Kaolan-N.jpg" width="1600" height="900" alt="The Guard raid by guild banners after defeating the Protectors of the Endless" loading="lazy" decoding="async">
                     <p>The Guard defeats Protector Kaolan in Terrance of Endless Spring</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/Tsulong-N.jpg" alt="The Guard raid on the Terrace of Endless Spring after defeating Tsulong" loading="lazy" decoding="async">
+                    <img src="assets/MoP/Tsulong-N.jpg" width="1600" height="900" alt="The Guard raid on the Terrace of Endless Spring after defeating Tsulong" loading="lazy" decoding="async">
                     <p>The Guard defeats Tsulong in ToES</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/LeiShi-N.jpg" alt="The Guard raid around Lei Shi's pavilion in Terrace of Endless Spring" loading="lazy" decoding="async">
+                    <img src="assets/MoP/LeiShi-N.jpg" width="1600" height="900" alt="The Guard raid around Lei Shi's pavilion in Terrace of Endless Spring" loading="lazy" decoding="async">
                     <p>The Guard defeats Lei Shi in ToES</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/sha1.PNG" alt="The Guard raid around the Sha of Fear's body after clearing Terrace of Endless Spring" loading="lazy" decoding="async">
+                    <img src="assets/MoP/sha1.PNG" width="1600" height="900" alt="The Guard raid around the Sha of Fear's body after clearing Terrace of Endless Spring" loading="lazy" decoding="async">
                     <p>The Guard defeats Sha of Fear and clears ToES</p>
                 </div>
                 <div class="memory">
-                    <img src="assets/MoP/ambershaper2.PNG" alt="The Guard raid by guild banners after defeating Amber-Shaper Un'sok" loading="lazy" decoding="async">
+                    <img src="assets/MoP/ambershaper2.PNG" width="2560" height="1080" alt="The Guard raid by guild banners after defeating Amber-Shaper Un'sok" loading="lazy" decoding="async">
                     <p>The Guard defeats Amber-Shaper Un'sok</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer">
+    </main>
+    <footer class="footer">
         <div class="container">
             <span>Copyright © <span id="year">2025</span> &lt;Theramore Guard&gt;</span>
             <a href="https://classic.warcraftlogs.com/guild/us/grobbulus/theramore%20guard" target="_blank" rel="noopener">Warcraft
                 Logs</a>
         </div>
-    </div>
+    </footer>
     <button onclick="topFunction()" id="myBtn" title="Go to top">Back to top <svg class="chevron" viewBox="0 0 512 512" aria-hidden="true"><path d="M64 320l192-192 192 192"/></svg></button>
     <script src="script.js"></script>
     <script src="gallery.js"></script>

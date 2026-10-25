@@ -10,7 +10,7 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 | --- | --- |
 | `index.html` | The whole site: header, About, and one gallery section per expansion |
 | `style.css` | All styles, including each section's banner image |
-| `script.js` | Back-to-top button and the footer's copyright year |
+| `script.js` | Back-to-top button, the footer's copyright year and the "Guild Memories" dropdown (a button that opens the expansion links) |
 | `gallery.js` | Collapsible gallery sections ("Show all N memories") |
 | `lightbox.js` | Click-to-enlarge viewer and shareable image links |
 | `404.html` | The "page not found" page; GitHub Pages serves it for any missing URL |
@@ -24,8 +24,9 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 
 1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below).
 2. In `index.html`, find that expansion's section (for example `<div class="MoP block" id="MoP">`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
-3. Change three things in the copy:
+3. Change these in the copy:
    - `src`: the path to your screenshot, matching the filename's upper and lower case exactly.
+   - `width` and `height`: the screenshot's size in pixels, for example `1600` and `900` (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
    - the `<p>` caption shown under the image.
 
@@ -33,7 +34,7 @@ Example, for a new screenshot saved as `assets/MoP/garrosh.jpg`:
 
 ```html
 <div class="memory">
-    <img src="assets/MoP/garrosh.jpg" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async">
+    <img src="assets/MoP/garrosh.jpg" width="1600" height="900" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async">
     <p>Theramore Guard defeats Garrosh Hellscream</p>
 </div>
 ```
@@ -54,7 +55,7 @@ Every gallery image gets a link made from its filename: lowercase, spaces and un
 
 The examples below add a WoW Forever section.
 
-1. In `index.html`, copy a whole section, from `<div class="MoP block" id="MoP">` to its closing `</div>`, and paste it after the last section. Give it a new class and a unique `id` (for example `class="forever block" id="forever"`), change the `<h2>` heading, and replace the memories.
+1. In `index.html`, copy a whole section, from `<div class="MoP block" id="MoP">` to its closing `</div>`, and paste it after the last section (it must stay inside the page's `<main>` element, which ends just before the footer). Give it a new class and a unique `id` (for example `class="forever block" id="forever"`), change the `<h2>` heading, and replace the memories.
 2. Add a nav link for it in the "Guild Memories" menu near the top of `index.html`:
    `<li><a href="#forever" class="subnav">WoW Forever</a></li>`
 3. Create a folder for its screenshots, such as `assets/forever/`.

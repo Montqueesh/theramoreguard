@@ -15,6 +15,31 @@ body {
     padding: 0 3rem;
 }
 
+/* "Skip to content": off screen until it gets keyboard focus */
+.skip-link {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    padding: 12px 20px;
+    border: 2px solid #E6C339;
+    background: #000;
+    color: #E6C339;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    transform: translateY(-100%);
+}
+
+.skip-link:focus {
+    transform: none;
+}
+
+/* main takes focus when the skip link is used; no ring around the whole page */
+#main:focus {
+    outline: none;
+}
+
 .header-wrapper {
     background: linear-gradient(to bottom, #00000099, #00000099), url(assets/yogg.jpg);
     background-size: cover;
@@ -57,7 +82,8 @@ body {
     margin-left: 26px;
 }
 
-.header nav li a {
+.header nav li a,
+.header nav li .nav-toggle {
     color: #fff !important;
     text-decoration: none;
     font-size: 24px;
@@ -65,8 +91,34 @@ body {
 }
 
 .header nav li a:hover,
-.header nav li a:focus {
+.header nav li a:focus,
+.header nav li .nav-toggle:hover,
+.header nav li .nav-toggle:focus {
     opacity: 0.8;
+}
+
+/* "Guild Memories" toggle button (script.js), styled like the links beside it */
+.header nav li .nav-toggle {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+
+.nav-toggle .chevron {
+    transition: transform .2s ease-in-out;
+}
+
+.nav-toggle[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-toggle .chevron {
+        transition: none;
+    }
 }
 
 .header nav li ul {
@@ -89,17 +141,25 @@ body {
     border: 1px solid #E6C339;
 }
 
-.header nav li:hover ul,
-.header nav li:focus-within ul {
+/* Open: toggled by script.js, by hovering on devices that can hover, and by
+   focus alone when script.js hasn't turned the link into a button. */
+.header nav li.is-open>ul,
+html:not(.has-nav-toggle) .header nav li:focus-within ul {
     transform: scale(1, 1);
-}
-
-.header nav li:focus-within ul,
-.header nav li:hover ul,
-.header nav li ul:hover {
     opacity: 1;
     visibility: visible;
-    margin-left: 0;
+}
+
+@media (hover: hover) {
+    .header nav li:hover:not(.is-dismissed) ul {
+        transform: scale(1, 1);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .header nav li:hover:not(.is-dismissed) .nav-toggle .chevron {
+        transform: rotate(180deg);
+    }
 }
 
 .header nav li ul li {
@@ -160,7 +220,8 @@ body {
     font-family: "Playfair Display", serif;
 }
 
-#about h3 {
+#about h2 {
+    margin: 1em 0;
     font-size: 22px;
     letter-spacing: 1px;
 }
@@ -207,6 +268,7 @@ body {
 
 .memories .memory img {
     max-width: 100%;
+    width: auto;
     height: 322px;
     object-fit: cover;
 }
@@ -368,8 +430,36 @@ body {
         margin: 0 8px;
     }
 
-    .header nav li a {
+    .header nav li a,
+    .header nav li .nav-toggle {
         font-size: 18px;
+    }
+}
+
+/* 44px tap targets in the open submenu on phones and other touch screens */
+@media screen and (max-width: 698px), (pointer: coarse) {
+    .header nav li ul a {
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+}
+
+/* On a touch phone, open the submenu below the whole nav, centred, so it never
+   covers the Discord button when the nav wraps onto a second row. (With a
+   mouse it stays under the toggle, so the pointer can reach it.) */
+@media screen and (max-width: 698px) and (hover: none) {
+    .header nav {
+        position: relative;
+    }
+
+    .header nav>ul>li {
+        position: static;
+    }
+
+    .header nav li ul {
+        top: 100%;
+        left: 50%;
+        margin-left: -101px;
     }
 }
 
