@@ -319,8 +319,20 @@ body {
     bottom: 25px;
 }
 
-#myBtn i {
+#myBtn svg {
     margin-left: 8px;
+}
+
+/* Inline SVG chevrons, sized and aligned like the icon font they replace */
+.chevron {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 64;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 @media screen and (max-width: 1144px) {
