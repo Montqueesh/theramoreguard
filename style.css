@@ -224,9 +224,21 @@ body {
 }
 
 .wotlk {
-    background: linear-gradient(to bottom, #00000099, #000000), url(assets/yogg.jpg);
+    background: linear-gradient(to bottom, #00000099, #000000), url(assets/wotlk-bg.jpg);
     background-size: cover;
-    background-position: center;
+    background-position: 45% 60%;
+}
+
+.cataclysm {
+    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/cataclysm-bg.jpg);
+    background-size: cover;
+    background-position: 42% 50%;
+}
+
+.MoP {
+    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/mop-bg.jpg);
+    background-size: cover;
+    background-position: 60% 50%;
 }
 
 .footer {
