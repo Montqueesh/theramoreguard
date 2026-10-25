@@ -1,3 +1,22 @@
+/* Fonts, self-hosted (assets/fonts). Both are variable fonts, latin subset only,
+   so one file per family covers every weight the site uses (400, 500, 700). */
+
+@font-face {
+    font-family: "Playfair Display";
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url(assets/fonts/playfair-display-latin.woff2) format("woff2");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(assets/fonts/roboto-latin.woff2) format("woff2");
+}
+
 html {
     scroll-behavior: smooth;
 }

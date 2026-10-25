@@ -19,6 +19,7 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 | `assets/*.jpg` | Header art (`yogg.jpg`), the About background (`dargons.jpg`) and the section banners (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
 | `assets/og-image.jpg` | Preview image shown when the site's link is posted in Discord and elsewhere |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
+| `assets/fonts/` | The site's fonts (Playfair Display and Roboto), hosted here instead of on Google, with their license in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
 
 ## Adding a new memory
 
