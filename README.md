@@ -20,6 +20,8 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 | `assets/og-image.jpg` | Preview image shown when the site's link is posted in Discord and elsewhere |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
 | `assets/fonts/` | The site's fonts (Playfair Display and Roboto), hosted here instead of on Google, with their license in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
+| `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists only the home page; update its `<lastmod>` date when the page changes in a way worth re-crawling |
+| `.gitattributes`, `.editorconfig` | Keep line endings as LF (Unix style) and set indents for editors, so files don't show whole-file changes when edited on Windows |
 
 ## Adding a new memory
 
@@ -69,6 +71,14 @@ The examples below add a WoW Forever section.
     background-position: center;
 }
 ```
+
+## Content Security Policy
+
+Both pages carry a Content Security Policy in a `<meta>` tag at the top of `<head>`. It only allows scripts, styles, images, fonts and requests that come from this site itself, so keep these rules when editing:
+
+- No inline `<script>` blocks, `onclick=` style attributes or `style="..."` attributes. Put scripts in `.js` files and styles in `style.css`.
+- Don't load anything from another site (a CDN, Google Fonts, an embedded video). If you need to, the policy in both pages has to be changed deliberately.
+- If something stops working after an edit, open the browser's developer console (F12): blocked items are reported there as "Content Security Policy" errors.
 
 ## Previewing locally
 
