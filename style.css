@@ -191,10 +191,6 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     color: #000 !important;
 }
 
-.button-row a:hover {
-    opacity: 0.8;
-}
-
 #about {
     font-size: 22px;
     padding: 3rem 0;
@@ -413,29 +409,6 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     }
 }
 
-@media screen and (max-width: 698px) {
-    .header__logo {
-        font-size: 32px;
-    }
-
-    .header nav>ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        row-gap: 16px;
-    }
-
-    .header nav>ul>li {
-        margin: 0 8px;
-    }
-
-    .header nav li a,
-    .header nav li .nav-toggle {
-        font-size: 18px;
-    }
-}
-
 /* 44px tap targets in the open submenu on phones and other touch screens */
 @media screen and (max-width: 698px), (pointer: coarse) {
     .header nav li ul a {
@@ -460,21 +433,6 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
         top: 100%;
         left: 50%;
         margin-left: -101px;
-    }
-}
-
-@media screen and (max-width: 698px) {
-
-    .container {
-        padding: 2rem;
-    }
-
-    .header {
-        padding: 2rem;
-    }
-
-    #about {
-        padding-top: 0;
     }
 }
 
@@ -923,6 +881,39 @@ html.lightbox-open #myBtn {
 }
 
 @media screen and (max-width: 698px) {
+    .header__logo {
+        font-size: 32px;
+    }
+
+    .header nav>ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        row-gap: 16px;
+    }
+
+    .header nav>ul>li {
+        margin: 0 8px;
+    }
+
+    .header nav li a,
+    .header nav li .nav-toggle {
+        font-size: 18px;
+    }
+
+    .container {
+        padding: 2rem;
+    }
+
+    .header {
+        padding: 2rem;
+    }
+
+    #about {
+        padding-top: 0;
+    }
+
     .not-found .not-found__code {
         font-size: 72px;
     }
