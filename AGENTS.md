@@ -75,6 +75,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - The "Your time" line (`.schedule__local`) is hidden when the visitor's offsets equal the slot zone's (Toronto counts as Eastern). It repeats the days only when they differ from the Eastern ones; slots whose local times differ in a DST-change week are listed as separate groups. English 12-hour times, en dash between them.
 - "Next raid" (`.schedule__next`) stays as the HTML text (TBD) unless the `.schedule` element has `data-raids-start="YYYY-MM-DD"`. The script writes only the value; the label is in the HTML.
 - No ticking timers and no live regions: it renders at load and on `visibilitychange`.
+- The launch line (`<p class="launch-note" data-until="YYYY-MM-DD">`, top of `#now`, no id) shows in the HTML; launch-note.js hides it from midnight Eastern on that date. Remove the paragraph, launch-note.js and its `<script>` tag after the date, since visitors without JavaScript still see it.
 
 ## Files and line endings
 
