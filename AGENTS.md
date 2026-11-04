@@ -10,6 +10,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - Only website files belong in the repo: what the site serves, plus `CNAME`, `README.md`, `AGENTS.md`, `.gitattributes`, `.editorconfig`. No notes, plans, mockups or scratch files.
 - `CNAME` connects the domain to GitHub Pages. Never delete or rename it.
 - Content must work without JavaScript: every page reads in full, the nav shows expanded, every gallery image shows (gallery.js only collapses sections to the first 4) and there are no era filter buttons.
+- Scripts per page (all in `<head>`): Home `legacy-links.js`, `script.js`, `raid-times.js`, `memory-count.js`, `launch-note.js`; About `script.js`; Classic `script.js`, `gallery.js`, `eras.js`, `lightbox.js`; Forever `script.js`, `memory-count.js`, `gallery.js`, `lightbox.js`; 404 none.
 
 ## Shared header and footer
 
@@ -75,7 +76,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - The "Your time" line (`.schedule__local`) is hidden when the visitor's offsets equal the slot zone's (Toronto counts as Eastern). It repeats the days only when they differ from the Eastern ones; slots whose local times differ in a DST-change week are listed as separate groups. English 12-hour times, en dash between them.
 - "Next raid" (`.schedule__next`) stays as the HTML text (TBD) unless the `.schedule` element has `data-raids-start="YYYY-MM-DD"`. The script writes only the value; the label is in the HTML.
 - No ticking timers and no live regions: it renders at load and on `visibilitychange`.
-- The launch line (`<p class="launch-note" data-until="YYYY-MM-DD">`, top of `#now`, no id) shows in the HTML; launch-note.js hides it from midnight Eastern on that date. Remove the paragraph, launch-note.js and its `<script>` tag after the date, since visitors without JavaScript still see it.
+- The launch line (`<p class="launch-note" data-until="YYYY-MM-DD">`, top of `#now`, no id) shows in the HTML; launch-note.js hides it from midnight Eastern on that date. On or after the date, remove the paragraph, launch-note.js, its `<script>` tag and the `.launch-note` rules in style.css, since visitors without JavaScript still see it.
 
 ## Files and line endings
 
