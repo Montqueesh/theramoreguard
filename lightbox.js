@@ -61,7 +61,11 @@
   // a data-slug attribute, e.g. Ragnaros.PNG -> #ragnaros and
   // "Protector Kaolan-N.jpg" -> #protector-kaolan-n. Links match without
   // regard to case, so ids are checked for collisions the same way.
-  const SITE_URL = "https://www.theramoreguard.com/";
+  // Copy link shares the page's public address (its canonical link, e.g.
+  // https://www.theramoreguard.com/classic/) plus the image's #slug, so links
+  // copied from a local preview still point at the live site.
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const PAGE_URL = (canonical ? canonical.href : location.href).split("#")[0];
   const imageBySlug = new Map();
   const slugByImage = new Map();
   const takenIds = new Set();
@@ -207,7 +211,7 @@
   copyBtn.addEventListener("click", function () {
     const slug = slugByImage.get(items[index]);
     if (!slug) return;
-    const url = SITE_URL + "#" + slug;
+    const url = PAGE_URL + "#" + slug;
     copyText(url).then(function () {
       copyLabel.textContent = "Link copied";
       status.textContent = "Link copied to clipboard.";
