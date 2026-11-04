@@ -16,7 +16,7 @@ Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it wo
 | `/forever/` | `forever/index.html` | Forever Memories: the WoW Forever gallery (placeholder frames until the first screenshot) and how to add a memory |
 | any missing address | `404.html` | "Page not found"; GitHub Pages serves it for any URL that doesn't exist |
 
-Every page has the same header (anchor emblem, guild name, the main nav and a "Join on Discord" button) and the same footer. On phones the nav folds behind a "Menu" button; without JavaScript it simply shows in full.
+Every page has the same header (anchor emblem, guild name, the main nav and a "Join on Discord" button) and the same footer. On phones and other screens narrower than 1000px the nav folds behind a "Menu" button; without JavaScript it simply shows in full.
 
 ### The header and footer are copied into every page
 
@@ -42,7 +42,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 | `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button |
 | `legacy-links.js` | Home only: sends old one-page links (`/#about`, `/#wotlk`, `/#yogg`) to the new pages (see "Old links") |
 | `raid-times.js` | Home only: the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
-| `launch-note.js` | Home only: hides the "WoW Forever is live" line at the top of "Where to find us" once its `data-until` date (Eastern) arrives. Without JavaScript the line stays, so delete the paragraph, this file and its `<script>` tag once the date has passed |
+| `launch-note.js` | Home only: hides the "WoW Forever is live" line at the top of "Where to find us" once its `data-until` date (Eastern) arrives. Without JavaScript the line stays, so once the date has passed delete the paragraph, this file, its `<script>` tag and the `.launch-note` rules in `style.css` |
 | `memory-count.js` | Home and Forever: keeps the memory counts up to date by counting the memories on `/classic/` and `/forever/` |
 | `gallery.js` | Classic and Forever: collapses each gallery section to its first 4 memories behind a "Show all N memories" button |
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
@@ -61,7 +61,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below).
 2. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 3. Change these in the copy:
-   - `src`: the path to your screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly.
+   - `src`: the path to your screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `src="/assets/tbc/Hyjal%202.PNG"`).
    - `width` and `height`: the screenshot's size in pixels, for example `1600` and `900` (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
    - the `<p>` caption shown under the image.
@@ -110,6 +110,7 @@ Classic eras run in real-life order on `/classic/`. The examples below add a mad
 
 3. Create a folder for its screenshots, such as `assets/newexp/`.
 4. On the About page (`about/index.html`), add a row to the "Our story" timeline linking to `/classic/#newexp`.
+5. Update the number of eras written in the text: "6 Eras, Vanilla to Forever" on Home, and "six eras" in the About page's heading and its three description tags (`description`, `og:description`, `twitter:description`).
 
 ## Editing the raid schedule
 
