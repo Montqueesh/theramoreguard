@@ -1,37 +1,122 @@
+/* The Theramore Guard: "Harbor Watch" styles, shared by every page.
+   Colors, fonts and sizes are custom properties in :root; change them there. */
+
 /* Fonts, self-hosted (assets/fonts). Both are variable fonts, latin subset only,
-   so one file per family covers every weight the site uses (400, 500, 700). */
+   so one file per family covers every weight the site uses
+   (Cinzel 500 and 700, Source Sans 3 400 and 600). */
 
 @font-face {
-    font-family: "Playfair Display";
+    font-family: "Cinzel";
     font-style: normal;
     font-weight: 400 900;
     font-display: swap;
-    src: url(assets/fonts/playfair-display-latin.woff2) format("woff2");
+    src: url(/assets/fonts/cinzel-latin.woff2) format("woff2");
 }
 
 @font-face {
-    font-family: "Roboto";
+    font-family: "Source Sans 3";
     font-style: normal;
-    font-weight: 100 900;
+    font-weight: 200 900;
     font-display: swap;
-    src: url(assets/fonts/roboto-latin.woff2) format("woff2");
+    src: url(/assets/fonts/source-sans-3-latin.woff2) format("woff2");
+}
+
+:root {
+    /* Colors */
+    --ground: #0B1220;        /* page background */
+    --surface: #111A2C;       /* cards and bands */
+    --surface-deep: #0E1628;  /* placeholder frames, Forever header */
+    --line: #24314A;          /* borders and rules */
+    --chip-border: #33425E;   /* chips, outline buttons, dashed frames */
+    --brass: #D4A94A;         /* accent: links, headings, solid buttons */
+    --brass-hover: #F0CD7A;
+    --ivory: #EDE6D6;         /* main text */
+    --text-2: #C9CFDA;        /* secondary text */
+    --muted: #9AA6B8;         /* labels and small print */
+    --card-body: #D6D0C2;     /* text inside cards */
+    --lede: #E3DCCB;          /* intro text over hero images */
+
+    /* Type */
+    --font-display: "Cinzel", Georgia, serif;
+    --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* Layout */
+    --page-width: 1200px;
+    --gutter: 24px;
+    --radius: 12px;
+    --radius-sm: 6px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 body {
-    background-color: #000;
-    font-family: "Playfair Display", serif;
-    color: #fff;
     margin: 0;
+    background: var(--ground);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
 }
 
-.container {
-    margin: auto;
-    max-width: 1200px;
-    padding: 0 3rem;
+img,
+svg {
+    max-width: 100%;
+}
+
+strong,
+b {
+    font-weight: 600;
+}
+
+a {
+    color: var(--brass);
+}
+
+a:hover {
+    color: var(--brass-hover);
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+/* One visible focus ring for everything that takes keyboard focus */
+:focus-visible {
+    outline: 3px solid var(--brass-hover);
+    outline-offset: 3px;
+}
+
+/* main takes focus when the skip link is used; no ring around the whole page */
+#main:focus {
+    outline: none;
+}
+
+.wrap {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
 }
 
 /* "Skip to content": off screen until it gets keyboard focus */
@@ -41,666 +126,1762 @@ body {
     left: 0;
     z-index: 2000;
     padding: 12px 20px;
-    border: 2px solid #E6C339;
-    background: #000;
-    color: #E6C339;
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
+    border: 2px solid var(--brass);
+    background: var(--ground);
+    color: var(--brass);
+    font-weight: 600;
     text-decoration: none;
-    transform: translateY(-100%);
+    transform: translateY(-120%);
 }
 
 .skip-link:focus {
     transform: none;
 }
 
-/* main takes focus when the skip link is used; no ring around the whole page */
-#main:focus {
-    outline: none;
-}
-
-.header-wrapper {
-    background: linear-gradient(to bottom, #00000099, #00000099), url(assets/yogg.jpg);
-    background-size: cover;
-    background-position: center 63%;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4rem 3rem;
-}
-
-.header__logo {
-    color: #fff;
-    text-decoration: none;
-    font-size: 48px;
-    font-weight: 400;
-    transition: all .3s ease-in-out;
-}
-
-.header__logo:hover {
-    opacity: 0.8;
-}
-
-.header nav {
-    font-family: "Roboto", sans-serif;
-}
-
-.header nav ul {
+/* Small caps label above headings and values ("Raid nights", "2019 · Grobbulus") */
+.eyebrow {
     margin: 0;
-    padding: 0;
-    list-style-type: none;
-    font-size: 0;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
 }
 
-.header nav>ul>li {
+/* Buttons (links styled as buttons) */
+
+.button {
     display: inline-block;
-    position: relative;
-    margin-left: 26px;
-}
-
-.header nav li a,
-.header nav li .nav-toggle {
-    color: #fff !important;
+    padding: 13px 24px;
+    border: 1px solid var(--brass);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--ivory);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
     text-decoration: none;
-    font-size: 24px;
-    transition: ease-in-out 0.2s;
-}
-
-.header nav li a:hover,
-.header nav li a:focus,
-.header nav li .nav-toggle:hover,
-.header nav li .nav-toggle:focus {
-    opacity: 0.8;
-}
-
-/* "Guild Memories" toggle button (script.js), styled like the links beside it */
-.header nav li .nav-toggle {
-    padding: 0;
-    border: 0;
-    background: none;
-    font-family: inherit;
-    line-height: inherit;
     cursor: pointer;
+    transition: background-color .15s ease-in-out, color .15s ease-in-out, border-color .15s ease-in-out;
 }
 
-.nav-toggle .chevron {
-    transition: transform .2s ease-in-out;
+.button:hover {
+    border-color: var(--brass-hover);
+    color: var(--brass-hover);
 }
 
-.nav-toggle[aria-expanded="true"] .chevron {
-    transform: rotate(180deg);
+.button--solid {
+    background: var(--brass);
+    color: var(--ground);
+}
+
+.button--solid:hover {
+    border-color: var(--brass-hover);
+    background: var(--brass-hover);
+    color: var(--ground);
+}
+
+.button--small {
+    padding: 10px 18px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav-toggle .chevron {
+    .button {
         transition: none;
     }
 }
 
-.header nav>ul>li>ul {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    background: #000000;
-    width: 200px;
-    margin: 0 auto;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 3px 12px rgba(0, 0, 0, .12);
-    margin-top: 12px;
-    border-radius: 5px;
-    padding: .6em;
-    transition: all .3s ease-in-out;
-    transform: scale(1, 0);
-    transform-origin: top;
-    z-index: 1000;
-    text-align: left;
-    left: -15px;
-    border: 1px solid #E6C339;
+/* Header: emblem, wordmark and the main nav. The same markup is on every page.
+   Below 1000px wide (where the nav no longer fits beside the wordmark) it folds
+   behind the "Menu" button (script.js); without JavaScript the button stays
+   hidden and the nav shows in full. */
+
+.site-header {
+    border-bottom: 1px solid var(--line);
+    background: var(--ground);
 }
 
-/* Open: toggled by script.js, by hovering on devices that can hover, and by
-   focus alone when script.js hasn't turned the link into a button. */
-.header nav>ul>li.is-open>ul,
-html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
-    transform: scale(1, 1);
+.site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 18px var(--gutter);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ivory);
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--ivory);
+}
+
+.brand__emblem {
+    flex: none;
+    width: 34px;
+    height: 34px;
+}
+
+.brand__name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* The anchor emblem (also on the Forever and 404 pages, larger) */
+.emblem {
+    fill: none;
+    stroke: var(--brass);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-nav a:not(.button) {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 2px solid transparent;
+    color: var(--text-2);
+    text-decoration: none;
+}
+
+.site-nav a:not(.button):hover {
+    color: var(--ivory);
+    border-bottom-color: var(--chip-border);
+}
+
+.site-nav a[aria-current="page"] {
+    color: var(--ivory);
+    border-bottom-color: var(--brass);
+}
+
+.site-nav a[aria-current="page"]:hover {
+    border-bottom-color: var(--brass);
+}
+
+.menu-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 1px solid var(--chip-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--ivory);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    border-color: var(--brass);
+}
+
+/* Phone and tablet header. The desktop header needs about 980px; check that
+   width again if the nav or the wordmark changes. */
+@media (max-width: 999px) {
+    :root {
+        --gutter: 16px;
+    }
+
+    .site-header__inner {
+        gap: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .brand {
+        gap: 10px;
+    }
+
+    .brand__emblem {
+        width: 28px;
+        height: 28px;
+    }
+
+    .brand__name {
+        font-size: clamp(12px, 3.9vw, 15px);
+        letter-spacing: .06em;
+    }
+
+    /* The nav as a full-width panel under the header bar. Without JavaScript it
+       is always shown; with it, only while the Menu is open. */
+    .site-nav {
+        flex: 1 0 100%;
+        margin: 0 calc(-1 * var(--gutter)) -12px;
+        padding: 8px var(--gutter) 20px;
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+    }
+
+    .js .site-header:not(.is-menu-open) .site-nav {
+        display: none;
+    }
+
+    .site-nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .site-nav a:not(.button) {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--ivory);
+    }
+
+    .site-nav a:not(.button):hover {
+        border-bottom-color: var(--line);
+        color: var(--brass-hover);
+    }
+
+    .site-nav a[aria-current="page"],
+    .site-nav a[aria-current="page"]:hover {
+        border-bottom-color: var(--line);
+        color: var(--brass);
+    }
+
+    .site-nav .button {
+        display: block;
+        margin-top: 16px;
+        padding: 12px 18px;
+    }
+}
+
+/* The wordmark and the Menu button side by side down to 320px */
+@media (max-width: 379px) {
+    .brand {
+        gap: 8px;
+    }
+
+    .brand__name {
+        letter-spacing: .04em;
+    }
+
+    .menu-button {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (min-width: 1000px) {
+    .menu-button {
+        display: none;
+    }
+}
+
+/* Footer: the same markup on every page */
+
+.site-footer {
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 28px var(--gutter);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+.site-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-footer a {
+    display: inline-block;
+    padding: 4px 0;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Back to top (script.js adds it; it needs JavaScript to work) */
+
+.to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 90;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--brass);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ivory);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease-in-out, visibility .2s;
+}
+
+.to-top.is-visible {
     opacity: 1;
     visibility: visible;
 }
 
-@media (hover: hover) {
-    .header nav>ul>li:hover:not(.is-dismissed)>ul {
-        transform: scale(1, 1);
-        opacity: 1;
-        visibility: visible;
+.to-top:hover {
+    border-color: var(--brass-hover);
+    color: var(--brass-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .to-top {
+        transition: none;
+    }
+}
+
+/* Room under the footer on phones so Back to top never covers its links */
+@media (max-width: 999px) {
+    .site-footer__inner {
+        padding-bottom: 88px;
     }
 
-    .header nav li:hover:not(.is-dismissed) .nav-toggle .chevron {
-        transform: rotate(180deg);
+    .to-top {
+        right: 16px;
+        bottom: 16px;
     }
 }
 
-.header nav li ul li {
-    display: block;
+/* Generic page section */
+
+.section {
+    padding-top: 64px;
+    padding-bottom: 64px;
 }
 
-.header nav li ul a {
-    color: #000;
-    display: block;
-    padding: 8.3px 18.6px;
-    font-size: 18px;
-    line-height: 22px;
+.section-title {
+    margin: 0 0 28px;
+    font-size: 32px;
 }
 
-.header nav li ul a:hover {
-    color: #0e7fbc;
-}
-
-/* Group labels in the "Guild Memories" menu ("Classic", "Forever"): plain text */
-.header nav .subnav-label {
-    display: block;
-    padding: 10px 18.6px 4px;
-    color: #E6C339;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 16px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.header nav .subnav-group+.subnav-group {
-    margin-top: 6px;
-    padding-top: 4px;
-    border-top: 1px solid #a48715;
-}
-
-.discord-button {
-    padding: 8px 20px;
-    border: 1px solid #E6C339;
-    border-radius: 5px;
-    color: #E6C339 !important;
-    opacity: 1 !important;
-}
-
-.discord-button:hover {
-    background-color: #E6C339;
-    color: #000 !important;
-}
-
-/* "The Theramore Guard Today" (#now): Forever and MoP cards side by side, the same
-   size, with their Discord buttons lined up at the bottom; Forever first on phones */
-.now {
-    padding: 3rem 0;
-    border-top: 1px solid #a48715;
-    font-family: "Roboto", sans-serif;
-    font-size: 20px;
-    letter-spacing: .5px;
-}
-
-.now h2 {
-    margin: 0.67em 0;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #fff;
-    font-family: "Playfair Display", serif;
-    font-size: 44px;
-    font-weight: 500;
-}
-
-.now__cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
-    align-items: stretch;
-    margin-top: 2rem;
-}
-
-.now-card {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    border: 1px solid #a48715;
-    border-radius: 5px;
-    background-color: #0b0b0b;
-}
-
-.now-card--primary {
-    border-color: #E6C339;
-    box-shadow: 0 0 24px rgba(230, 195, 57, .15);
-}
-
-.now-card h3 {
-    margin: 0 0 1.5rem;
-    color: #E6C339;
-    font-family: "Playfair Display", serif;
-    font-size: 28px;
-    font-weight: 500;
-}
-
-.now-card--primary h3 {
+.section-title--large {
     font-size: 36px;
 }
 
-.now-card__facts {
-    margin: 0 0 1.5rem;
+/* "All Classic memories →" style text links */
+.more-link {
+    font-weight: 600;
+    text-decoration: none;
 }
 
-.now-card__facts>div {
-    display: grid;
-    grid-template-columns: 9.5rem 1fr;
-    gap: 1rem;
-    padding: .6rem 0;
-    border-top: 1px solid #262626;
+.more-link:hover {
+    text-decoration: underline;
 }
 
-.now-card__facts>div:first-child {
-    border-top: 0;
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
 }
 
-.now-card__facts dt {
-    padding-top: .3em;
-    color: #E6C339;
+/* Hero: a screenshot behind the page title, fading into the page background */
+
+.hero {
+    display: flex;
+    align-items: flex-end;
+    min-height: 560px;
+    background-color: var(--ground);
+    background-size: cover;
+    background-position: center 35%;
+}
+
+.hero--home {
+    /* The side shade keeps the text readable over the bright parts of the shot */
+    background-image:
+        linear-gradient(90deg, rgba(11, 18, 32, .75) 0%, rgba(11, 18, 32, .5) 45%, rgba(11, 18, 32, 0) 75%),
+        linear-gradient(180deg, rgba(11, 18, 32, .35) 0%, rgba(11, 18, 32, .55) 55%, var(--ground) 100%),
+        url(/assets/yogg.jpg);
+}
+
+.hero__inner {
+    width: 100%;
+    padding-top: 120px;
+    padding-bottom: 72px;
+}
+
+/* A dark backing keeps the small brass text readable over bright screenshots */
+.hero__eyebrow {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(11, 18, 32, .85);
+    color: var(--brass);
     font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
+    font-weight: 600;
+    letter-spacing: .18em;
     text-transform: uppercase;
 }
 
-.now-card__facts dd {
+.hero__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: .02em;
+}
+
+.hero__lede {
+    max-width: 60ch;
+    margin: 20px 0 0;
+    color: var(--lede);
+    font-size: 20px;
+}
+
+/* Home: "Where to find us" cards */
+
+.section--now {
+    padding-top: 72px;
+    padding-bottom: 24px;
+}
+
+.realms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.realm {
+    display: flex;
+    flex: 2 1 300px;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.realm--primary {
+    flex: 3 1 420px;
+    gap: 20px;
+    border-color: var(--brass);
+}
+
+.realm__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.realm__title {
+    font-size: 24px;
+}
+
+.realm--primary .realm__title {
+    color: var(--brass);
+    font-size: 28px;
+}
+
+.realm__text {
     margin: 0;
-    line-height: 1.5;
+    color: var(--card-body);
 }
 
-.now-card:not(.now-card--primary) .now-card__facts dd {
-    font-size: 18px;
+.realm__text strong {
+    color: var(--ivory);
 }
 
-.schedule p {
+.realm__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: auto;
+}
+
+/* Small pill labels ("RP-PvP ruleset", "Alliance") */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chips li {
+    padding: 4px 14px;
+    border: 1px solid var(--chip-border);
+    border-radius: 999px;
+    font-size: 15px;
+}
+
+/* Label / value panels inside the cards (raid nights, loot, progress) */
+.facts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 20px;
+    border-radius: 8px;
+    background: var(--ground);
+}
+
+.facts--row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+}
+
+.facts dd {
     margin: 0;
 }
 
+.facts .facts__value {
+    margin-top: 4px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.facts__note {
+    color: var(--muted);
+    font-size: 15px;
+}
+
+/* A time range never breaks in the middle ("9:00 PM – 12:00 AM ET") */
 .schedule__range {
     white-space: nowrap;
 }
 
-.schedule .schedule__local {
-    font-weight: 500;
+/* Home: record strip (2019 · 6 eras · memories) */
+
+.record-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
 }
 
-.schedule .schedule__next {
-    opacity: 0.8;
+.record {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    list-style: none;
 }
 
-.now-card__join {
-    display: inline-block;
-    align-self: flex-start;
-    margin-top: auto;
-    font-size: 22px;
+.record li {
+    flex: 1 1 220px;
+    padding: 28px 20px;
+}
+
+.record__value {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.4;
+}
+
+.record__label {
+    display: block;
+    color: var(--text-2);
+}
+
+/* Home: "From the archive" */
+
+.section--archive {
+    padding-top: 24px;
+    padding-bottom: 72px;
+}
+
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.section-head .section-title {
+    margin: 0;
+}
+
+.archive {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.archive__card {
+    display: block;
+    color: var(--ivory);
     text-decoration: none;
 }
 
-.now__officers {
-    margin: 2rem 0 0;
-    opacity: 0.8;
+.archive__card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-/* Stack the cards before they get too narrow for the schedule's time ranges */
-@media screen and (max-width: 1099px) {
-    .now__cards {
-        grid-template-columns: 1fr;
+.archive__card .eyebrow {
+    display: block;
+    margin-top: 12px;
+}
+
+.archive__caption {
+    display: block;
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+.archive__card:hover .archive__caption {
+    color: var(--brass-hover);
+}
+
+/* Dashed link box ("Forever Memories: chapter one starts now") */
+.teaser {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 28px;
+    padding: 24px 28px;
+    border: 1px dashed var(--chip-border);
+    border-radius: 10px;
+    color: var(--ivory);
+    text-decoration: none;
+}
+
+.teaser:hover {
+    border-color: var(--brass);
+    color: var(--ivory);
+}
+
+.teaser__title {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 22px;
+}
+
+.teaser__body {
+    display: block;
+    color: var(--text-2);
+}
+
+.teaser__cta {
+    color: var(--brass);
+    font-weight: 600;
+}
+
+.teaser:hover .teaser__cta {
+    color: var(--brass-hover);
+}
+
+/* Full-width surface band (Leadership) */
+
+.band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.band__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.band__intro {
+    flex: 1 1 320px;
+}
+
+.band__intro .section-title {
+    margin-bottom: 12px;
+}
+
+.band__intro p {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--text-2);
+}
+
+.people {
+    display: flex;
+    flex: 2 1 480px;
+    flex-wrap: wrap;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.person {
+    flex: 1 1 200px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--ground);
+}
+
+.eyebrow--brass {
+    color: var(--brass);
+}
+
+.person__name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.person .eyebrow + .person__name {
+    margin-top: 6px;
+}
+
+.person__note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+/* Join the Guard */
+
+.join {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+}
+
+.join__intro,
+.join__steps {
+    flex: 1 1 380px;
+    min-width: 0;
+}
+
+.join__intro .section-title {
+    margin-bottom: 12px;
+}
+
+.join__intro p {
+    max-width: 50ch;
+    margin: 0;
+    color: var(--text-2);
+}
+
+/* Numbered steps with brass Cinzel numerals */
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+}
+
+.steps li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    counter-increment: step;
+}
+
+.steps li::before {
+    content: counter(step);
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 22px;
+}
+
+.join__steps .button {
+    margin-top: 22px;
+}
+
+/* Phones */
+@media (max-width: 599px) {
+    .section-title {
+        margin-bottom: 16px;
+        font-size: 26px;
     }
-}
 
-@media screen and (max-width: 698px) {
-    .now {
-        padding-top: 0;
+    .section-title--large {
+        font-size: 28px;
+    }
+
+    .hero {
+        min-height: 440px;
+        background-position: 30% 40%;
+    }
+
+    .hero--home {
+        background-image:
+            linear-gradient(180deg, rgba(11, 18, 32, .45) 0%, rgba(11, 18, 32, .75) 45%, rgba(11, 18, 32, .85) 70%, var(--ground) 100%),
+            url(/assets/yogg.jpg);
+    }
+
+    .hero__inner {
+        padding-top: 80px;
+        padding-bottom: 32px;
+    }
+
+    .hero__eyebrow {
+        margin-bottom: 8px;
+        font-size: 12px;
+        letter-spacing: .16em;
+    }
+
+    .hero__title {
+        font-size: 38px;
+    }
+
+    .hero__lede {
+        margin-top: 14px;
+        font-size: 17px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .actions .button,
+    .realm__links .button,
+    .join__steps .button {
+        display: block;
+        width: 100%;
+    }
+
+    .section--now {
+        padding-top: 40px;
+        padding-bottom: 16px;
+    }
+
+    .realms {
+        gap: 16px;
+    }
+
+    .realm,
+    .realm--primary {
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .realm__title {
+        font-size: 21px;
+    }
+
+    .realm--primary .realm__title {
+        font-size: 24px;
+    }
+
+    .chips {
+        gap: 8px;
+    }
+
+    .chips li {
+        padding: 2px 12px;
+        font-size: 14px;
+    }
+
+    .facts,
+    .facts--row {
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .facts .facts__value {
+        margin-top: 2px;
+        font-size: 19px;
+    }
+
+    .record-section {
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
+    .record li {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 18px 6px;
+    }
+
+    .record__value {
+        font-size: 28px;
+    }
+
+    .record__label {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .section--archive {
+        padding-top: 16px;
+        padding-bottom: 40px;
+    }
+
+    .archive {
+        gap: 18px;
+    }
+
+    .archive__card .eyebrow {
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    .teaser {
+        margin-top: 18px;
+        padding: 18px;
+    }
+
+    .teaser__title {
+        font-size: 19px;
+    }
+
+    .band__inner {
+        gap: 24px;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .band__intro .section-title {
+        margin-bottom: 8px;
+    }
+
+    .people {
+        gap: 12px;
+    }
+
+    .person {
+        padding: 16px;
+    }
+
+    .person__name {
         font-size: 18px;
     }
 
-    .now h2 {
+    .join {
+        gap: 16px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .join__intro .section-title {
+        margin-bottom: 8px;
+    }
+}
+
+/* Shorter hero for inner pages (About) */
+
+.hero--page {
+    min-height: 380px;
+    background-position: center 40%;
+}
+
+.hero--page .hero__inner {
+    padding-top: 96px;
+    padding-bottom: 56px;
+}
+
+.hero--about {
+    background-image:
+        linear-gradient(90deg, rgba(11, 18, 32, .7) 0%, rgba(11, 18, 32, .4) 50%, rgba(11, 18, 32, 0) 80%),
+        linear-gradient(180deg, rgba(11, 18, 32, .45) 0%, rgba(11, 18, 32, .7) 60%, var(--ground) 100%),
+        url(/assets/og-vanilla.jpg);
+}
+
+.hero__title--page {
+    max-width: none;
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.1;
+    letter-spacing: 0;
+}
+
+.hero--page .hero__lede {
+    max-width: 62ch;
+    margin-top: 18px;
+}
+
+.section-title--tight {
+    margin-bottom: 12px;
+}
+
+.section-intro {
+    margin: -4px 0 32px;
+    color: var(--muted);
+}
+
+/* About: "What we're about" */
+
+.section--pillars {
+    padding-bottom: 24px;
+}
+
+.pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pillar {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+}
+
+.pillar__title {
+    color: var(--brass);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.pillar p {
+    margin: 8px 0 0;
+    color: var(--text-2);
+}
+
+/* About: the six-era timeline */
+
+.section--story {
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+
+.timeline {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--line);
+    list-style: none;
+}
+
+.era-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+}
+
+.era-row__head {
+    flex: 0 0 200px;
+}
+
+.era-row__title {
+    margin-top: 2px;
+    color: var(--brass);
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.era-row__body {
+    flex: 1 1 520px;
+    min-width: 0;
+}
+
+.era-row__body p {
+    max-width: 75ch;
+    margin: 0 0 12px;
+}
+
+.era-row__body .more-link {
+    display: inline-block;
+}
+
+/* About: PvP and friends band */
+
+.band__inner--pvp {
+    padding-top: 56px;
+    padding-bottom: 56px;
+}
+
+.band__half {
+    flex: 1 1 420px;
+    min-width: 0;
+}
+
+.band__half--narrow {
+    flex-basis: 360px;
+}
+
+.band__text {
+    margin: 0;
+    color: var(--card-body);
+}
+
+.friends__title {
+    margin-bottom: 12px;
+    font-size: 22px;
+}
+
+.friends {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.friends li {
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--ground);
+}
+
+.friends span {
+    color: var(--muted);
+}
+
+/* Text with a button beside it (About: Leadership today) */
+
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px;
+    padding-top: 56px;
+    padding-bottom: 72px;
+}
+
+.cta-row__text {
+    flex: 2 1 480px;
+    min-width: 0;
+}
+
+.cta-row__text p {
+    margin: 0;
+    color: var(--text-2);
+}
+
+.cta-row__action {
+    flex: 1 1 260px;
+}
+
+@media (max-width: 599px) {
+    .hero--page {
+        min-height: 320px;
+    }
+
+    .hero--page .hero__inner {
+        padding-top: 72px;
+        padding-bottom: 32px;
+    }
+
+    .hero--about {
+        background-image:
+            linear-gradient(180deg, rgba(11, 18, 32, .5) 0%, rgba(11, 18, 32, .78) 45%, rgba(11, 18, 32, .88) 70%, var(--ground) 100%),
+            url(/assets/og-vanilla.jpg);
+    }
+
+    .hero__title--page {
         font-size: 32px;
     }
 
-    .now-card {
-        padding: 1.5rem 1.25rem;
+    .section-title--tight {
+        margin-bottom: 8px;
     }
 
-    .now-card--primary h3 {
-        font-size: 30px;
+    .section-intro {
+        margin-bottom: 20px;
     }
 
-    .now-card__facts>div {
-        grid-template-columns: 1fr;
-        gap: .2rem;
+    .section--pillars {
+        padding-top: 40px;
+        padding-bottom: 16px;
     }
 
-    .now-card__join {
+    .pillar {
+        padding: 18px;
+    }
+
+    .section--story {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .era-row {
+        padding: 22px 0;
+    }
+
+    .era-row__head {
+        flex-basis: 100%;
+    }
+
+    .band__inner--pvp {
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .cta-row {
+        gap: 20px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .cta-row__action .button {
         display: block;
-        align-self: stretch;
-        text-align: center;
+        width: 100%;
     }
 }
 
-#about {
-    font-size: 22px;
-    padding: 3rem 0;
-    font-weight: 400;
-    letter-spacing: .5px;
-    background: linear-gradient(135deg, #00000095, #00000095), url(assets/dargons.jpg);
-    font-family: "Roboto", sans-serif;
-    background-position: bottom right;
-    background-size: 50%;
-    background-repeat: no-repeat;
-    border-top: 1px solid #a48715;
+/* Gallery pages: title block without a hero image (Classic Memories) */
+
+.page-head {
+    padding-top: 56px;
+    padding-bottom: 8px;
 }
 
-#about p {
-    line-height: 36px;
-    opacity: 0.8;
+.page-head .hero__eyebrow {
+    padding: 0;
+    background: none;
 }
 
-#about h1 {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #fff;
-    font-weight: 500;
-    font-family: "Playfair Display", serif;
+.page-head__title {
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.1;
 }
 
-#about h2 {
-    margin: 1em 0;
-    font-size: 22px;
-    letter-spacing: 1px;
+.page-head__lede {
+    max-width: 64ch;
+    margin: 14px 0 0;
+    color: var(--text-2);
 }
 
-.block {
-    max-width: 100%;
+/* Era filter (eras.js builds it; there is none without JavaScript).
+   It sticks to the top of the window while the gallery scrolls under it. */
+
+.era-filter {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin-top: 20px;
+    border-bottom: 1px solid transparent;
+    background: var(--ground);
+}
+
+.era-filter__inner {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    padding: 3rem;
-    border-top: 1px solid #a48715;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 8px var(--gutter);
 }
 
-.block h3 {
-    margin: 0;
-    padding-bottom: 3rem;
-    font-size: 1.5em;
+.era-chip {
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 1px solid var(--chip-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ivory);
+    font: inherit;
+    line-height: 1.4;
+    cursor: pointer;
 }
 
-/* "Classic Memories" / "Forever Memories" group headings between the sections */
-.memories-group {
-    margin: 0;
-    padding: 3.5rem 2rem 2.5rem;
-    border-top: 1px solid #a48715;
-    color: #E6C339;
-    font-size: 36px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-align: center;
+.era-chip:hover {
+    border-color: var(--brass);
 }
 
-/* Placeholder in a section with no memories yet; hidden once one is added */
-.memories .memories-empty {
-    grid-column: 1 / -1;
-    margin: 0;
-    opacity: 0.8;
+.era-chip__count {
+    color: var(--muted);
 }
 
-.memories .memories-empty:not(:only-child) {
+.era-chip[aria-pressed="true"] {
+    border-color: var(--brass);
+    background: var(--brass);
+    color: var(--ground);
+    font-weight: 600;
+}
+
+.era-chip[aria-pressed="true"] .era-chip__count {
+    color: var(--ground);
+}
+
+/* Room for the sticky filter when a link jumps to an era or the gallery */
+.js .gallery,
+.js .era {
+    scroll-margin-top: 76px;
+}
+
+/* One era: a banner band, then its grid of screenshots */
+
+.gallery {
+    padding-bottom: 32px;
+}
+
+.era {
+    padding-top: 40px;
+}
+
+.era[hidden] {
     display: none;
 }
 
-.memories {
-    background-color: #00000099;
-    border-top: 1px solid #a48715;
-    margin-bottom: 3rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 3rem;
-    row-gap: 3rem;
-    padding: 3rem;
-}
-
-.memories p {
-    font-size: 24px;
-    font-family: "Roboto", sans-serif;
-}
-
-.memories .memory {
+.era-band {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    padding: 0;
+    justify-content: flex-end;
+    min-height: 140px;
+    padding: 40px 32px;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    background-size: cover;
+    background-position: center;
+    /* Shaded from the left so the text stays readable (stronger on phones,
+       where the text runs the full width) */
+    --band-shade: linear-gradient(90deg, var(--ground) 0%, rgba(11, 18, 32, .55) 60%, rgba(11, 18, 32, .2) 100%);
 }
 
-.memories .memory img {
-    max-width: 100%;
-    width: auto;
-    height: 322px;
+.era-band__title {
+    margin-top: 4px;
+    font-size: 32px;
+}
+
+.era-band__text {
+    margin: 4px 0 0;
+    color: var(--lede);
+}
+
+/* Banner screenshots */
+.era-band--vanilla {
+    background-image: var(--band-shade), url(/assets/og-vanilla.jpg);
+}
+
+.era-band--tbc {
+    background-image: var(--band-shade), url(/assets/tbc.jpg);
+}
+
+.era-band--wotlk {
+    background-image: var(--band-shade), url(/assets/wotlk-bg.jpg);
+}
+
+.era-band--cataclysm {
+    background-image: var(--band-shade), url(/assets/cataclysm-bg.jpg);
+}
+
+.era-band--mop {
+    background-image: var(--band-shade), url(/assets/mop-bg.jpg);
+}
+
+/* Screenshot grid (gallery.js collapses each era to its first 4) */
+
+.memories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.memory img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    border-radius: 8px;
+    background: var(--surface);
 }
 
-/* Collapsible sections (gallery.js) */
+.memory p {
+    margin: 8px 0 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
 
 .memories.is-collapsed .memory:nth-child(n+5) {
     display: none;
 }
 
 .memories-toggle {
-    align-self: center;
-    padding: 8px 20px;
-    border: 1px solid #E6C339;
-    border-radius: 5px;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 10px 18px;
+    border: 1px solid var(--brass);
+    border-radius: var(--radius-sm);
     background: transparent;
-    color: #E6C339;
-    font-family: "Roboto", sans-serif;
-    font-size: 20px;
+    color: var(--brass);
+    font: inherit;
+    font-weight: 600;
     cursor: pointer;
-    transition: ease-in-out 0.2s;
 }
 
 .memories-toggle:hover {
-    background-color: #E6C339;
-    color: #000;
+    border-color: var(--brass-hover);
+    color: var(--brass-hover);
 }
 
-.memories-toggle:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
-}
-
-.vanilla {
-    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/og-vanilla.jpg);
-    background-size: cover;
-    background-position: center;
-}
-
-.tbc {
-    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/tbc.jpg);
-    background-size: cover;
-    background-position: center;
-}
-
-.wotlk {
-    background: linear-gradient(to bottom, #00000099, #000000), url(assets/wotlk-bg.jpg);
-    background-size: cover;
-    background-position: 45% 60%;
-}
-
-.cataclysm {
-    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/cataclysm-bg.jpg);
-    background-size: cover;
-    background-position: 42% 50%;
-}
-
-.MoP {
-    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/mop-bg.jpg);
-    background-size: cover;
-    background-position: 60% 50%;
-}
-
-/* No banner yet: a dark gold glow until there are Forever screenshots */
-.forever {
-    background: radial-gradient(ellipse at top, #2a2208, #000000 70%);
-}
-
-.footer {
-    width: 100% !important;
-    content: "";
-    display: block;
-}
-
-.footer .container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    line-height: 36px;
-    font-family: "Roboto", sans-serif;
-    font-size: 22px;
-    padding: 3rem;
-}
-
-.footer .container a {
-    color: #E6C339;
-    text-decoration: none;
-}
-
-.footer .container a:hover {
-    text-decoration: underline;
-}
-
-#myBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    border: none;
-    outline: none;
-    color: #fff;
-    cursor: pointer;
-    padding: 15px 20px;
-    border-radius: 35px;
-    font-size: 18px;
-    background-color: #000;
-    border: 2px solid #E6C339;
-    font-family: "Roboto", sans-serif;
-    transition: 0.1s
-}
-
-#myBtn:hover {
-    bottom: 25px;
-}
-
-#myBtn svg {
-    margin-left: 8px;
-}
-
-/* Inline SVG chevrons, sized and aligned like the icon font they replace */
-.chevron {
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.125em;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 64;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-@media screen and (max-width: 1219px) {
-    .header {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
-    }
-
-    .header nav>ul>li:first-child {
-        margin-left: 0;
-    }
-
-    .header-wrapper {
-        height: initial;
-    }
-}
-
-/* 44px tap targets in the open submenu on phones and other touch screens */
-@media screen and (max-width: 698px), (pointer: coarse) {
-    .header nav li ul a {
-        padding-top: 11px;
-        padding-bottom: 11px;
-    }
-}
-
-/* On a touch phone, open the submenu below the whole nav, centred, so it never
-   covers the Discord button when the nav wraps onto a second row. (With a
-   mouse it stays under the toggle, so the pointer can reach it.) */
-@media screen and (max-width: 698px) and (hover: none) {
-    .header nav {
-        position: relative;
-    }
-
-    .header nav>ul>li {
-        position: static;
-    }
-
-    .header nav>ul>li>ul {
-        top: 100%;
-        left: 50%;
-        margin-left: -101px;
-    }
-}
-
-@media screen and (max-width: 912px) {
-    .memories {
-        grid-template-columns: 1fr;
-    }
-
-    .memories .memory img {
-        max-width: 100%;
-        min-height: initial;
-    }
-
-    .block {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .block h3 {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
-}
-
-@media screen and (max-width: 650px) {
-    .footer .container {
-        font-size: min(18px, 5vw);
-        /* Extra bottom room so the fixed "Back to top" button doesn't cover the footer link */
-        padding: 3rem 16px 6rem;
-    }
-}
-
-/* Click-to-enlarge viewer (lightbox.js) */
-
-.memories .memory img {
+/* Gallery images open the viewer (lightbox.js) */
+.js .memory img {
     cursor: zoom-in;
     transition: opacity .2s ease-in-out;
 }
 
 @media (hover: hover) {
-    .memories .memory img:hover {
-        opacity: 0.85;
+    .js .memory img:hover {
+        opacity: .85;
     }
 }
 
-.memories .memory img:focus-visible {
-    outline: 3px solid #E6C339;
-    outline-offset: 4px;
+@media (prefers-reduced-motion: reduce) {
+    .js .memory img {
+        transition: none;
+    }
 }
+
+.next-chapter {
+    padding-top: 16px;
+    padding-bottom: 72px;
+}
+
+.next-chapter .teaser {
+    margin-top: 0;
+}
+
+@media (max-width: 599px) {
+    .page-head {
+        padding-top: 36px;
+    }
+
+    .page-head__title {
+        font-size: 34px;
+    }
+
+    /* One scrolling row of chips on phones, so the sticky bar stays short */
+    .era-filter__inner {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .era-filter__inner::-webkit-scrollbar {
+        display: none;
+    }
+
+    .era-chip {
+        flex: none;
+        padding: 8px 14px;
+        white-space: nowrap;
+    }
+
+    .era {
+        padding-top: 28px;
+    }
+
+    .era-band {
+        min-height: 120px;
+        padding: 24px 20px;
+        --band-shade: linear-gradient(90deg, rgba(11, 18, 32, .92) 0%, rgba(11, 18, 32, .8) 100%);
+    }
+
+    .era-band__title {
+        font-size: 26px;
+    }
+
+    .memories {
+        gap: 18px;
+    }
+
+    .next-chapter {
+        padding-bottom: 40px;
+    }
+}
+
+/* Large outline emblem (Forever header, 404) */
+.emblem--large {
+    width: 180px;
+    height: 180px;
+    stroke-width: 1.4;
+}
+
+/* Forever: header band with the emblem */
+
+.page-band {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-deep);
+}
+
+.page-band__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding-top: 72px;
+    padding-bottom: 64px;
+}
+
+.page-band__text {
+    flex: 2 1 520px;
+    min-width: 0;
+}
+
+.page-band .hero__eyebrow {
+    margin-bottom: 8px;
+    padding: 0;
+    background: none;
+}
+
+.page-band .page-head__lede {
+    max-width: 58ch;
+    margin-top: 16px;
+}
+
+.page-band__art {
+    display: flex;
+    flex: 1 1 240px;
+    justify-content: center;
+}
+
+/* Forever gallery: real memories, or placeholder frames until the first one.
+   The empty grid takes no room; once a .memory is in it the frames hide. */
+
+.forever-gallery {
+    padding-top: 56px;
+    padding-bottom: 24px;
+}
+
+.forever-gallery .memories {
+    margin-top: 0;
+}
+
+.forever-gallery .memories:not(:has(.memory)) {
+    display: none;
+}
+
+.forever-gallery:has(.memory) .placeholders {
+    display: none;
+}
+
+.frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    padding: 12px;
+    border: 1px dashed var(--chip-border);
+    border-radius: 8px;
+    background: var(--surface-deep);
+    color: var(--muted);
+    text-align: center;
+}
+
+.frame__caption {
+    display: block;
+    margin-top: 8px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Forever: "Add a memory" */
+
+.add-memory-section {
+    padding-top: 40px;
+    padding-bottom: 72px;
+}
+
+.add-memory {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px;
+    padding: 36px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.add-memory__intro {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.add-memory__intro p {
+    margin: 0;
+    color: var(--text-2);
+}
+
+.add-steps {
+    display: flex;
+    flex: 2 1 460px;
+    flex-wrap: wrap;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.add-steps li {
+    flex: 1 1 140px;
+    padding-top: 12px;
+    border-top: 2px solid var(--brass);
+}
+
+.add-steps__title {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+}
+
+.add-steps__text {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-2);
+}
+
+/* 404 */
+
+.not-found {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 160px);
+}
+
+.not-found__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px var(--gutter);
+    text-align: center;
+}
+
+.not-found__emblem {
+    width: 120px;
+    height: 120px;
+}
+
+.not-found .hero__eyebrow {
+    display: block;
+    margin: 24px 0 0;
+    padding: 0;
+    background: none;
+}
+
+.not-found__title {
+    margin-top: 8px;
+    font-size: 44px;
+}
+
+.not-found__text {
+    margin: 16px 0 0;
+    color: var(--text-2);
+}
+
+.actions--center {
+    justify-content: center;
+}
+
+@media (max-width: 599px) {
+    .page-band__inner {
+        gap: 24px;
+        padding-top: 40px;
+        padding-bottom: 36px;
+    }
+
+    .page-band__art {
+        display: none;
+    }
+
+    .forever-gallery {
+        padding-top: 40px;
+    }
+
+    .frames {
+        gap: 18px;
+    }
+
+    .add-memory-section {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
+
+    .add-memory {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .add-memory .button {
+        display: block;
+        width: 100%;
+    }
+
+    .not-found__inner {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .not-found__title {
+        font-size: 30px;
+    }
+}
+
+/* Click-to-enlarge viewer (lightbox.js) */
 
 html.lightbox-open {
     overflow: hidden;
@@ -708,8 +1889,8 @@ html.lightbox-open {
     scrollbar-gutter: stable;
 }
 
-html.lightbox-open #myBtn {
-    display: none !important;
+html.lightbox-open .to-top {
+    display: none;
 }
 
 .lightbox {
@@ -724,9 +1905,9 @@ html.lightbox-open #myBtn {
     padding: 0;
     border: 0;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.92);
-    color: #fff;
-    font-family: "Roboto", sans-serif;
+    background: rgba(11, 18, 32, 0.95);
+    color: var(--ivory);
+    font-family: var(--font-body);
     touch-action: manipulation;
     touch-action: pan-y pinch-zoom;
 }
@@ -807,9 +1988,8 @@ html.lightbox-open #myBtn {
     width: 48px;
     height: 48px;
     margin: -24px 0 0 -24px;
-    box-sizing: border-box;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top-color: #E6C339;
+    border: 4px solid rgba(237, 230, 214, 0.2);
+    border-top-color: var(--brass);
     border-radius: 50%;
     animation: lightbox-spin .8s linear infinite;
 }
@@ -828,6 +2008,7 @@ html.lightbox-open #myBtn {
     max-width: 900px;
     margin: 0 auto 8px;
     font-size: 20px;
+    font-weight: 600;
     line-height: 1.4;
 }
 
@@ -839,7 +2020,7 @@ html.lightbox-open #myBtn {
 }
 
 .lightbox__counter {
-    color: #ccc;
+    color: var(--text-2);
     font-size: 16px;
     letter-spacing: 1px;
     font-variant-numeric: tabular-nums;
@@ -852,17 +2033,16 @@ html.lightbox-open #myBtn {
     width: 52px;
     height: 52px;
     padding: 0;
-    border: 2px solid #E6C339;
+    border: 1px solid var(--brass);
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #E6C339;
+    background-color: rgba(17, 26, 44, 0.8);
+    color: var(--brass);
     cursor: pointer;
     transition: background-color .2s ease-in-out, color .2s ease-in-out;
 }
 
-.lightbox__btn svg {
-    width: 24px;
-    height: 24px;
+.lightbox__btn svg,
+.lightbox__copy svg {
     fill: none;
     stroke: currentColor;
     stroke-width: 2.5;
@@ -870,17 +2050,19 @@ html.lightbox-open #myBtn {
     stroke-linejoin: round;
 }
 
-.lightbox__btn:hover:not(:disabled) {
-    background-color: #E6C339;
-    color: #000;
+.lightbox__btn svg {
+    width: 24px;
+    height: 24px;
 }
 
-.lightbox__btn:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
+.lightbox__btn:hover:not(:disabled),
+.lightbox__copy:hover:not(:disabled) {
+    background-color: var(--brass);
+    color: var(--ground);
 }
 
-.lightbox__btn:disabled {
+.lightbox__btn:disabled,
+.lightbox__copy:disabled {
     opacity: 0.3;
     cursor: default;
 }
@@ -893,12 +2075,13 @@ html.lightbox-open #myBtn {
     min-width: 140px;
     min-height: 44px;
     padding: 0 18px;
-    border: 2px solid #E6C339;
-    border-radius: 26px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #E6C339;
-    font-family: "Roboto", sans-serif;
+    border: 1px solid var(--brass);
+    border-radius: 999px;
+    background-color: rgba(17, 26, 44, 0.8);
+    color: var(--brass);
+    font: inherit;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color .2s ease-in-out, color .2s ease-in-out;
 }
@@ -906,26 +2089,6 @@ html.lightbox-open #myBtn {
 .lightbox__copy svg {
     width: 20px;
     height: 20px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.lightbox__copy:hover:not(:disabled) {
-    background-color: #E6C339;
-    color: #000;
-}
-
-.lightbox__copy:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
-}
-
-.lightbox__copy:disabled {
-    opacity: 0.3;
-    cursor: default;
 }
 
 .lightbox__copy-field {
@@ -953,7 +2116,7 @@ html.lightbox-open #myBtn {
     white-space: nowrap;
 }
 
-@media screen and (min-width: 700px) {
+@media (min-width: 700px) {
     .lightbox__prev,
     .lightbox__next {
         position: absolute;
@@ -971,7 +2134,7 @@ html.lightbox-open #myBtn {
     }
 }
 
-@media screen and (max-width: 699px) {
+@media (max-width: 699px) {
     .lightbox__stage {
         padding: 68px 8px 8px;
     }
@@ -1008,7 +2171,6 @@ html.lightbox-open #myBtn {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .memories .memory img,
     .lightbox__img,
     .lightbox__btn,
     .lightbox__copy {
@@ -1024,128 +2186,30 @@ html.lightbox-open #myBtn {
     }
 }
 
-/* 404 page */
-
-.not-found-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.not-found {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 2rem;
-    border-top: 1px solid #a48715;
-    text-align: center;
-    font-family: "Roboto", sans-serif;
-}
-
-.not-found h1 {
-    margin: 1.5rem 0 1rem;
-    font-family: "Playfair Display", serif;
-    font-size: 44px;
-    font-weight: 500;
-}
-
-.not-found p {
-    max-width: 640px;
-    margin: 0 0 2.5rem;
-    font-size: 22px;
-    line-height: 36px;
-    opacity: 0.8;
-}
-
-.not-found .not-found__code {
-    margin: 0;
-    opacity: 1;
-    color: #E6C339;
-    font-family: "Playfair Display", serif;
-    font-size: 96px;
-    line-height: 1;
-}
-
-.not-found__actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-}
-
-.not-found__actions a {
-    font-size: 20px;
-    text-decoration: none;
-}
-
-.not-found__home,
-.button-solid {
-    padding: 8px 20px;
-    border: 1px solid #E6C339;
-    border-radius: 5px;
-    background-color: #E6C339;
-    color: #000;
-    transition: ease-in-out 0.2s;
-}
-
-.not-found__home:hover,
-.button-solid:hover {
-    background-color: transparent;
-    color: #E6C339;
-}
-
-.not-found__actions a:focus-visible,
-.button-solid:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
-}
-
-@media screen and (max-width: 698px) {
-    .header__logo {
-        font-size: 32px;
+/* Tap targets at least 44px tall on touch-size screens (desktop is unchanged).
+   The footer list's negative margin keeps the footer the same height. */
+@media (max-width: 999px) {
+    .brand {
+        min-height: 44px;
     }
 
-    .header nav>ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    .more-link,
+    .era-row__body .more-link,
+    .site-footer a {
+        display: inline-flex;
         align-items: center;
-        row-gap: 16px;
+        min-height: 44px;
     }
 
-    .header nav>ul>li {
-        margin: 0 8px;
+    .more-link {
+        column-gap: .28em;
     }
 
-    .header nav li a,
-    .header nav li .nav-toggle {
-        font-size: 18px;
+    .site-footer a {
+        padding: 0;
     }
 
-    .container {
-        padding: 2rem;
-    }
-
-    .header {
-        padding: 2rem;
-    }
-
-    #about {
-        padding-top: 0;
-    }
-
-    .not-found .not-found__code {
-        font-size: 72px;
-    }
-
-    .not-found h1 {
-        font-size: 32px;
-    }
-
-    .not-found p {
-        font-size: 18px;
-        line-height: 30px;
+    .site-footer ul {
+        margin: -6px 0;
     }
 }

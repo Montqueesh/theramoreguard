@@ -1,89 +1,104 @@
-// Footer year and the Back to top button.
+// Shared by every page except 404.html (which has no scripts): the phone
+// "Menu" button, the footer's copyright year and the Back to top button.
+//
+// It is loaded in <head> without defer, so the "js" class below is on <html>
+// before the first paint. style.css only folds the phone nav away under that
+// class, so without JavaScript the nav simply shows in full, with no flash.
 (function () {
   "use strict";
 
-  const button = document.getElementById("myBtn");
+  document.documentElement.classList.add("js");
 
-  // Footer copyright year
-  document.getElementById("year").textContent = new Date().getFullYear();
+  document.addEventListener("DOMContentLoaded", function () {
+    footerYear();
+    phoneMenu();
+    backToTop();
+  });
 
-  // When the user scrolls down 20px from the top of the document, show the button.
-  // Only touch the DOM when the visibility actually changes.
-  let buttonVisible = false;
-  function updateButton() {
-    const shouldShow = window.scrollY > 20;
-    if (shouldShow !== buttonVisible) {
-      buttonVisible = shouldShow;
-      button.style.display = shouldShow ? "block" : "none";
+  function footerYear() {
+    const year = String(new Date().getFullYear());
+    document.querySelectorAll(".site-footer .year").forEach(function (el) {
+      el.textContent = year;
+    });
+  }
+
+  // Below the desktop breakpoint (style.css) the nav sits behind a disclosure
+  // button. Tap, click, Enter or Space toggles it; Esc, a click or tap outside
+  // the header, or tabbing out of it closes it. Esc puts focus back on the button.
+  function phoneMenu() {
+    const button = document.querySelector(".site-header .menu-button");
+    const header = button && button.closest(".site-header");
+    const nav = button && document.getElementById(button.getAttribute("aria-controls"));
+    if (!header || !nav) return;
+
+    button.hidden = false;
+
+    function isOpen() {
+      return header.classList.contains("is-menu-open");
     }
+
+    function setOpen(open) {
+      header.classList.toggle("is-menu-open", open);
+      button.setAttribute("aria-expanded", String(open));
+      button.textContent = open ? "Close" : "Menu";
+    }
+
+    // The button is only displayed at phone widths (style.css).
+    function buttonShown() {
+      return button.offsetParent !== null;
+    }
+
+    button.addEventListener("click", function () {
+      setOpen(!isOpen());
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || e.defaultPrevented || !isOpen()) return;
+      setOpen(false);
+      button.focus();
+    });
+
+    // pointerdown rather than click: iOS Safari doesn't send click for taps on
+    // plain page content
+    document.addEventListener("pointerdown", function (e) {
+      if (isOpen() && !header.contains(e.target)) setOpen(false);
+    });
+
+    header.addEventListener("focusout", function (e) {
+      if (isOpen() && e.relatedTarget && !header.contains(e.relatedTarget)) setOpen(false);
+    });
+
+    // Widening the window to desktop size closes it, so it isn't still open
+    // when the window gets narrow again.
+    window.addEventListener("resize", function () {
+      if (isOpen() && !buttonShown()) setOpen(false);
+    });
   }
-  window.addEventListener("scroll", updateButton, { passive: true });
-  updateButton();
 
-  // When the user clicks on the button, scroll to the top of the document
-  button.addEventListener("click", function () {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-})();
+  // Back to top: appears once the page has scrolled a little. Only touches the
+  // DOM when its visibility actually changes.
+  function backToTop() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "to-top";
+    button.textContent = "Back to top";
+    document.body.appendChild(button);
 
-// "Guild Memories" menu. Without JavaScript it is a plain link to the gallery.
-// Here it becomes a disclosure button: tap, click, Enter or Space toggles the
-// submenu; Esc, a click outside, choosing a link or tabbing out closes it.
-// Hover still opens it on devices with a real hover pointer (see style.css).
-(function () {
-  "use strict";
+    let visible = false;
+    function update() {
+      const show = window.scrollY > 600;
+      if (show === visible) return;
+      visible = show;
+      button.classList.toggle("is-visible", show);
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    update();
 
-  const link = document.querySelector('.header nav a[href="#memories-block"]');
-  const item = link && link.parentElement;
-  const menu = item && item.querySelector("ul");
-  if (!menu) return;
-
-  const toggle = document.createElement("button");
-  toggle.type = "button";
-  toggle.className = "nav-toggle";
-  toggle.innerHTML = link.innerHTML;
-  toggle.setAttribute("aria-expanded", "false");
-  toggle.setAttribute("aria-controls", menu.id);
-  link.replaceWith(toggle);
-  document.documentElement.classList.add("has-nav-toggle");
-
-  function setOpen(open) {
-    item.classList.toggle("is-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
+    button.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
+      const main = document.getElementById("main");
+      if (main) main.focus({ preventScroll: true });
+    });
   }
-
-  toggle.addEventListener("click", function () {
-    item.classList.remove("is-dismissed");
-    setOpen(!item.classList.contains("is-open"));
-  });
-
-  // Esc closes the menu, even one held open by hovering, and puts focus back
-  // on the toggle if it was inside the menu.
-  document.addEventListener("keydown", function (e) {
-    if (e.key !== "Escape" || e.defaultPrevented) return;
-    const wasOpen = item.classList.contains("is-open") || item.matches(":hover");
-    if (!wasOpen) return;
-    setOpen(false);
-    item.classList.add("is-dismissed"); // stays closed until the pointer leaves
-    if (item.contains(document.activeElement)) toggle.focus();
-  });
-  item.addEventListener("mouseleave", function () {
-    item.classList.remove("is-dismissed");
-  });
-
-  // pointerdown rather than click: iOS Safari doesn't send click for taps on
-  // plain page content
-  document.addEventListener("pointerdown", function (e) {
-    if (!item.contains(e.target)) setOpen(false);
-  });
-
-  // Choosing a link closes the menu; the link still navigates as usual.
-  menu.addEventListener("click", function (e) {
-    if (e.target.closest("a")) setOpen(false);
-  });
-
-  // Tabbing (or Shift+Tab) out of the menu closes it.
-  item.addEventListener("focusout", function (e) {
-    if (e.relatedTarget && !item.contains(e.relatedTarget)) setOpen(false);
-  });
 })();

@@ -6,32 +6,61 @@ It's a plain static site with no build step: edit the files by hand and commit. 
 
 Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it working, for people and AI agents alike.
 
+## Pages
+
+| Address | File | What's on it |
+| --- | --- | --- |
+| `/` | `index.html` | Home: hero, "Where to find us" (the WoW Forever and MoP Classic cards, with the raid schedule), the guild record, three screenshots from the archive, leadership and how to join |
+| `/about/` | `about/index.html` | The guild's story, era by era, plus PvP, friends of the Guard and today's leadership |
+| `/classic/` | `classic/index.html` | Classic Memories: the gallery from Vanilla through Mists of Pandaria, one section per era, with an era filter |
+| `/forever/` | `forever/index.html` | Forever Memories: the WoW Forever gallery (placeholder frames until the first screenshot) and how to add a memory |
+| any missing address | `404.html` | "Page not found"; GitHub Pages serves it for any URL that doesn't exist |
+
+Every page has the same header (anchor emblem, guild name, the main nav and a "Join on Discord" button) and the same footer. On phones the nav folds behind a "Menu" button; without JavaScript it simply shows in full.
+
+### The header and footer are copied into every page
+
+There's no build step, so the skip link, `<header>` and `<footer>` are written out in full in each of the five HTML files. When you change one, make the same change in all five. The only difference allowed is `aria-current="page"` on the nav link for the page itself (`404.html` has none).
+
+To check they still match, run this in Git Bash (or any bash) from the repository folder. It should print `same:` four times:
+
+```
+for f in about/index.html classic/index.html forever/index.html 404.html; do diff <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' index.html | sed 's/ aria-current="page"//') <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' "$f" | sed 's/ aria-current="page"//') > /dev/null && echo "same: $f" || echo "DIFFERENT: $f"; done
+```
+
+That check ignores `aria-current`, so it can't tell if a page marks the wrong nav link as the current page. This one can. It should print `ok:` five times (each page except 404 marks exactly one nav link, the one to its own address; 404 marks none):
+
+```
+for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ forever/index.html:/forever/; do f=${p%%:*}; u=${p#*:}; [ "$(grep -o 'aria-current' "$f" | grep -c .)" = 1 ] && sed -n '/<nav class="site-nav"/,/<\/nav>/p' "$f" | grep -qF "<a href=\"$u\" aria-current=\"page\">" && echo "ok: $f" || echo "WRONG: $f"; done; [ "$(grep -c 'aria-current' 404.html)" = 0 ] && echo "ok: 404.html" || echo "WRONG: 404.html"
+```
+
 ## Files
 
 | Path | What it is |
 | --- | --- |
-| `index.html` | The whole site: header, "The Theramore Guard Today" (`#now`, the current Forever and MoP details and raid schedule), About, and the gallery sections, grouped under "Classic Memories" and "Forever Memories" |
-| `style.css` | All styles, including each section's banner image |
-| `script.js` | Back-to-top button, the footer's copyright year and the "Guild Memories" dropdown (a button that opens the expansion links) |
-| `gallery.js` | Collapsible gallery sections ("Show all N memories") |
-| `raid-times.js` | Shows the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
-| `lightbox.js` | Click-to-enlarge viewer and shareable image links |
-| `404.html` | The "page not found" page; GitHub Pages serves it for any missing URL |
+| `style.css` | All styles for every page. Colors, fonts and sizes are custom properties at the top (`:root`) |
+| `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button |
+| `legacy-links.js` | Home only: sends old one-page links (`/#about`, `/#wotlk`, `/#yogg`) to the new pages (see "Old links") |
+| `raid-times.js` | Home only: the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
+| `memory-count.js` | Home and Forever: keeps the memory counts up to date by counting the memories on `/classic/` and `/forever/` |
+| `gallery.js` | Classic and Forever: collapses each gallery section to its first 4 memories behind a "Show all N memories" button |
+| `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
+| `lightbox.js` | Classic and Forever: the click-to-enlarge viewer and shareable image links |
 | `site.webmanifest` | Name and icons used when someone adds the site to their home screen |
 | `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/` | Gallery screenshots, one folder per expansion. WoW Forever's folder, `assets/forever/`, is created with its first memory |
-| `assets/*.jpg` | Header art (`yogg.jpg`), the About background (`dargons.jpg`) and the section banners (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
-| `assets/og-image.jpg` | Preview image shown when the site's link is posted in Discord and elsewhere |
+| `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `og-vanilla.jpg` on About) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
+| `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
-| `assets/fonts/` | The site's fonts (Playfair Display and Roboto), hosted here instead of on Google, with their license in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
-| `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists only the home page; update its `<lastmod>` date when the page changes in a way worth re-crawling |
+| `assets/fonts/` | The site's fonts (Cinzel for headings, Source Sans 3 for text), hosted here instead of on Google, with their licenses in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
+| `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists the four pages; update a page's `<lastmod>` date when it changes in a way worth re-crawling |
 | `.gitattributes`, `.editorconfig` | Keep line endings as LF (Unix style) and set indents for editors, so files don't show whole-file changes when edited on Windows |
 
 ## Adding a new memory
 
 1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below).
-2. In `index.html`, find that expansion's section (for example `<div class="MoP block" id="MoP">`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
+2. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 3. Change these in the copy:
-   - `src`: the path to your screenshot, matching the filename's upper and lower case exactly.
+   - `src`: the path to your screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly.
    - `width` and `height`: the screenshot's size in pixels, for example `1600` and `900` (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
    - the `<p>` caption shown under the image.
@@ -40,75 +69,75 @@ Example, for a new screenshot saved as `assets/MoP/garrosh.jpg`:
 
 ```html
 <div class="memory">
-    <img src="assets/MoP/garrosh.jpg" width="1600" height="900" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async">
+    <img src="/assets/MoP/garrosh.jpg" width="1600" height="900" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async">
     <p>Theramore Guard defeats Garrosh Hellscream</p>
 </div>
 ```
 
 Keep `loading="lazy" decoding="async"` on every gallery image so the page loads quickly.
 
-That's all. The "Show all N memories" count and the viewer pick up the new memory automatically, with no other edits.
+That's all. Every count updates itself: the era filter's numbers and the "76 moments" line on Classic, the "Show all N memories" buttons, "Memories in the archive" on Home and the Classic count on Forever. The written numbers in the HTML are only what shows if JavaScript is off or a count can't be read, so it's tidy (but not required) to bump the `76` in `index.html`, `classic/index.html` and `forever/index.html` too.
 
-### Adding the first Forever memory
+### Adding a Forever memory
 
-The WoW Forever section (`<div class="forever block" id="forever">`) starts with no memories, just a placeholder line ("Our first Forever memories are coming soon…"). To add the first one:
+Forever memories go in `forever/index.html`, inside `<section class="block forever-gallery wrap" id="forever">`, in its `<div class="memories">`. Create the folder `assets/forever/` for the screenshots and use the same `<div class="memory">` block as above, with `src="/assets/forever/your-file.jpg"`.
 
-1. Create the folder `assets/forever/` and put the screenshot in it.
-2. In that section's `<div class="memories container">`, delete the placeholder `<p class="memories-empty">` (and the comment above it), and paste in a `<div class="memory">` block as described above, with `src="assets/forever/your-file.jpg"`. (If you forget to delete the placeholder, it hides itself once a memory sits next to it, but it's tidier gone.)
-3. Optionally give the section a banner: see step 4 of "Adding a new expansion section" and replace the `.forever` rule in `style.css`.
-
-With one to four memories there's no "Show all" button; it appears from the fifth.
+Until the first memory, the page shows placeholder frames ("Moments we're waiting to capture"). They hide themselves as soon as one memory is in the grid; you don't need to delete them. With one to four memories there's no "Show all" button; it appears from the fifth.
 
 ### Shareable links
 
-Every gallery image gets a link made from its filename: lowercase, spaces and underscores become dashes, other punctuation is removed, and the extension is dropped. For example, `Ragnaros.PNG` becomes <https://www.theramoreguard.com/#ragnaros>, and `Protector Kaolan-N.jpg` becomes `#protector-kaolan-n`. The viewer's "Copy link" button copies it.
+Every gallery image gets a link made from its filename: lowercase, spaces and underscores become dashes, other punctuation is removed, and the extension is dropped. For example, `Ragnaros.PNG` becomes <https://www.theramoreguard.com/classic/#ragnaros>, and `Protector Kaolan-N.jpg` becomes `#protector-kaolan-n`. A Forever image gets a `/forever/#...` link. The viewer's "Copy link" button copies it.
 
-- Links must be unique across the whole page, not just within one folder. If two images would get the same link, or an image's link matches another id on the page (such as a section's `#cataclysm`, `#forever` or `#now`), the second one gets no link and the browser console shows an error naming the image. So a screenshot named `forever.png` needs a `data-slug`.
+Opening a link expands the image's era, switches the era filter to it and opens the image in the viewer.
+
+- Links must be unique across the whole page, not just within one folder. If two images would get the same link, or an image's link matches another id on the page (such as an era's `#cataclysm`, or `#forever` on the Forever page), the second one gets no link and the browser console shows an error naming the image. So a screenshot named `forever.png` needs a `data-slug`.
 - To choose a link yourself, add `data-slug` to the `<img>`, for example `data-slug="garrosh-heroic"`.
-- Filenames are case-sensitive on the live site: `src="assets/MoP/Garrosh.jpg"` won't find `garrosh.jpg`, even if it works on your own computer. Links themselves ignore case.
+- Filenames are case-sensitive on the live site: `src="/assets/MoP/Garrosh.jpg"` won't find `garrosh.jpg`, even if it works on your own computer. Links themselves ignore case.
 
 ## Adding a new expansion section
 
-The gallery is in two groups, each starting with an `<h2 class="memories-group">` heading: "Classic Memories" (Vanilla through Mists of Pandaria) and "Forever Memories" (WoW Forever). Sections run in real-life order. The examples below add a made-up section called `newexp`.
+Classic eras run in real-life order on `/classic/`. The examples below add a made-up era called `newexp`.
 
-1. In `index.html`, copy a whole section, from `<div class="MoP block" id="MoP">` to its closing `</div>`, and paste it at the right place in its group: a Classic section before the "Forever Memories" heading, a Forever one after the WoW Forever section. Give it a new class and a unique `id` (for example `class="newexp block" id="newexp"`), change the `<h3>` heading, and replace the memories. Section headings are `<h3>` (the group headings are the `<h2>`s); they look the same as before.
-2. Add a nav link for it in the matching group of the "Guild Memories" menu near the top of `index.html`. Each group is a `<li class="subnav-group">` with a plain-text label (`<span class="subnav-label">`) and its own `<ul>`; put the link inside that `<ul>`:
-   `<li><a href="#newexp" class="subnav">New Expansion</a></li>`
-3. Create a folder for its screenshots, such as `assets/newexp/`.
-4. Add a banner rule to `style.css` next to the others, pointing at a banner image in `assets/` (a section can also start without one, like `.forever`, which has a dark gradient until it gets a banner):
+1. In `classic/index.html`, copy a whole era, from `<section class="block era" id="MoP" ...>` to its closing `</section>`, and paste it in order. Give it a unique `id` (`id="newexp"`), update `aria-labelledby` and the heading's `id` to match (`newexp-title`), set `data-chip` to the short name for its filter button, change the year label, heading and banner line, and replace the memories. The filter button and its count appear by themselves.
+2. Change the banner class to `era-band--newexp` (the era's id in lowercase: the `MoP` era uses `era-band--mop`) and add a banner rule to `style.css` next to the others, pointing at a 1920x1080 banner image in `assets/`:
 
 ```css
-.newexp {
-    background: linear-gradient(to bottom, #00000099 70%, #000000), url(assets/newexp-bg.jpg);
-    background-size: cover;
-    background-position: center;
+.era-band--newexp {
+    background-image: var(--band-shade), url(/assets/newexp-bg.jpg);
 }
 ```
 
+3. Create a folder for its screenshots, such as `assets/newexp/`.
+4. On the About page (`about/index.html`), add a row to the "Our story" timeline linking to `/classic/#newexp`.
+
 ## Editing the raid schedule
 
-The WoW Forever card in "The Theramore Guard Today" lists raid nights in Eastern time. That text is what visitors see without JavaScript; with it, `raid-times.js` adds a "Your time" line in the visitor's own time zone (hidden for visitors already on Eastern time). Each raid night is a `<span class="schedule__slot">` with:
+The WoW Forever card on Home (`index.html`, "Where to find us") lists raid nights in Eastern time. That text is what visitors see without JavaScript; with it, `raid-times.js` adds a "Your time" line in the visitor's own time zone (hidden for visitors already on Eastern time). Each raid night is a `<span class="schedule__slot">` with:
 
 - `data-day`: `sun`, `mon`, `tue`, `wed`, `thu`, `fri` or `sat`
 - `data-start` and `data-end`: 24-hour Eastern times, for example `21:00` and `24:00` (24:00 means midnight at the end of the night)
 - `data-zone="America/New_York"`
 
-To change the schedule, edit both the attributes and the visible text next to them, so they agree. For example, to add Saturday 8 PM to 11 PM:
+To change the schedule, edit both the attributes and the visible text next to them, so they agree. For example, to add Saturday:
 
 ```html
-<span class="schedule__slot" data-day="sat" data-start="20:00" data-end="23:00" data-zone="America/New_York">Sat</span>
+<span class="schedule__slot" data-day="sat" data-start="21:00" data-end="24:00" data-zone="America/New_York">Sat</span>
 ```
 
-and update the visible line (for example "Tue, Thu, Sun · 9:00 PM to 12:00 AM ET; Sat · 8:00 PM to 11:00 PM ET").
+The time range below the days (`9:00 PM – 12:00 AM ET`) is shared by all the nights; if a night has different hours, list it with its own range.
 
-"Next raid: TBD" stays until raids have a start date. Then add `data-raids-start="YYYY-MM-DD"` (an Eastern date) to the `<dd class="schedule">`, and the line shows the next raid on or after that date in the visitor's time, or "Raid in progress" during one.
+"Next raid" shows "TBD" until raids have a start date. Then add `data-raids-start="YYYY-MM-DD"` (an Eastern date) to the `<dl class="facts facts--row schedule">`, and it shows the next raid on or after that date in the visitor's time, or "In progress until ..." during one.
+
+## Old links
+
+Before the redesign the whole site was one page, so links like `/#about`, `/#wotlk` or `/#yogg` are still out there. `legacy-links.js` (on Home only) sends them on: `#about` to `/about/`, `#forever` to `/forever/`, and anything else (era and image links) to the same `#` on `/classic/`. Links to ids that exist on Home, such as `#now`, stay on Home; those ids are listed in lowercase in `HOME_IDS` at the top of the script, so add an id there if you add one to `index.html`. Those checks ignore upper and lower case (`/#NOW` stays on Home, `/#About` goes to `/about/`), but a link sent on to `/classic/` keeps its case, because ids there are case-sensitive (`#MoP`).
 
 ## Content Security Policy
 
-Both pages carry a Content Security Policy in a `<meta>` tag at the top of `<head>`. It only allows scripts, styles, images, fonts and requests that come from this site itself, so keep these rules when editing:
+Every page carries a Content Security Policy in a `<meta>` tag at the top of `<head>`. It only allows scripts, styles, images, fonts and requests that come from this site itself, so keep these rules when editing:
 
 - No inline `<script>` blocks, `onclick=` style attributes or `style="..."` attributes. Put scripts in `.js` files and styles in `style.css`.
-- Don't load anything from another site (a CDN, Google Fonts, an embedded video). If you need to, the policy in both pages has to be changed deliberately.
+- Don't load anything from another site (a CDN, Google Fonts, an embedded video). If you need to, the policy in all five pages has to be changed deliberately.
 - If something stops working after an edit, open the browser's developer console (F12): blocked items are reported there as "Content Security Policy" errors.
 
 ## Previewing locally
@@ -116,7 +145,7 @@ Both pages carry a Content Security Policy in a `<meta>` tag at the top of `<hea
 From the repository folder, run:
 
 ```
-python -m http.server
+python -m http.server --bind 127.0.0.1
 ```
 
-Then open <http://localhost:8000>. Opening `index.html` straight from your file browser mostly works too, but shareable links behave best through a local server. This simple server doesn't show the custom 404 page for missing URLs the way GitHub Pages does; to check that page, open <http://localhost:8000/404.html>.
+Then open <http://localhost:8000>. Use the local server rather than opening the files directly: the pages use paths that start with `/`, which only work through a server. If a page looks out of date after an edit, reload it with Ctrl+Shift+R, because this simple server lets the browser reuse old copies. It also doesn't show the custom 404 page for missing URLs the way GitHub Pages does; to check that page, open <http://localhost:8000/404.html>.
