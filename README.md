@@ -28,6 +28,12 @@ To check they still match, run this in Git Bash (or any bash) from the repositor
 for f in about/index.html classic/index.html forever/index.html 404.html; do diff <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' index.html | sed 's/ aria-current="page"//') <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' "$f" | sed 's/ aria-current="page"//') > /dev/null && echo "same: $f" || echo "DIFFERENT: $f"; done
 ```
 
+That check ignores `aria-current`, so it can't tell if a page marks the wrong nav link as the current page. This one can. It should print `ok:` five times (each page except 404 marks exactly one nav link, the one to its own address; 404 marks none):
+
+```
+for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ forever/index.html:/forever/; do f=${p%%:*}; u=${p#*:}; [ "$(grep -o 'aria-current' "$f" | grep -c .)" = 1 ] && sed -n '/<nav class="site-nav"/,/<\/nav>/p' "$f" | grep -qF "<a href=\"$u\" aria-current=\"page\">" && echo "ok: $f" || echo "WRONG: $f"; done; [ "$(grep -c 'aria-current' 404.html)" = 0 ] && echo "ok: 404.html" || echo "WRONG: 404.html"
+```
+
 ## Files
 
 | Path | What it is |
@@ -93,7 +99,7 @@ Opening a link expands the image's era, switches the era filter to it and opens 
 Classic eras run in real-life order on `/classic/`. The examples below add a made-up era called `newexp`.
 
 1. In `classic/index.html`, copy a whole era, from `<section class="block era" id="MoP" ...>` to its closing `</section>`, and paste it in order. Give it a unique `id` (`id="newexp"`), update `aria-labelledby` and the heading's `id` to match (`newexp-title`), set `data-chip` to the short name for its filter button, change the year label, heading and banner line, and replace the memories. The filter button and its count appear by themselves.
-2. Change the banner class to `era-band--newexp` and add a banner rule to `style.css` next to the others, pointing at a 1920x1080 banner image in `assets/`:
+2. Change the banner class to `era-band--newexp` (the era's id in lowercase: the `MoP` era uses `era-band--mop`) and add a banner rule to `style.css` next to the others, pointing at a 1920x1080 banner image in `assets/`:
 
 ```css
 .era-band--newexp {
@@ -124,7 +130,7 @@ The time range below the days (`9:00 PM – 12:00 AM ET`) is shared by all the n
 
 ## Old links
 
-Before the redesign the whole site was one page, so links like `/#about`, `/#wotlk` or `/#yogg` are still out there. `legacy-links.js` (on Home only) sends them on: `#about` to `/about/`, `#forever` to `/forever/`, and anything else (era and image links) to the same `#` on `/classic/`. Links to ids that exist on Home, such as `#now`, stay on Home; those ids are listed in `HOME_IDS` at the top of the script, so add an id there if you add one to `index.html`.
+Before the redesign the whole site was one page, so links like `/#about`, `/#wotlk` or `/#yogg` are still out there. `legacy-links.js` (on Home only) sends them on: `#about` to `/about/`, `#forever` to `/forever/`, and anything else (era and image links) to the same `#` on `/classic/`. Links to ids that exist on Home, such as `#now`, stay on Home; those ids are listed in lowercase in `HOME_IDS` at the top of the script, so add an id there if you add one to `index.html`. Those checks ignore upper and lower case (`/#NOW` stays on Home, `/#About` goes to `/about/`), but a link sent on to `/classic/` keeps its case, because ids there are case-sensitive (`#MoP`).
 
 ## Content Security Policy
 

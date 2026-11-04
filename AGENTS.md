@@ -18,6 +18,11 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
   ```
   for f in about/index.html classic/index.html forever/index.html 404.html; do diff <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' index.html | sed 's/ aria-current="page"//') <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' "$f" | sed 's/ aria-current="page"//') > /dev/null && echo "same: $f" || echo "DIFFERENT: $f"; done
   ```
+- That check strips `aria-current`, so it can't see one on the wrong link. Run this too; it must print `ok:` five times (each page except 404 has exactly one `aria-current="page"`, on the nav link to its own path; 404 has none):
+
+  ```
+  for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ forever/index.html:/forever/; do f=${p%%:*}; u=${p#*:}; [ "$(grep -o 'aria-current' "$f" | grep -c .)" = 1 ] && sed -n '/<nav class="site-nav"/,/<\/nav>/p' "$f" | grep -qF "<a href=\"$u\" aria-current=\"page\">" && echo "ok: $f" || echo "WRONG: $f"; done; [ "$(grep -c 'aria-current' 404.html)" = 0 ] && echo "ok: 404.html" || echo "WRONG: 404.html"
+  ```
 - The phone nav is a disclosure: `<button class="menu-button" aria-expanded aria-controls="site-nav" hidden>`. script.js unhides it and toggles it (click, Enter/Space; Esc returns focus to the button; a tap outside the header or tabbing out closes it; widening to desktop closes it). Below 1000px the nav folds behind it only under `html.js`, so without JavaScript (and on 404) the nav shows in full.
 - script.js is loaded in `<head>` without `defer` so `html.js` is set before first paint. Other scripts use `defer`, except legacy-links.js (see "Old links").
 - The desktop header needs about 980px on one row; the Menu breakpoint is 999/1000px. Check those widths if nav items change.
@@ -39,12 +44,13 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - Load order on Classic is gallery.js, eras.js, lightbox.js (all `defer`): eras.js listens for `gallery:expand` before lightbox.js opens a linked image, so the filter switches to that image's era.
 - Era filter counts, the Classic intro total (`[data-memory-total]`) and the `[data-memory-count]` numbers are computed from the DOM or fetched pages. The numbers written in the HTML are the no-JS fallback; memory-count.js keeps them when a page can't be read or has no `.block`.
 - Forever placeholder frames sit outside `.memories` and aren't `.memory` elements, so they never count. CSS hides them with `.forever-gallery:has(.memory) .placeholders`. gallery.js and lightbox.js must keep working with zero memories in a section (no "Show all" button, no errors).
-- Era banners are CSS backgrounds (`.era-band--<id>` with `var(--band-shade)`): 1920x1080 JPEG, quality 82, progressive, no metadata. Exceptions so far: `assets/tbc.jpg` (1568x769) and the Home hero `assets/yogg.jpg` (1980x697). Keep them small.
+- Era banners are CSS backgrounds (`.era-band--<id>`, with the era id in lowercase, so `#MoP` uses `.era-band--mop`; each with `var(--band-shade)`): 1920x1080 JPEG, quality 82, progressive, no metadata. Exceptions so far: `assets/tbc.jpg` (1568x769) and the Home hero `assets/yogg.jpg` (1980x697). Keep them small.
 
 ## Old links
 
 - legacy-links.js runs in `<head>` on Home only, without `defer`, and on `hashchange`. It sends `#about` to `/about/`, `#forever` to `/forever/`, and every other hash (era ids, `#memories-block`, image slugs) unchanged to `/classic/#hash`, using `location.replace`.
-- Ids that exist on Home stay on Home; they're listed in `HOME_IDS`. Every id in `index.html` must be in that list, or links to it leave the page.
+- Ids that exist on Home stay on Home; they're listed in `HOME_IDS`, in lowercase. Every id in `index.html` must be in that list, or links to it leave the page.
+- The `HOME_IDS`, `about` and `forever` checks ignore case (`/#NOW` stays on Home, `/#About` goes to `/about/`). Everything else goes to `/classic/` with the hash exactly as written, because ids there are case-sensitive (`#MoP`).
 
 ## Head and metadata
 
@@ -78,7 +84,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 ## Preview and test
 
 - Preview: `python -m http.server --bind 127.0.0.1` in the repo, open http://localhost:8000. Check all five pages at desktop (~1440px), tablet (~768px) and phone (~390px and 360px) widths. The local server doesn't serve the custom 404; open `/404.html` directly. It also lets the browser cache pages, so hard-reload (Ctrl+Shift+R) after edits.
-- Validate: `npx html-validate@8.18.2 index.html about/index.html classic/index.html forever/index.html 404.html` must be clean (no trailing whitespace, raw `&` as `&amp;`, `type` on buttons, title under 70 characters). Run the header/footer sync check too.
+- Validate: `npx html-validate@8.18.2 index.html about/index.html classic/index.html forever/index.html 404.html` must be clean (no trailing whitespace, raw `&` as `&amp;`, `type` on buttons, title under 70 characters). Run the header/footer sync check and the `aria-current` check too.
 - Raid times: set the browser time zone (`Emulation.setTimezoneOverride`) and fake `Date` to check several US zones (including America/Phoenix and Pacific/Honolulu, which don't observe DST) on a winter date, a summer date and a week when US clocks change, plus "Next raid" just before, during and after a raid (set `data-raids-start` and dispatch `visibilitychange`).
 - Console: no "Content Security Policy" errors while exercising every feature (Menu, era filter, Show all, viewer, zoom, Copy link, Back to top, old links).
 - Deeper checks used for past changes: headless Chrome over the DevTools protocol against the local server; full-page screenshots; CSS rule coverage across all pages, widths and states; `securitypolicyviolation` events; request host audit (self only); axe-core (including with the Menu and the viewer open); contrast sampled under text with the text made transparent (measure the text's own box, not its full-width block). `Page.setBypassCSP` is needed to inject test code.
