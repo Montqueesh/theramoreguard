@@ -32,7 +32,11 @@
     <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="apple-mobile-web-app-title" content="Theramore Guard">
+    <link rel="preload" href="/assets/yogg.jpg" as="image">
+    <script src="/legacy-links.js"></script>
     <script src="/script.js"></script>
+    <script src="/raid-times.js" defer></script>
+    <script src="/memory-count.js" defer></script>
 </head>
 
 <body>
@@ -56,9 +60,176 @@
         </div>
     </header>
     <main id="main" tabindex="-1">
-        <section class="section wrap">
-            <h1>The Theramore Guard</h1>
-            <p>The new Home page is built in stage 2.</p>
+        <section class="hero hero--home">
+            <div class="hero__inner wrap">
+                <p class="hero__eyebrow">Alliance · Founded on Grobbulus in 2019</p>
+                <h1 class="hero__title">The Theramore Guard</h1>
+                <p class="hero__lede">A community of polite, respectful players who level, roleplay, PvP and raid together. Now playing WoW Forever on the RP-PvP ruleset, with a home in Mists of Pandaria Classic on Pagle.</p>
+                <div class="actions">
+                    <a class="button button--solid" href="https://discord.gg/theramoreguard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Join us on Discord</a>
+                    <a class="button" href="/about/">Read our story</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--now wrap" id="now" aria-labelledby="now-title">
+            <h2 class="section-title" id="now-title">Where to find us</h2>
+            <div class="realms">
+                <article class="realm realm--primary" aria-labelledby="realm-forever-title">
+                    <div class="realm__head">
+                        <h3 class="realm__title" id="realm-forever-title">WoW Forever</h3>
+                        <p class="eyebrow">Our main home</p>
+                    </div>
+                    <ul class="chips">
+                        <li>RP-PvP ruleset</li>
+                        <li>Alliance</li>
+                        <li>Open to all</li>
+                    </ul>
+                    <p class="realm__text">Casual RP events, plenty of world PvP, leveling together, dungeon groups, and working toward our first raid.</p>
+                    <!-- Raid nights in Eastern time (the text is what shows without JavaScript).
+                         Each slot's data attributes drive the visitor's local time in
+                         raid-times.js; keep them in step with the text. To show the next raid
+                         instead of TBD, add data-raids-start="YYYY-MM-DD" (an Eastern date)
+                         to this <dl>. -->
+                    <dl class="facts facts--row schedule">
+                        <div>
+                            <dt class="eyebrow">Raid nights</dt>
+                            <dd class="facts__value"><span class="schedule__slot" data-day="tue" data-start="21:00" data-end="24:00" data-zone="America/New_York">Tue</span> · <span class="schedule__slot" data-day="thu" data-start="21:00" data-end="24:00" data-zone="America/New_York">Thu</span> · <span class="schedule__slot" data-day="sun" data-start="21:00" data-end="24:00" data-zone="America/New_York">Sun</span></dd>
+                            <dd><span class="schedule__range">9:00 PM – 12:00 AM ET</span></dd>
+                            <dd class="facts__note schedule__local" hidden></dd>
+                        </div>
+                        <div>
+                            <dt class="eyebrow">Next raid</dt>
+                            <dd class="facts__value schedule__next">TBD</dd>
+                        </div>
+                        <div>
+                            <dt class="eyebrow">Loot</dt>
+                            <dd class="facts__value">MS Need &gt; OS Greed</dd>
+                            <dd class="facts__note">Master Loot when necessary</dd>
+                        </div>
+                    </dl>
+                    <p class="realm__text"><strong>Co-GMs:</strong> Montqueesh Duskwhisper and Boargruuf Ironhide</p>
+                </article>
+                <article class="realm" aria-labelledby="realm-mop-title">
+                    <div class="realm__head">
+                        <h3 class="realm__title" id="realm-mop-title">Mists of Pandaria Classic</h3>
+                    </div>
+                    <ul class="chips">
+                        <li>Pagle</li>
+                        <li>Alliance</li>
+                        <li>Open to all</li>
+                    </ul>
+                    <p class="realm__text">Casual PvE and raiding together.</p>
+                    <dl class="facts">
+                        <div>
+                            <dt class="eyebrow">Progress</dt>
+                            <dd class="facts__value">Every MoP Classic raid cleared</dd>
+                            <dd class="facts__note">Of those released so far</dd>
+                        </div>
+                        <div>
+                            <dt class="eyebrow">Raiding</dt>
+                            <dd class="facts__value">Casual</dd>
+                            <dd class="facts__note">When we can field a group; watch Discord</dd>
+                        </div>
+                        <div>
+                            <dt class="eyebrow">Loot</dt>
+                            <dd class="facts__value">MS Need &gt; OS Greed</dd>
+                        </div>
+                    </dl>
+                    <p class="realm__text"><strong>Co-GMs:</strong> Montqueesh and Boarrior</p>
+                    <div class="realm__links">
+                        <a class="button button--small" href="https://discord.gg/theramoreguard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Join us on Discord</a>
+                        <a class="more-link" href="https://classic.warcraftlogs.com/guild/us/pagle/theramore%20guard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">MoP Logs (Pagle) <span aria-hidden="true">→</span></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="wrap record-section" aria-label="Guild record">
+            <ul class="record">
+                <li><span class="record__value">2019</span> <span class="record__label">Founded on Grobbulus</span></li>
+                <li><span class="record__value">6</span> <span class="record__label">Eras, Vanilla to Forever</span></li>
+                <!-- The real count, updated by hand as a fallback; memory-count.js
+                     replaces it with a live count of the memories on /classic/ and /forever/. -->
+                <li><span class="record__value" data-memory-count>76</span> <span class="record__label">Memories in the archive</span></li>
+            </ul>
+        </section>
+
+        <section class="section section--archive wrap" aria-labelledby="archive-title">
+            <div class="section-head">
+                <h2 class="section-title" id="archive-title">From the archive</h2>
+                <a class="more-link" href="/classic/">All Classic memories <span aria-hidden="true">→</span></a>
+            </div>
+            <ul class="archive">
+                <li>
+                    <a class="archive__card" href="/classic/#yogg">
+                        <img src="/assets/wotlk/yogg.jpg" width="1900" height="900" alt="Theramore Guard raid in front of Yogg-Saron's body in Ulduar" loading="lazy" decoding="async">
+                        <span class="eyebrow">Wrath of the Lich King</span>
+                        <span class="archive__caption">Theramore Guard defeats Yogg-Saron</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="archive__card" href="/classic/#ragnaros">
+                        <img src="/assets/cataclysm/Ragnaros.PNG" width="1600" height="900" alt="Theramore Guard raid in Sulfuron Keep after defeating Ragnaros" loading="lazy" decoding="async">
+                        <span class="eyebrow">Cataclysm</span>
+                        <span class="archive__caption">TG destroys Ragnaros, the final boss of Firelands</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="archive__card" href="/classic/#sha1">
+                        <img src="/assets/MoP/sha1.PNG" width="1600" height="900" alt="The Guard raid around the Sha of Fear's body after clearing Terrace of Endless Spring" loading="lazy" decoding="async">
+                        <span class="eyebrow">Mists of Pandaria</span>
+                        <span class="archive__caption">The Guard defeats Sha of Fear and clears ToES</span>
+                    </a>
+                </li>
+            </ul>
+            <a class="teaser" href="/forever/">
+                <span class="teaser__text">
+                    <span class="teaser__title">Forever Memories</span>
+                    <span class="teaser__body">Chapter one starts now. Share your first screenshots in #guild-memories.</span>
+                </span>
+                <span class="teaser__cta">Open the new chapter <span aria-hidden="true">→</span></span>
+            </a>
+        </section>
+
+        <section class="band" aria-labelledby="leadership-title">
+            <div class="band__inner wrap">
+                <div class="band__intro">
+                    <h2 class="section-title" id="leadership-title">Leadership</h2>
+                    <p>Led by co-Guild Masters Boarrior and Montqueesh since August 2022, with officers Frawl and Holidaze.</p>
+                </div>
+                <ul class="people">
+                    <li class="person">
+                        <p class="eyebrow eyebrow--brass">Co-GMs in Forever</p>
+                        <p class="person__name">Montqueesh Duskwhisper</p>
+                        <p class="person__name">Boargruuf Ironhide</p>
+                    </li>
+                    <li class="person">
+                        <p class="eyebrow eyebrow--brass">Co-GMs in MoP Classic</p>
+                        <p class="person__name">Montqueesh</p>
+                        <p class="person__name">Boarrior</p>
+                    </li>
+                    <li class="person">
+                        <p class="eyebrow eyebrow--brass">Officers</p>
+                        <p class="person__name">Frawl</p>
+                        <p class="person__name">Holidaze</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section wrap join" aria-labelledby="join-title">
+            <div class="join__intro">
+                <h2 class="section-title section-title--large" id="join-title">Join the Guard</h2>
+                <p>Recruiting is open to all. If you're polite and respectful, you'll fit right in.</p>
+            </div>
+            <div class="join__steps">
+                <ol class="steps">
+                    <li><span>Join our Discord and start in <strong>#top-deck</strong>.</span></li>
+                    <li><span>Or whisper any guild member in game.</span></li>
+                </ol>
+                <a class="button button--solid" href="https://discord.gg/theramoreguard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Join us on Discord</a>
+            </div>
         </section>
     </main>
     <footer class="site-footer">

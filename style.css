@@ -489,6 +489,634 @@ h3 {
     padding-bottom: 64px;
 }
 
+.section-title {
+    margin: 0 0 28px;
+    font-size: 32px;
+}
+
+.section-title--large {
+    font-size: 36px;
+}
+
+/* "All Classic memories →" style text links */
+.more-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.more-link:hover {
+    text-decoration: underline;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+/* Hero: a screenshot behind the page title, fading into the page background */
+
+.hero {
+    display: flex;
+    align-items: flex-end;
+    min-height: 560px;
+    background-color: var(--ground);
+    background-size: cover;
+    background-position: center 35%;
+}
+
+.hero--home {
+    /* The side shade keeps the text readable over the bright parts of the shot */
+    background-image:
+        linear-gradient(90deg, rgba(11, 18, 32, .75) 0%, rgba(11, 18, 32, .5) 45%, rgba(11, 18, 32, 0) 75%),
+        linear-gradient(180deg, rgba(11, 18, 32, .35) 0%, rgba(11, 18, 32, .55) 55%, var(--ground) 100%),
+        url(/assets/yogg.jpg);
+}
+
+.hero__inner {
+    width: 100%;
+    padding-top: 120px;
+    padding-bottom: 72px;
+}
+
+/* A dark backing keeps the small brass text readable over bright screenshots */
+.hero__eyebrow {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(11, 18, 32, .85);
+    color: var(--brass);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.hero__title {
+    max-width: 14ch;
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: .02em;
+}
+
+.hero__lede {
+    max-width: 60ch;
+    margin: 20px 0 0;
+    color: var(--lede);
+    font-size: 20px;
+}
+
+/* Home: "Where to find us" cards */
+
+.section--now {
+    padding-top: 72px;
+    padding-bottom: 24px;
+}
+
+.realms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.realm {
+    display: flex;
+    flex: 2 1 300px;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    padding: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.realm--primary {
+    flex: 3 1 420px;
+    gap: 20px;
+    border-color: var(--brass);
+}
+
+.realm__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.realm__title {
+    font-size: 24px;
+}
+
+.realm--primary .realm__title {
+    color: var(--brass);
+    font-size: 28px;
+}
+
+.realm__text {
+    margin: 0;
+    color: var(--card-body);
+}
+
+.realm__text strong {
+    color: var(--ivory);
+}
+
+.realm__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: auto;
+}
+
+/* Small pill labels ("RP-PvP ruleset", "Alliance") */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chips li {
+    padding: 4px 14px;
+    border: 1px solid var(--chip-border);
+    border-radius: 999px;
+    font-size: 15px;
+}
+
+/* Label / value panels inside the cards (raid nights, loot, progress) */
+.facts {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 20px;
+    border-radius: 8px;
+    background: var(--ground);
+}
+
+.facts--row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+}
+
+.facts dd {
+    margin: 0;
+}
+
+.facts .facts__value {
+    margin-top: 4px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.facts__note {
+    color: var(--muted);
+    font-size: 15px;
+}
+
+/* A time range never breaks in the middle ("9:00 PM – 12:00 AM ET") */
+.schedule__range {
+    white-space: nowrap;
+}
+
+/* Home: record strip (2019 · 6 eras · memories) */
+
+.record-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+
+.record {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    list-style: none;
+}
+
+.record li {
+    flex: 1 1 220px;
+    padding: 28px 20px;
+}
+
+.record__value {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.4;
+}
+
+.record__label {
+    display: block;
+    color: var(--text-2);
+}
+
+/* Home: "From the archive" */
+
+.section--archive {
+    padding-top: 24px;
+    padding-bottom: 72px;
+}
+
+.section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.section-head .section-title {
+    margin: 0;
+}
+
+.archive {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.archive__card {
+    display: block;
+    color: var(--ivory);
+    text-decoration: none;
+}
+
+.archive__card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.archive__card .eyebrow {
+    display: block;
+    margin-top: 12px;
+}
+
+.archive__caption {
+    display: block;
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+.archive__card:hover .archive__caption {
+    color: var(--brass-hover);
+}
+
+/* Dashed link box ("Forever Memories: chapter one starts now") */
+.teaser {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 28px;
+    padding: 24px 28px;
+    border: 1px dashed var(--chip-border);
+    border-radius: 10px;
+    color: var(--ivory);
+    text-decoration: none;
+}
+
+.teaser:hover {
+    border-color: var(--brass);
+    color: var(--ivory);
+}
+
+.teaser__title {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 22px;
+}
+
+.teaser__body {
+    display: block;
+    color: var(--text-2);
+}
+
+.teaser__cta {
+    color: var(--brass);
+    font-weight: 600;
+}
+
+.teaser:hover .teaser__cta {
+    color: var(--brass-hover);
+}
+
+/* Full-width surface band (Leadership) */
+
+.band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+}
+
+.band__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.band__intro {
+    flex: 1 1 320px;
+}
+
+.band__intro .section-title {
+    margin-bottom: 12px;
+}
+
+.band__intro p {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--text-2);
+}
+
+.people {
+    display: flex;
+    flex: 2 1 480px;
+    flex-wrap: wrap;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.person {
+    flex: 1 1 200px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--ground);
+}
+
+.eyebrow--brass {
+    color: var(--brass);
+}
+
+.person__name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.person .eyebrow + .person__name {
+    margin-top: 6px;
+}
+
+/* Join the Guard */
+
+.join {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding-top: 72px;
+    padding-bottom: 72px;
+}
+
+.join__intro,
+.join__steps {
+    flex: 1 1 380px;
+    min-width: 0;
+}
+
+.join__intro .section-title {
+    margin-bottom: 12px;
+}
+
+.join__intro p {
+    max-width: 50ch;
+    margin: 0;
+    color: var(--text-2);
+}
+
+/* Numbered steps with brass Cinzel numerals */
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+}
+
+.steps li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    counter-increment: step;
+}
+
+.steps li::before {
+    content: counter(step);
+    color: var(--brass);
+    font-family: var(--font-display);
+    font-size: 22px;
+}
+
+.join__steps .button {
+    margin-top: 22px;
+}
+
+/* Phones */
+@media (max-width: 599px) {
+    .section-title {
+        margin-bottom: 16px;
+        font-size: 26px;
+    }
+
+    .section-title--large {
+        font-size: 28px;
+    }
+
+    .hero {
+        min-height: 440px;
+        background-position: 30% 40%;
+    }
+
+    .hero--home {
+        background-image:
+            linear-gradient(180deg, rgba(11, 18, 32, .45) 0%, rgba(11, 18, 32, .75) 45%, rgba(11, 18, 32, .85) 70%, var(--ground) 100%),
+            url(/assets/yogg.jpg);
+    }
+
+    .hero__inner {
+        padding-top: 80px;
+        padding-bottom: 32px;
+    }
+
+    .hero__eyebrow {
+        margin-bottom: 8px;
+        font-size: 12px;
+        letter-spacing: .16em;
+    }
+
+    .hero__title {
+        font-size: 38px;
+    }
+
+    .hero__lede {
+        margin-top: 14px;
+        font-size: 17px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .actions .button,
+    .realm__links .button,
+    .join__steps .button {
+        display: block;
+        width: 100%;
+    }
+
+    .section--now {
+        padding-top: 40px;
+        padding-bottom: 16px;
+    }
+
+    .realms {
+        gap: 16px;
+    }
+
+    .realm,
+    .realm--primary {
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .realm__title {
+        font-size: 21px;
+    }
+
+    .realm--primary .realm__title {
+        font-size: 24px;
+    }
+
+    .chips {
+        gap: 8px;
+    }
+
+    .chips li {
+        padding: 2px 12px;
+        font-size: 14px;
+    }
+
+    .facts,
+    .facts--row {
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .facts .facts__value {
+        margin-top: 2px;
+        font-size: 19px;
+    }
+
+    .record-section {
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
+    .record li {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 18px 6px;
+    }
+
+    .record__value {
+        font-size: 28px;
+    }
+
+    .record__label {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .section--archive {
+        padding-top: 16px;
+        padding-bottom: 40px;
+    }
+
+    .archive {
+        gap: 18px;
+    }
+
+    .archive__card .eyebrow {
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    .teaser {
+        margin-top: 18px;
+        padding: 18px;
+    }
+
+    .teaser__title {
+        font-size: 19px;
+    }
+
+    .band__inner {
+        gap: 24px;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .band__intro .section-title {
+        margin-bottom: 8px;
+    }
+
+    .people {
+        gap: 12px;
+    }
+
+    .person {
+        padding: 16px;
+    }
+
+    .person__name {
+        font-size: 18px;
+    }
+
+    .join {
+        gap: 16px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .join__intro .section-title {
+        margin-bottom: 8px;
+    }
+}
+
 /* Click-to-enlarge viewer (lightbox.js) */
 
 html.lightbox-open {
