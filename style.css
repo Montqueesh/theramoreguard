@@ -2185,3 +2185,31 @@ html.lightbox-open .to-top {
         animation-duration: 2s;
     }
 }
+
+/* Tap targets at least 44px tall on touch-size screens (desktop is unchanged).
+   The footer list's negative margin keeps the footer the same height. */
+@media (max-width: 999px) {
+    .brand {
+        min-height: 44px;
+    }
+
+    .more-link,
+    .era-row__body .more-link,
+    .site-footer a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .more-link {
+        column-gap: .28em;
+    }
+
+    .site-footer a {
+        padding: 0;
+    }
+
+    .site-footer ul {
+        margin: -6px 0;
+    }
+}
