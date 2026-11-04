@@ -53,11 +53,17 @@
             </nav>
         </div>
     </header>
-    <main id="main" tabindex="-1">
-        <section class="section wrap">
-            <h1>You've wandered off the road to Theramore</h1>
-            <p>The new 404 page is built in stage 5.</p>
-        </section>
+    <main id="main" tabindex="-1" class="not-found">
+        <div class="not-found__inner">
+            <svg class="emblem emblem--large not-found__emblem" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="8" r="4"/><path d="M24 12v30M15 18h18"/><path d="M8 30c2 7 9 12 16 12s14-5 16-12"/><path d="M8 30l-2 4M8 30l4 1M40 30l2 4M40 30l-4 1"/></svg>
+            <p class="hero__eyebrow">404 · Page not found</p>
+            <h1 class="not-found__title">You've wandered off the road to Theramore</h1>
+            <p class="not-found__text">The page you're looking for isn't here. It may have moved when the site was rebuilt.</p>
+            <div class="actions actions--center">
+                <a class="button button--solid" href="/">Return to Theramore</a>
+                <a class="button" href="https://discord.gg/theramoreguard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Ask in Discord</a>
+            </div>
+        </div>
     </main>
     <footer class="site-footer">
         <div class="site-footer__inner">

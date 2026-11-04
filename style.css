@@ -1639,6 +1639,242 @@ h3 {
     }
 }
 
+/* Large outline emblem (Forever header, 404) */
+.emblem--large {
+    width: 180px;
+    height: 180px;
+    stroke-width: 1.4;
+}
+
+/* Forever: header band with the emblem */
+
+.page-band {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-deep);
+}
+
+.page-band__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding-top: 72px;
+    padding-bottom: 64px;
+}
+
+.page-band__text {
+    flex: 2 1 520px;
+    min-width: 0;
+}
+
+.page-band .hero__eyebrow {
+    margin-bottom: 8px;
+    padding: 0;
+    background: none;
+}
+
+.page-band .page-head__lede {
+    max-width: 58ch;
+    margin-top: 16px;
+}
+
+.page-band__art {
+    display: flex;
+    flex: 1 1 240px;
+    justify-content: center;
+}
+
+/* Forever gallery: real memories, or placeholder frames until the first one.
+   The empty grid takes no room; once a .memory is in it the frames hide. */
+
+.forever-gallery {
+    padding-top: 56px;
+    padding-bottom: 24px;
+}
+
+.forever-gallery .memories {
+    margin-top: 0;
+}
+
+.forever-gallery .memories:not(:has(.memory)) {
+    display: none;
+}
+
+.forever-gallery:has(.memory) .placeholders {
+    display: none;
+}
+
+.frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    padding: 12px;
+    border: 1px dashed var(--chip-border);
+    border-radius: 8px;
+    background: var(--surface-deep);
+    color: var(--muted);
+    text-align: center;
+}
+
+.frame__caption {
+    display: block;
+    margin-top: 8px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Forever: "Add a memory" */
+
+.add-memory-section {
+    padding-top: 40px;
+    padding-bottom: 72px;
+}
+
+.add-memory {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px;
+    padding: 36px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.add-memory__intro {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.add-memory__intro p {
+    margin: 0;
+    color: var(--text-2);
+}
+
+.add-steps {
+    display: flex;
+    flex: 2 1 460px;
+    flex-wrap: wrap;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.add-steps li {
+    flex: 1 1 140px;
+    padding-top: 12px;
+    border-top: 2px solid var(--brass);
+}
+
+.add-steps__title {
+    display: block;
+    color: var(--brass);
+    font-family: var(--font-display);
+}
+
+.add-steps__text {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-2);
+}
+
+/* 404 */
+
+.not-found {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 160px);
+}
+
+.not-found__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px var(--gutter);
+    text-align: center;
+}
+
+.not-found__emblem {
+    width: 120px;
+    height: 120px;
+}
+
+.not-found .hero__eyebrow {
+    display: block;
+    margin: 24px 0 0;
+    padding: 0;
+    background: none;
+}
+
+.not-found__title {
+    margin-top: 8px;
+    font-size: 44px;
+}
+
+.not-found__text {
+    margin: 16px 0 0;
+    color: var(--text-2);
+}
+
+.actions--center {
+    justify-content: center;
+}
+
+@media (max-width: 599px) {
+    .page-band__inner {
+        gap: 24px;
+        padding-top: 40px;
+        padding-bottom: 36px;
+    }
+
+    .page-band__art {
+        display: none;
+    }
+
+    .forever-gallery {
+        padding-top: 40px;
+    }
+
+    .frames {
+        gap: 18px;
+    }
+
+    .add-memory-section {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
+
+    .add-memory {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .add-memory .button {
+        display: block;
+        width: 100%;
+    }
+
+    .not-found__inner {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .not-found__title {
+        font-size: 30px;
+    }
+}
+
 /* Click-to-enlarge viewer (lightbox.js) */
 
 html.lightbox-open {
