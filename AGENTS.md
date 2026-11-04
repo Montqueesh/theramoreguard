@@ -13,7 +13,11 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 
 ## Shared header and footer
 
-- The skip link, `<header class="site-header">` and `<footer class="site-footer">` are duplicated in all five pages and must stay identical, except `aria-current="page"` on the current page's nav link (none on 404). Change all five together, then run the sync check (README → "The header and footer are copied into every page"); it must print `same:` four times.
+- The skip link, `<header class="site-header">` and `<footer class="site-footer">` are duplicated in all five pages and must stay identical, except `aria-current="page"` on the current page's nav link (none on 404). Change all five together, then run this check in bash from the repo root; it must print `same:` four times:
+
+  ```
+  for f in about/index.html classic/index.html forever/index.html 404.html; do diff <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' index.html | sed 's/ aria-current="page"//') <(sed -n '/class="skip-link"/p;/<header class="site-header">/,/<\/header>/p;/<footer class="site-footer">/,/<\/footer>/p' "$f" | sed 's/ aria-current="page"//') > /dev/null && echo "same: $f" || echo "DIFFERENT: $f"; done
+  ```
 - The phone nav is a disclosure: `<button class="menu-button" aria-expanded aria-controls="site-nav" hidden>`. script.js unhides it and toggles it (click, Enter/Space; Esc returns focus to the button; a tap outside the header or tabbing out closes it; widening to desktop closes it). Below 1000px the nav folds behind it only under `html.js`, so without JavaScript (and on 404) the nav shows in full.
 - script.js is loaded in `<head>` without `defer` so `html.js` is set before first paint. Other scripts use `defer`, except legacy-links.js (see "Old links").
 - The desktop header needs about 980px on one row; the Menu breakpoint is 999/1000px. Check those widths if nav items change.
