@@ -575,6 +575,30 @@ h3 {
     padding-bottom: 24px;
 }
 
+/* Launch-day line at the top of "Where to find us" (launch-note.js hides it later) */
+.launch-note {
+    margin: 0 0 32px;
+    padding: 14px 20px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brass);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--card-body);
+    font-size: 19px;
+}
+
+.launch-note strong {
+    color: var(--ivory);
+}
+
+.launch-note a {
+    font-weight: 600;
+}
+
+.launch-note__keep {
+    white-space: nowrap;
+}
+
 .realms {
     display: flex;
     flex-wrap: wrap;

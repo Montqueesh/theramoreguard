@@ -42,6 +42,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 | `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button |
 | `legacy-links.js` | Home only: sends old one-page links (`/#about`, `/#wotlk`, `/#yogg`) to the new pages (see "Old links") |
 | `raid-times.js` | Home only: the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
+| `launch-note.js` | Home only: hides the "WoW Forever is live" line at the top of "Where to find us" once its `data-until` date (Eastern) arrives. Without JavaScript the line stays, so delete the paragraph, this file and its `<script>` tag once the date has passed |
 | `memory-count.js` | Home and Forever: keeps the memory counts up to date by counting the memories on `/classic/` and `/forever/` |
 | `gallery.js` | Classic and Forever: collapses each gallery section to its first 4 memories behind a "Show all N memories" button |
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
