@@ -4,6 +4,8 @@ The guild website of The Theramore Guard, live at <https://www.theramoreguard.co
 
 It's a plain static site with no build step: edit the files by hand and commit. It's hosted on GitHub Pages from the `main` branch, so a change merged to `main` goes live within a minute or two. The `CNAME` file connects the domain to GitHub Pages; don't delete it or rename it, or the domain stops working.
 
+Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it working, for people and AI agents alike.
+
 ## Files
 
 | Path | What it is |
