@@ -140,7 +140,7 @@ body {
     }
 }
 
-.header nav li ul {
+.header nav>ul>li>ul {
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -162,15 +162,15 @@ body {
 
 /* Open: toggled by script.js, by hovering on devices that can hover, and by
    focus alone when script.js hasn't turned the link into a button. */
-.header nav li.is-open>ul,
-html:not(.has-nav-toggle) .header nav li:focus-within ul {
+.header nav>ul>li.is-open>ul,
+html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
     transform: scale(1, 1);
     opacity: 1;
     visibility: visible;
 }
 
 @media (hover: hover) {
-    .header nav li:hover:not(.is-dismissed) ul {
+    .header nav>ul>li:hover:not(.is-dismissed)>ul {
         transform: scale(1, 1);
         opacity: 1;
         visibility: visible;
@@ -197,6 +197,24 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     color: #0e7fbc;
 }
 
+/* Group labels in the "Guild Memories" menu ("Classic", "Forever"): plain text */
+.header nav .subnav-label {
+    display: block;
+    padding: 10px 18.6px 4px;
+    color: #E6C339;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.header nav .subnav-group+.subnav-group {
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px solid #a48715;
+}
+
 .discord-button {
     padding: 8px 20px;
     border: 1px solid #E6C339;
@@ -208,6 +226,153 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
 .discord-button:hover {
     background-color: #E6C339;
     color: #000 !important;
+}
+
+/* "The Guard Today" (#now): Forever card first and larger, MoP beside it */
+.now {
+    padding: 3rem 0;
+    border-top: 1px solid #a48715;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    letter-spacing: .5px;
+}
+
+.now h2 {
+    margin: 0.67em 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #fff;
+    font-family: "Playfair Display", serif;
+    font-size: 44px;
+    font-weight: 500;
+}
+
+.now__cards {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 2rem;
+}
+
+.now-card {
+    padding: 2rem;
+    border: 1px solid #a48715;
+    border-radius: 5px;
+    background-color: #0b0b0b;
+}
+
+.now-card--primary {
+    border-color: #E6C339;
+    box-shadow: 0 0 24px rgba(230, 195, 57, .15);
+}
+
+.now-card h3 {
+    margin: 0 0 1.5rem;
+    color: #E6C339;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.now-card--primary h3 {
+    font-size: 36px;
+}
+
+.now-card__facts {
+    margin: 0;
+}
+
+.now-card__facts>div {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 1rem;
+    padding: .6rem 0;
+    border-top: 1px solid #262626;
+}
+
+.now-card__facts>div:first-child {
+    border-top: 0;
+}
+
+.now-card__facts dt {
+    padding-top: .3em;
+    color: #E6C339;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.now-card__facts dd {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.now-card:not(.now-card--primary) .now-card__facts dd {
+    font-size: 18px;
+}
+
+.schedule p {
+    margin: 0;
+}
+
+.schedule__range {
+    white-space: nowrap;
+}
+
+.schedule .schedule__local {
+    font-weight: 500;
+}
+
+.schedule .schedule__next {
+    opacity: 0.8;
+}
+
+.now-card__join {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.now__officers {
+    margin: 2rem 0 0;
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 912px) {
+    .now__cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .now {
+        padding-top: 0;
+        font-size: 18px;
+    }
+
+    .now h2 {
+        font-size: 32px;
+    }
+
+    .now-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .now-card--primary h3 {
+        font-size: 30px;
+    }
+
+    .now-card__facts>div {
+        grid-template-columns: 1fr;
+        gap: .2rem;
+    }
+
+    .now-card__join {
+        display: block;
+        text-align: center;
+    }
 }
 
 #about {
@@ -253,9 +418,33 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     border-top: 1px solid #a48715;
 }
 
-.block h2 {
+.block h3 {
     margin: 0;
     padding-bottom: 3rem;
+    font-size: 1.5em;
+}
+
+/* "Classic Memories" / "Forever Memories" group headings between the sections */
+.memories-group {
+    margin: 0;
+    padding: 3.5rem 2rem 2.5rem;
+    border-top: 1px solid #a48715;
+    color: #E6C339;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* Placeholder in a section with no memories yet; hidden once one is added */
+.memories .memories-empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.memories .memories-empty:not(:only-child) {
+    display: none;
 }
 
 .memories {
@@ -347,6 +536,11 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     background-position: 60% 50%;
 }
 
+/* No banner yet: a dark gold glow until there are Forever screenshots */
+.forever {
+    background: radial-gradient(ellipse at top, #2a2208, #000000 70%);
+}
+
 .footer {
     width: 100% !important;
     content: "";
@@ -412,7 +606,7 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
     stroke-linejoin: round;
 }
 
-@media screen and (max-width: 1144px) {
+@media screen and (max-width: 1219px) {
     .header {
         flex-direction: column;
         gap: 1.5rem;
@@ -448,7 +642,7 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
         position: static;
     }
 
-    .header nav li ul {
+    .header nav>ul>li>ul {
         top: 100%;
         left: 50%;
         margin-left: -101px;
@@ -470,7 +664,7 @@ html:not(.has-nav-toggle) .header nav li:focus-within ul {
         padding-right: 0;
     }
 
-    .block h2 {
+    .block h3 {
         padding-left: 2rem;
         padding-right: 2rem;
     }
@@ -880,7 +1074,8 @@ html.lightbox-open #myBtn {
     text-decoration: none;
 }
 
-.not-found__home {
+.not-found__home,
+.button-solid {
     padding: 8px 20px;
     border: 1px solid #E6C339;
     border-radius: 5px;
@@ -889,12 +1084,14 @@ html.lightbox-open #myBtn {
     transition: ease-in-out 0.2s;
 }
 
-.not-found__home:hover {
+.not-found__home:hover,
+.button-solid:hover {
     background-color: transparent;
     color: #E6C339;
 }
 
-.not-found__actions a:focus-visible {
+.not-found__actions a:focus-visible,
+.button-solid:focus-visible {
     outline: 3px solid #fff;
     outline-offset: 3px;
 }
