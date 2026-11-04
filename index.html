@@ -6,14 +6,14 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>The Theramore Guard | Alliance Guild in WoW Forever and MoP</title>
-    <meta name="description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through Mists of Pandaria and are now playing WoW Forever while keeping a MoP presence.">
+    <meta name="description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through MoP and now play WoW Forever's RP-PvP ruleset, with a MoP home on Pagle.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000">
     <link rel="canonical" href="https://www.theramoreguard.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="The Theramore Guard">
     <meta property="og:title" content="The Theramore Guard | Alliance Guild in WoW Forever and MoP">
-    <meta property="og:description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through Mists of Pandaria and are now playing WoW Forever while keeping a MoP presence.">
+    <meta property="og:description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through MoP and now play WoW Forever's RP-PvP ruleset, with a MoP home on Pagle.">
     <meta property="og:url" content="https://www.theramoreguard.com/">
     <meta property="og:image" content="https://www.theramoreguard.com/assets/og-image.jpg">
     <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
     <meta property="og:image:alt" content="The Theramore Guard raid group gathered in front of Yogg-Saron's defeated body in Ulduar">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Theramore Guard | Alliance Guild in WoW Forever and MoP">
-    <meta name="twitter:description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through Mists of Pandaria and are now playing WoW Forever while keeping a MoP presence.">
+    <meta name="twitter:description" content="Alliance WoW guild founded on Grobbulus in 2019. We raided Classic through MoP and now play WoW Forever's RP-PvP ruleset, with a MoP home on Pagle.">
     <meta name="twitter:image" content="https://www.theramoreguard.com/assets/og-image.jpg">
     <meta name="twitter:image:alt" content="The Theramore Guard raid group gathered in front of Yogg-Saron's defeated body in Ulduar">
     <link rel="preload" href="assets/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -42,14 +42,24 @@
             <nav class="primary" aria-label="Main">
                 <ul>
 
+                    <li><a href="#now">Now</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#memories-block">Guild Memories <svg class="chevron" viewBox="0 0 512 512" aria-hidden="true"><path d="M64 192l192 192 192-192"/></svg></a>
                         <ul id="nav-memories">
-                            <li><a href="#vanilla" class="subnav">Classic</a></li>
-                            <li><a href="#tbc" class="subnav">The Burning Crusade</a></li>
-                            <li><a href="#wotlk" class="subnav">Wrath of the Lich King</a></li>
-                            <li><a href="#cataclysm" class="subnav">Cataclysm</a></li>
-                            <li><a href="#MoP" class="subnav">Mists of Pandaria</a></li>
+                            <li class="subnav-group"><span class="subnav-label" id="nav-group-classic">Classic</span>
+                                <ul aria-labelledby="nav-group-classic">
+                                    <li><a href="#vanilla" class="subnav">Vanilla</a></li>
+                                    <li><a href="#tbc" class="subnav">The Burning Crusade</a></li>
+                                    <li><a href="#wotlk" class="subnav">Wrath of the Lich King</a></li>
+                                    <li><a href="#cataclysm" class="subnav">Cataclysm</a></li>
+                                    <li><a href="#MoP" class="subnav">Mists of Pandaria</a></li>
+                                </ul>
+                            </li>
+                            <li class="subnav-group"><span class="subnav-label" id="nav-group-forever">Forever</span>
+                                <ul aria-labelledby="nav-group-forever">
+                                    <li><a href="#forever" class="subnav">WoW Forever</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li><a href="https://discord.gg/theramoreguard" class="discord-button"
@@ -59,6 +69,62 @@
         </div>
     </header>
     <main id="main" tabindex="-1">
+    <section id="now" class="now" aria-labelledby="now-title">
+        <div class="container">
+            <h2 id="now-title">The Theramore Guard Today</h2>
+            <div class="now__cards">
+                <article class="now-card now-card--primary" aria-labelledby="now-forever-title">
+                    <h3 id="now-forever-title">WoW Forever</h3>
+                    <dl class="now-card__facts">
+                        <div><dt>Ruleset</dt><dd>RP-PvP</dd></div>
+                        <div><dt>Faction</dt><dd>Alliance</dd></div>
+                        <div><dt>Guild</dt><dd>&lt;Theramore Guard&gt;</dd></div>
+                        <div><dt>Co-GMs</dt><dd>Montqueesh Duskwhisper<br>Boargruuf Ironhide</dd></div>
+                        <div><dt>Recruiting</dt><dd>Open to all</dd></div>
+                        <div><dt>What we do</dt><dd>Casual RP events, plenty of world PvP, leveling together, dungeon groups, and working toward our first raid.</dd></div>
+                        <div>
+                            <dt>Raid schedule</dt>
+                            <dd class="schedule">
+                                <!-- Raid nights in Eastern time (the text is what shows without JavaScript).
+                                     Each slot's data attributes drive the visitor's local time in
+                                     raid-times.js; keep them in step with the text. To show the next raid
+                                     instead of TBD, add data-raids-start="YYYY-MM-DD" (an Eastern date)
+                                     to this <dd>. -->
+                                <p class="schedule__et"><span class="schedule__slot" data-day="tue" data-start="21:00" data-end="24:00" data-zone="America/New_York">Tue</span>,
+                                    <span class="schedule__slot" data-day="thu" data-start="21:00" data-end="24:00" data-zone="America/New_York">Thu</span>,
+                                    <span class="schedule__slot" data-day="sun" data-start="21:00" data-end="24:00" data-zone="America/New_York">Sun</span>
+                                    · <span class="schedule__range">9:00 PM to 12:00 AM ET</span></p>
+                                <p class="schedule__local" hidden></p>
+                                <p class="schedule__next">Next raid: TBD</p>
+                            </dd>
+                        </div>
+                        <div><dt>Loot</dt><dd>MS Need &gt; OS Greed<br>(Master Loot may be used when necessary)</dd></div>
+                        <div><dt>How to join</dt><dd>Join our Discord and start in #top-deck, or whisper any guild member in game.</dd></div>
+                    </dl>
+                    <a href="https://discord.gg/theramoreguard" class="button-solid now-card__join"
+                        target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Join us on Discord</a>
+                </article>
+                <article class="now-card" aria-labelledby="now-mop-title">
+                    <h3 id="now-mop-title">Mists of Pandaria Classic</h3>
+                    <dl class="now-card__facts">
+                        <div><dt>Realm</dt><dd>Pagle</dd></div>
+                        <div><dt>Faction</dt><dd>Alliance</dd></div>
+                        <div><dt>Guild</dt><dd>&lt;Theramore Guard&gt;</dd></div>
+                        <div><dt>Co-GMs</dt><dd>Montqueesh<br>Boarrior</dd></div>
+                        <div><dt>Recruiting</dt><dd>Open to all</dd></div>
+                        <div><dt>What we do</dt><dd>Casual PvE and raiding together.</dd></div>
+                        <div><dt>Progress</dt><dd>Every MoP Classic raid released so far, cleared</dd></div>
+                        <div><dt>Raiding</dt><dd>Casual. Check Discord for the schedule.</dd></div>
+                        <div><dt>Loot</dt><dd>MS Need &gt; OS Greed</dd></div>
+                        <div><dt>How to join</dt><dd>Join our Discord and start in #top-deck, or whisper any guild member in game.</dd></div>
+                    </dl>
+                    <a href="https://discord.gg/theramoreguard" class="button-solid now-card__join"
+                        target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Join us on Discord</a>
+                </article>
+            </div>
+            <p class="now__officers">Officers: Frawl and Holidaze</p>
+        </div>
+    </section>
     <div class="main-wrapper">
         <div id="about">
             <div class="container">
@@ -67,19 +133,22 @@
                 <h2>Guild History</h2>
                     <p>The Theramore Guard is a World of Warcraft guild founded in WoW Classic on the Grobbulus (NA) server in 2019. Established by Greyshield as the original Guild Master, the guild was created to be a community where polite and respectful players could come together to level, roleplay, engage in PvP, and tackle raid/PvE content as a unified force. Starting with a core team of 20 raiders alongside our sister guild &lt;Stormpike Militia&gt;, we embarked on memorable adventures, taking down Onyxia, Ragnaros in Molten Core, and Nefarian in Blackwing Lair.</p>
                     <p>As we progressed through WoW Classic, leadership transitioned to a Guild Master committee consisting of Desan, Nisharu, Poderick, Hollie, and Montqueesh. Under this collaborative leadership, the guild successfully cleared Ahn'Qiraj and prepared for the challenges ahead. When the co-GM structure dissolved, Poderick took on the role of Guild Master, with Montqueesh as his steadfast right hand, guiding the guild through the end of WoW Classic and into The Burning Crusade.</p>
-                    <p>In September 2021, Montqueesh became the Guild Master, ushering in a new era for the Theramore Guard. With the support of key officers, Montqueesh led the guild through The Burning Crusade and into Wrath of the Lich King, continuing our tradition of success. In August 2022, Boarrior was appointed as co-Guild Master, solidifying a leadership team that, as of 2026, includes distinguished officers such as Holidaze, DaPepis, Anethyst, and Frawl, all working together to keep the guild strong and thriving.</p>
+                    <p>In September 2021, Montqueesh became the Guild Master, ushering in a new era for the Theramore Guard. With the support of key officers, Montqueesh led the guild through The Burning Crusade and into Wrath of the Lich King, continuing our tradition of success. In August 2022, Boarrior was appointed as co-Guild Master alongside Montqueesh. Today the guild is led by co-Guild Masters Boarrior and Montqueesh, with officers Frawl and Holidaze, all working together to keep the guild strong and thriving.</p>
+                    <p>When Grobbulus closed, the Guard moved to Pagle and carried on in Mists of Pandaria Classic. Now we’re also heading into WoW Forever on its RP-PvP ruleset, with casual RP events, leveling groups and dungeon runs alongside the push toward our first raid.</p>
                 <h2>Raiding Excellence</h2>
                     <p>Raiding has always been at the heart of the Theramore Guard’s journey. When we ventured into the temple of Ahn’Qiraj, we recognized the need for reinforcements and were fortunate to ally with members of &lt;Sanguine&gt;. This collaboration led to our triumph over C’Thun and later, Kel’Thuzad in Naxxramas. These victories were a testament to our guild’s strategic planning and collective effort.</p>
                     <p>As we entered The Burning Crusade, the guild conquered a series of challenging raids, from Karazhan to Black Temple. Although Sunwell Plateau proved to be a formidable challenge, we ultimately cleared it in early Wrath of the Lich King Classic, further proving our resilience and dedication.</p>
-                    <p>Today, the Guard keeps a presence in Mists of Pandaria Classic while setting out on a new adventure in WoW Forever.</p>
+                    <p>In Cataclysm, the Guard cleared Blackwing Descent, the Throne of the Four Winds, Firelands and Dragon Soul, with heroic kills of Halfus, Magmaw and Atramedes, and finished by bringing down Ragnaros and then Deathwing. Along the way, five of our members earned the legendary staff Dragonwrath, Tarecgosa’s Rest, and Montqueesh earned the legendary Fangs of the Father daggers.</p>
+                    <p>In Mists of Pandaria Classic, we have cleared every raid released so far. Next comes our first raid in WoW Forever, and we’re forming the team now.</p>
                 <h2>PvP Resilience</h2>
-                    <p>The Theramore Guard has always been a thorn in the Horde’s side. Whether it is dominating in PvP battlegrounds, raiding Orgrimmar with &lt;No Mercy Mafia&gt;, defending the Alliance’s home cities, or claiming the Tol Barad territory, the Guard continues to be active in the war against the Horde. </p>
+                    <p>The Theramore Guard has always been a thorn in the Horde’s side. Whether it is dominating in PvP battlegrounds, raiding Orgrimmar with &lt;No Mercy Mafia&gt;, defending the Alliance’s home cities, or claiming the Tol Barad territory, the Guard continues to be active in the war against the Horde. On Forever’s RP-PvP ruleset, world PvP is right up the Guard’s alley.</p>
             </div>
         </div>
     </div>
     <div id="memories-block">
+        <h2 class="memories-group">Classic Memories (2019–2026)</h2>
         <div class="vanilla block" id="vanilla">
-            <h2>CLASSIC MEMORIES</h2>
+            <h3>VANILLA MEMORIES</h3>
 
             <div class="memories container">
                 <div class="memory">
@@ -101,7 +170,7 @@
             </div>
         </div>
         <div class="tbc block" id="tbc">
-            <h2>THE BURNING CRUSADE MEMORIES</h2>
+            <h3>THE BURNING CRUSADE MEMORIES</h3>
 
             <div class="memories container">
                 <div class="memory">
@@ -147,7 +216,7 @@
             </div>
         </div>
         <div class="wotlk block" id="wotlk">
-            <h2>WRATH OF THE LICH KING MEMORIES</h2>
+            <h3>WRATH OF THE LICH KING MEMORIES</h3>
 
             <div class="memories container">
                 <div class="memory">
@@ -209,7 +278,7 @@
             </div>
         </div>
         <div class="cataclysm block" id="cataclysm">
-            <h2>CATACLYSM MEMORIES</h2>
+            <h3>CATACLYSM MEMORIES</h3>
 
             <div class="memories container">
                 <div class="memory">
@@ -359,7 +428,7 @@
             </div>
         </div>
         <div class="MoP block" id="MoP">
-            <h2>MISTS OF PANDARIA MEMORIES</h2>
+            <h3>MISTS OF PANDARIA MEMORIES</h3>
 
             <div class="memories container">
                 <div class="memory">
@@ -412,18 +481,28 @@
                 </div>
             </div>
         </div>
+        <h2 class="memories-group">Forever Memories</h2>
+        <div class="forever block" id="forever">
+            <h3>WOW FOREVER MEMORIES</h3>
+
+            <div class="memories container">
+                <!-- Placeholder until the first memory. Delete this <p> when you add one
+                     (style.css also hides it as soon as a memory sits next to it). -->
+                <p class="memories-empty">Our first Forever memories are coming soon. Share your screenshots in #top-deck!</p>
+            </div>
+        </div>
     </div>
     </main>
     <footer class="footer">
         <div class="container">
             <span>Copyright © <span id="year">2026</span> &lt;Theramore Guard&gt;</span>
-            <a href="https://classic.warcraftlogs.com/guild/us/grobbulus/theramore%20guard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">Warcraft
-                Logs</a>
+            <a href="https://classic.warcraftlogs.com/guild/us/pagle/theramore%20guard" target="_blank" referrerpolicy="no-referrer" rel="noopener noreferrer">MoP Logs (Pagle)</a>
         </div>
     </footer>
     <button id="myBtn" type="button" title="Go to top">Back to top <svg class="chevron" viewBox="0 0 512 512" aria-hidden="true"><path d="M64 320l192-192 192 192"/></svg></button>
     <script src="script.js"></script>
     <script src="gallery.js"></script>
+    <script src="raid-times.js"></script>
     <script src="lightbox.js"></script>
 </body>
 
