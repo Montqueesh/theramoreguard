@@ -8,17 +8,18 @@
 //   #forever               -> /forever/
 //   #memories-block, era ids and anything else (image links) -> /classic/#same
 //   ids that exist on the home page (HOME_IDS) stay here.
+// Those three checks ignore case (/#NOW stays, /#About goes to /about/).
 (function () {
   "use strict";
 
-  // Every id on the home page. Keep this in step with index.html.
+  // Every id on the home page, in lowercase. Keep this in step with index.html.
   const HOME_IDS = [
     "main", "site-nav", "now", "now-title", "realm-forever-title", "realm-mop-title",
     "archive-title", "leadership-title", "join-title"
   ];
 
   function target(hash) {
-    const id = hash.slice(1);
+    const id = hash.slice(1).toLowerCase();
     if (!id || HOME_IDS.indexOf(id) !== -1) return null;
     if (id === "about") return "/about/";
     if (id === "forever") return "/forever/";
