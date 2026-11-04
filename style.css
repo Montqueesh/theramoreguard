@@ -584,6 +584,7 @@ h3 {
     border-radius: 8px;
     background: var(--surface);
     color: var(--card-body);
+    font-size: 19px;
 }
 
 .launch-note strong {
