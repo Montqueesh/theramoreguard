@@ -886,6 +886,12 @@ h3 {
     margin-top: 6px;
 }
 
+.person__note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+
 /* Join the Guard */
 
 .join {
