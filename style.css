@@ -228,7 +228,8 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
     color: #000 !important;
 }
 
-/* "The Theramore Guard Today" (#now): Forever card first and larger, MoP beside it */
+/* "The Theramore Guard Today" (#now): Forever and MoP cards side by side, the same
+   size, with their Discord buttons lined up at the bottom; Forever first on phones */
 .now {
     padding: 3rem 0;
     border-top: 1px solid #a48715;
@@ -248,13 +249,15 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
 
 .now__cards {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
-    align-items: start;
+    align-items: stretch;
     margin-top: 2rem;
 }
 
 .now-card {
+    display: flex;
+    flex-direction: column;
     padding: 2rem;
     border: 1px solid #a48715;
     border-radius: 5px;
@@ -279,7 +282,7 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
 }
 
 .now-card__facts {
-    margin: 0;
+    margin: 0 0 1.5rem;
 }
 
 .now-card__facts>div {
@@ -330,7 +333,8 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
 
 .now-card__join {
     display: inline-block;
-    margin-top: 1.5rem;
+    align-self: flex-start;
+    margin-top: auto;
     font-size: 22px;
     text-decoration: none;
 }
@@ -340,7 +344,8 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
     opacity: 0.8;
 }
 
-@media screen and (max-width: 912px) {
+/* Stack the cards before they get too narrow for the schedule's time ranges */
+@media screen and (max-width: 1099px) {
     .now__cards {
         grid-template-columns: 1fr;
     }
@@ -371,6 +376,7 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
 
     .now-card__join {
         display: block;
+        align-self: stretch;
         text-align: center;
     }
 }
