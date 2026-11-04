@@ -1,13 +1,14 @@
 // Raid schedule in the visitor's local time.
-// The schedule is written in index.html in Eastern time, which is also what
-// shows without JavaScript. Each ".schedule__slot" carries its raid night:
+// The schedule is written on the home page (index.html) in Eastern time, which
+// is also what shows without JavaScript. Each ".schedule__slot" carries its raid night:
 //   data-day="tue" data-start="21:00" data-end="24:00" data-zone="America/New_York"
 // For the next occurrence of each slot this works out the real moment (UTC)
 // from that wall-clock time, so daylight saving in either time zone, a raid
 // that lands on a different weekday locally and an end at midnight all come
 // out right. Nothing ticks: it runs at load and when the tab is shown again.
-// "Next raid" stays as written (TBD) until the schedule has a
-// data-raids-start="YYYY-MM-DD" attribute (an Eastern date).
+// "Next raid" (.schedule__next) stays as written (TBD) until the schedule has a
+// data-raids-start="YYYY-MM-DD" attribute (an Eastern date); then it shows the
+// date and local time of the next raid, or "In progress until ..." during one.
 (function () {
   "use strict";
 
@@ -159,20 +160,24 @@
       localLine.textContent = "";
     } else {
       const groups = [];
-      next.forEach(function (occ) {
-        const range = (timeOf(occ.start) + " to " + timeOf(occ.end) + " " + zoneName(occ.start)).trim();
+      let sameDays = true;
+      next.forEach(function (occ, i) {
+        const range = (timeOf(occ.start) + " – " + timeOf(occ.end) + " " + zoneName(occ.start)).trim();
         const day = weekdayFmt.format(new Date(occ.start));
+        if (new Date(occ.start).getDay() !== slots[i].day) sameDays = false;
         const group = groups.find(function (g) { return g.range === range; });
         if (group) group.days.push(day);
         else groups.push({ range: range, days: [day] });
       });
       // Each time range is kept on one line (.schedule__range), as in the HTML.
+      // The days are only repeated when they differ from the Eastern ones.
       localLine.textContent = "Your time: ";
       groups.forEach(function (g, i) {
         const range = document.createElement("span");
         range.className = "schedule__range";
         range.textContent = g.range;
-        localLine.append((i ? "; " : "") + g.days.join(", ") + " · ", range);
+        if (groups.length === 1 && sameDays) localLine.append(range);
+        else localLine.append((i ? "; " : "") + g.days.join(", ") + " · ", range);
       });
       localLine.hidden = false;
     }
@@ -193,9 +198,9 @@
     if (!soonest) {
       nextLine.textContent = nextDefault;
     } else if (soonest.start <= now) {
-      nextLine.textContent = "Raid in progress until " + timeOf(soonest.end) + " (your time)";
+      nextLine.textContent = "In progress until " + timeOf(soonest.end) + " (your time)";
     } else {
-      nextLine.textContent = "Next raid: " + longDateFmt.format(new Date(soonest.start)) + ", " +
+      nextLine.textContent = longDateFmt.format(new Date(soonest.start)) + ", " +
         timeOf(soonest.start) + " (your time)";
     }
   }
