@@ -228,7 +228,7 @@ html:not(.has-nav-toggle) .header nav>ul>li:focus-within>ul {
     color: #000 !important;
 }
 
-/* "The Guard Today" (#now): Forever card first and larger, MoP beside it */
+/* "The Theramore Guard Today" (#now): Forever card first and larger, MoP beside it */
 .now {
     padding: 3rem 0;
     border-top: 1px solid #a48715;

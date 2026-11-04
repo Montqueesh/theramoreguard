@@ -10,7 +10,7 @@ Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it wo
 
 | Path | What it is |
 | --- | --- |
-| `index.html` | The whole site: header, "The Guard Today" (`#now`, the current Forever and MoP details and raid schedule), About, and the gallery sections, grouped under "Classic Memories" and "Forever Memories" |
+| `index.html` | The whole site: header, "The Theramore Guard Today" (`#now`, the current Forever and MoP details and raid schedule), About, and the gallery sections, grouped under "Classic Memories" and "Forever Memories" |
 | `style.css` | All styles, including each section's banner image |
 | `script.js` | Back-to-top button, the footer's copyright year and the "Guild Memories" dropdown (a button that opens the expansion links) |
 | `gallery.js` | Collapsible gallery sections ("Show all N memories") |
@@ -87,7 +87,7 @@ The gallery is in two groups, each starting with an `<h2 class="memories-group">
 
 ## Editing the raid schedule
 
-The WoW Forever card in "The Guard Today" lists raid nights in Eastern time. That text is what visitors see without JavaScript; with it, `raid-times.js` adds a "Your time" line in the visitor's own time zone (hidden for visitors already on Eastern time). Each raid night is a `<span class="schedule__slot">` with:
+The WoW Forever card in "The Theramore Guard Today" lists raid nights in Eastern time. That text is what visitors see without JavaScript; with it, `raid-times.js` adds a "Your time" line in the visitor's own time zone (hidden for visitors already on Eastern time). Each raid night is a `<span class="schedule__slot">` with:
 
 - `data-day`: `sun`, `mon`, `tue`, `wed`, `thu`, `fri` or `sat`
 - `data-start` and `data-end`: 24-hour Eastern times, for example `21:00` and `24:00` (24:00 means midnight at the end of the night)
