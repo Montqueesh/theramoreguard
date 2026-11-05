@@ -1565,6 +1565,13 @@ h3 {
     background: var(--surface);
 }
 
+/* Each thumbnail links to its full-size original (lightbox.js turns the link
+   into the viewer's button) */
+.memory__link {
+    display: block;
+    border-radius: 8px;
+}
+
 .memory p {
     margin: 8px 0 0;
     font-weight: 600;

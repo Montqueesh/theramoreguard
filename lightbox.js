@@ -1,7 +1,11 @@
 // Click-to-enlarge viewer for the gallery.
-// Builds itself at load time and works on every ".memory img", so new gallery
-// images need no extra markup. Browsing stays inside the clicked image's
-// expansion section and stops at either end.
+// Builds itself at load time and works on every ".memory img". The cards show
+// a small thumbnail (src); the viewer opens the full-size original named in
+// data-full (or the src itself if there's no data-full). Each thumbnail sits
+// in a link to its original (a.memory__link), so without JavaScript a click
+// still opens the original; this script turns that link into the viewer's
+// button. Browsing stays inside the clicked image's expansion section and
+// stops at either end.
 (function () {
   "use strict";
 
@@ -51,14 +55,20 @@
 
   let items = []; // gallery images in the open section
   let index = 0;
-  let opener = null; // gallery image that opened the viewer
+  let opener = null; // link (or image) that opened the viewer
   let savedScrollY = 0;
   let loadToken = 0; // ignores load events from images we've already moved past
   let zoomed = false;
   let copyTimer = 0;
 
-  // Shareable links: each gallery image gets an id from its filename, or from
-  // a data-slug attribute, e.g. Ragnaros.PNG -> #ragnaros and
+  // The full-size original for a gallery image: data-full, else the src.
+  function fullSrc(galleryImg) {
+    return galleryImg.getAttribute("data-full") || galleryImg.getAttribute("src");
+  }
+
+  // Shareable links: each gallery image gets an id from its original's
+  // filename (data-full, else src; never the thumbnail's), or from a data-slug
+  // attribute, e.g. Ragnaros.PNG -> #ragnaros and
   // "Protector Kaolan-N.jpg" -> #protector-kaolan-n. Links match without
   // regard to case, so ids are checked for collisions the same way.
   // Copy link shares the page's public address (its canonical link, e.g.
@@ -75,7 +85,7 @@
 
   function slugFor(galleryImg) {
     if (galleryImg.dataset.slug) return galleryImg.dataset.slug.trim().toLowerCase();
-    const file = decodeURIComponent(galleryImg.getAttribute("src").split("/").pop());
+    const file = decodeURIComponent(fullSrc(galleryImg).split("/").pop());
     return file.replace(/\.[^.]+$/, "").toLowerCase()
       .replace(/[\s_]+/g, "-")
       .replace(/[^a-z0-9-]/g, "")
@@ -86,7 +96,7 @@
   galleryImages.forEach(function (galleryImg) {
     const slug = slugFor(galleryImg);
     if (!slug || takenIds.has(slug)) {
-      console.error('Gallery link "#' + slug + '" for ' + galleryImg.getAttribute("src") +
+      console.error('Gallery link "#' + slug + '" for ' + fullSrc(galleryImg) +
         " is empty or already used by another id or image. Give the image a unique data-slug.");
       return;
     }
@@ -97,30 +107,42 @@
   });
 
   // Make every gallery image open the viewer by click, tap, Enter or Space.
+  // The control is the image's link to its original (one focus stop per card);
+  // an image without that link becomes the control itself.
+  function triggerFor(galleryImg) {
+    const link = galleryImg.parentElement;
+    return link && link.matches("a.memory__link") ? link : galleryImg;
+  }
+
   galleryImages.forEach(function (galleryImg) {
-    galleryImg.tabIndex = 0;
-    galleryImg.setAttribute("role", "button");
-    galleryImg.setAttribute("aria-haspopup", "dialog");
-    galleryImg.setAttribute("aria-label", "View larger: " + galleryImg.alt);
-    galleryImg.addEventListener("click", function () {
+    const trigger = triggerFor(galleryImg);
+    const isLink = trigger !== galleryImg;
+    if (!isLink) trigger.tabIndex = 0;
+    trigger.setAttribute("role", "button");
+    trigger.setAttribute("aria-haspopup", "dialog");
+    trigger.setAttribute("aria-label", "View larger: " + galleryImg.alt);
+    trigger.addEventListener("click", function (e) {
+      // Ctrl/Cmd/Shift/Alt-click on the link still opens the original the usual way.
+      if (isLink && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) return;
+      e.preventDefault();
       open(galleryImg);
     });
-    galleryImg.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && !e.repeat) {
-        e.preventDefault();
-        open(galleryImg);
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault(); // the link's own Enter would click again on key repeat
+        if (!e.repeat) open(galleryImg);
       } else if (e.key === " ") {
         e.preventDefault(); // stop the page scrolling; opens on keyup like a button
       }
     });
-    galleryImg.addEventListener("keyup", function (e) {
+    trigger.addEventListener("keyup", function (e) {
       if (e.key === " ") open(galleryImg);
     });
   });
 
   function open(galleryImg) {
     if (dialog.open) return;
-    opener = galleryImg;
+    opener = triggerFor(galleryImg);
     const section = galleryImg.closest(".block") || document;
     items = Array.prototype.slice.call(section.querySelectorAll(".memory img"));
     savedScrollY = window.scrollY;
@@ -174,14 +196,15 @@
       dialog.classList.remove("is-loading");
       status.textContent = "Image " + (index + 1) + " could not be loaded.";
     };
-    img.src = galleryImg.src;
+    img.src = fullSrc(galleryImg);
   }
 
+  // Fetch the neighbours' originals while the viewer is open, so browsing is quick.
   function preload(i) {
     if (i < 0 || i >= items.length) return;
     const pre = new Image();
     pre.decoding = "async";
-    pre.src = items[i].src;
+    pre.src = fullSrc(items[i]);
   }
 
   // The address bar follows the image on screen. replaceState keeps browsing

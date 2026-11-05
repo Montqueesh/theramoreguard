@@ -48,7 +48,8 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
 | `lightbox.js` | Classic and Forever: the click-to-enlarge viewer and shareable image links |
 | `site.webmanifest` | Name and icons used when someone adds the site to their home screen |
-| `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/`, `forever/` | Gallery screenshots, one folder per expansion (`forever/` for WoW Forever) |
+| `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/`, `forever/` | Gallery screenshots, one folder per expansion (`forever/` for WoW Forever). These are the full-size originals the viewer opens |
+| `assets/thumbs/` | Small copies of the gallery screenshots, shown on the gallery cards and Home's archive cards. Same folders and file names as the originals, always `.jpg` (`assets/MoP/sha1.PNG` → `assets/thumbs/MoP/sha1.jpg`) |
 | `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `og-vanilla.jpg` on About) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
 | `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
@@ -58,42 +59,52 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 
 ## Adding a new memory
 
-1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below). Keep it at most 2560 pixels wide (scale larger screenshots down) and strip its metadata (EXIF, GPS, comments) before adding it.
-2. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
-3. Change these in the copy:
-   - `src`: the path to your screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `src="/assets/tbc/Hyjal%202.PNG"`).
-   - `width` and `height`: the screenshot's size in pixels, for example `1600` and `900` (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
+1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below). Keep it at most 2560 pixels wide (scale larger screenshots down) and strip its metadata (EXIF, GPS, comments) before adding it. This is the original, the full-size picture the viewer opens.
+2. Make its thumbnail, the small copy shown on the gallery card. Cards show a 16:9 crop, so the thumbnail is just big enough to fill an 800x450 box, keeping the screenshot's shape: 800 pixels wide for a 16:9 or narrower screenshot, 450 pixels tall for a wider one (a 1900x900 screenshot gets a 950x450 thumbnail). It's never made bigger than the screenshot: one too small to fill the box keeps its own size. JPEG quality 80, progressive, no metadata. Save it in `assets/thumbs/` in the same folder with the same name, ending in `.jpg`: `assets/MoP/garrosh.png` gets `assets/thumbs/MoP/garrosh.jpg`. With the free [ImageMagick](https://imagemagick.org) installed, this command (in PowerShell or Command Prompt, from the repository folder) makes it; change the two paths:
+
+   ```
+   magick assets/MoP/garrosh.png -resize "800x450^>" -strip -quality 80 -sampling-factor 4:2:0 -interlace JPEG assets/thumbs/MoP/garrosh.jpg
+   ```
+
+   `"800x450^>"` (with the quotes) fills the 800x450 box and only ever shrinks. Never edit or replace the original to make the thumbnail.
+3. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
+4. Change these in the copy:
+   - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`).
+   - `src`: the path to the thumbnail, `/assets/thumbs/...`, also with exact case (`/assets/thumbs/tbc/Hyjal%202.jpg`).
+   - `width` and `height`: the thumbnail's size in pixels, for example `800` and `450`, or `950` and `450` for a wider screenshot (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
    - the `<p>` caption shown under the image.
 
-Example, for a new screenshot saved as `assets/MoP/garrosh.jpg`:
+Example, for a new screenshot saved as `assets/MoP/garrosh.png`, with its thumbnail at `assets/thumbs/MoP/garrosh.jpg`:
 
 ```html
 <div class="memory">
-    <img src="/assets/MoP/garrosh.jpg" width="1600" height="900" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async">
+    <a class="memory__link" href="/assets/MoP/garrosh.png"><img src="/assets/thumbs/MoP/garrosh.jpg" data-full="/assets/MoP/garrosh.png" width="800" height="450" alt="Theramore Guard raid gathered around Garrosh Hellscream's body in the Siege of Orgrimmar" loading="lazy" decoding="async"></a>
     <p>Theramore Guard defeats Garrosh Hellscream</p>
 </div>
 ```
 
-Keep `loading="lazy" decoding="async"` on every gallery image so the page loads quickly.
+Keep `loading="lazy" decoding="async"` on every gallery image so the page loads quickly. The viewer opens the `data-full` original, so names on screen stay sharp; without JavaScript, clicking the card opens the original through the link.
+
+A memory without a thumbnail still works: write just the `<img>` with `src` pointing at the original (and the original's `width` and `height`), with no `<a>` and no `data-full`. The card then loads the full-size screenshot, which makes the page heavier, so add a thumbnail when you can.
 
 That's all. Every count updates itself: the era filter's numbers and the "76 moments" line on Classic, the "Show all N memories" buttons, "Memories in the archive" on Home and the Classic count on Forever. The written numbers in the HTML are only what shows if JavaScript is off or a count can't be read, so it's tidy (but not required) to bump them too: Home's "Memories in the archive" in `index.html` counts Classic and Forever together, while the `76` in `classic/index.html` and in `forever/index.html` (its Classic teaser) counts Classic only.
 
 ### Adding a Forever memory
 
-Forever memories go in `forever/index.html`, inside `<section class="block forever-gallery wrap" id="forever">`, in its `<div class="memories">`. Put the screenshots in `assets/forever/` and use the same `<div class="memory">` block as above, with `src="/assets/forever/your-file.jpg"`.
+Forever memories go in `forever/index.html`, inside `<section class="block forever-gallery wrap" id="forever">`, in its `<div class="memories">`. Put the screenshots in `assets/forever/` and their thumbnails in `assets/thumbs/forever/`, and use the same `<div class="memory">` block as above, with `href` and `data-full` set to `/assets/forever/your-file.jpg` and `src` to `/assets/thumbs/forever/your-file.jpg`.
 
 Until the first memory, the page shows placeholder frames ("Moments we're waiting to capture"). They hide themselves as soon as one memory is in the grid; you don't need to delete them. With one to four memories there's no "Show all" button; it appears from the fifth.
 
 ### Shareable links
 
-Every gallery image gets a link made from its filename: lowercase, spaces and underscores become dashes, other punctuation is removed, and the extension is dropped. For example, `Ragnaros.PNG` becomes <https://www.theramoreguard.com/classic/#ragnaros>, and `Protector Kaolan-N.jpg` becomes `#protector-kaolan-n`. A Forever image gets a `/forever/#...` link. The viewer's "Copy link" button copies it.
+Every gallery image gets a link made from its original's filename (the `data-full` path, or `src` if there's no `data-full`; never the thumbnail's): lowercase, spaces and underscores become dashes, other punctuation is removed, and the extension is dropped. For example, `Ragnaros.PNG` becomes <https://www.theramoreguard.com/classic/#ragnaros>, and `Protector Kaolan-N.jpg` becomes `#protector-kaolan-n`. A Forever image gets a `/forever/#...` link. The viewer's "Copy link" button copies it.
 
 Opening a link expands the image's era, switches the era filter to it and opens the image in the viewer.
 
 - Links must be unique across the whole page, not just within one folder. If two images would get the same link, or an image's link matches another id on the page (such as an era's `#cataclysm`, or `#forever` on the Forever page), the second one gets no link and the browser console shows an error naming the image. So a screenshot named `forever.png` needs a `data-slug`.
 - To choose a link yourself, add `data-slug` to the `<img>`, for example `data-slug="garrosh-heroic"`.
-- Filenames are case-sensitive on the live site: `src="/assets/MoP/Garrosh.jpg"` won't find `garrosh.jpg`, even if it works on your own computer. Links themselves ignore case.
+- Filenames are case-sensitive on the live site: `data-full="/assets/MoP/Garrosh.png"` won't find `garrosh.png`, even if it works on your own computer. That goes for `src`, `data-full` and `href`. Links themselves ignore case.
 
 ## Adding a new expansion section
 
@@ -108,7 +119,7 @@ Classic eras run in real-life order on `/classic/`. The examples below add a mad
 }
 ```
 
-3. Create a folder for its screenshots, such as `assets/newexp/`.
+3. Create a folder for its screenshots, such as `assets/newexp/`, and one for their thumbnails, `assets/thumbs/newexp/`.
 4. On the About page (`about/index.html`), add a row to the "Our story" timeline linking to `/classic/#newexp`.
 5. Update the number of eras written in the text: "6 Eras, Vanilla to Forever" on Home, and "six eras" in the About page's heading and its three description tags (`description`, `og:description`, `twitter:description`).
 
