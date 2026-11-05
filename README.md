@@ -72,7 +72,7 @@ The site check (see "Before you open a PR") runs both of these checks too.
    `"800x450^>"` (with the quotes) fills the 800x450 box and only ever shrinks. Never edit or replace the original to make the thumbnail.
 3. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 4. Change these in the copy:
-   - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`).
+   - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`). Avoid `%` in filenames; if one has it, write it as `%25`, because a bare `%` breaks the viewer and shareable links for the whole page (the site check rejects it).
    - `src`: the path to the thumbnail, `/assets/thumbs/...`, also with exact case (`/assets/thumbs/tbc/Hyjal%202.jpg`).
    - `width` and `height`: the thumbnail's size in pixels, for example `800` and `450`, or `950` and `450` for a wider screenshot (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.

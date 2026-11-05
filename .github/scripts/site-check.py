@@ -80,14 +80,14 @@ class Report:
         self.items = {key: [] for key, _ in CHECKS}
         self.skipped = {}
 
-    def add(self, check, level, where, message):
-        self.items[check].append((level, where, message))
+    def add(self, check, level, where, message, details=()):
+        self.items[check].append((level, where, message, list(details)))
 
-    def error(self, check, where, message):
-        self.add(check, "ERROR", where, message)
+    def error(self, check, where, message, details=()):
+        self.add(check, "ERROR", where, message, details)
 
-    def warn(self, check, where, message):
-        self.add(check, "WARNING", where, message)
+    def warn(self, check, where, message, details=()):
+        self.add(check, "WARNING", where, message, details)
 
     def skip(self, check, why):
         self.skipped[check] = why
@@ -103,13 +103,16 @@ class Report:
                 print("   skipped: " + self.skipped[key])
             elif not self.items[key]:
                 print("   ok")
-            for level, where, message in self.items[key]:
-                lines = message.split("\n")
-                print("   {} {}: {}".format(level, where, lines[0]))
-                for extra in lines[1:]:
-                    print("        " + extra)
+            for level, where, message, details in self.items[key]:
+                # Every printed line is built here, one line per message or
+                # detail: line breaks inside them (from page attributes or
+                # captions) are shown escaped, so nothing a page contains can
+                # start a line the Actions runner reads as a "::" command.
+                print("   {} {}: {}".format(level, one_line(where), one_line(message)))
+                for extra in details:
+                    print("        " + one_line(extra))
                 if annotate:
-                    annotation(level, where, message)
+                    annotation(level, where, message, details)
             print()
         errors, warnings = self.count("ERROR"), self.count("WARNING")
         print("Summary: {} error{}, {} warning{} ({:.2f}s)".format(
@@ -120,14 +123,26 @@ class Report:
             print("Passed." + (" Look at the WARNINGs above." if warnings else ""))
 
 
-def annotation(level, where, message):
+# Everything Python's str.splitlines() treats as a line break.
+LINE_BREAKS = {c: "\\x{:02x}".format(c) if c < 0x100 else "\\u{:04x}".format(c)
+               for c in (0x0B, 0x0C, 0x1C, 0x1D, 0x1E, 0x85, 0x2028, 0x2029)}
+LINE_BREAKS.update({0x0A: "\\n", 0x0D: "\\r"})
+
+
+def one_line(text):
+    """text with every line break shown as an escape (\\n, \\r, ...)."""
+    return str(text).translate(LINE_BREAKS)
+
+
+def annotation(level, where, message, details=()):
     """GitHub Actions annotation, so problems show on the PR's changed files."""
     kind = "error" if level == "ERROR" else "warning"
-    m = re.match(r"^([^:]+?)(?::(\d+))?$", where)
+    m = re.match(r"^([^:,\s]+?)(?::(\d+))?$", where)
     props = ""
     if m and os.path.exists(os.path.join(ROOT, m.group(1))):
         props = " file=" + m.group(1) + (",line=" + m.group(2) if m.group(2) else "")
-    text = message.replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+    # Workflow-command escaping; the only real line breaks are between details.
+    text = "%0A".join(one_line(part).replace("%", "%25") for part in [message] + list(details))
     print("::{}{}::{}".format(kind, props, text))
 
 
@@ -329,6 +344,41 @@ def local_path(url, base_url):
     return rel
 
 
+BAD_PERCENT = re.compile(r"%(?![0-9A-Fa-f]{2})")
+
+
+def percent_problem(url):
+    """Why a local URL's %-escapes are broken, or None. lightbox.js decodes
+    the filename with decodeURIComponent and no try/catch, so one bad escape
+    throws and the viewer and shareable links stop working for the whole page."""
+    url = (url or "").strip()
+    advice = ("lightbox.js can't decode it, which breaks the viewer and shareable links on the whole page. "
+              "Rename the file, or write a % in its name as %25")
+    if BAD_PERCENT.search(url):
+        return 'has a "%" not followed by two hex digits; ' + advice
+    try:
+        urllib.parse.unquote_to_bytes(url).decode("utf-8")
+    except UnicodeDecodeError:
+        return "decodes to bytes that aren't valid UTF-8; " + advice
+    return None
+
+
+def path_problems(url, base_url, files):
+    """Problems with a URL that points into the repo: broken %-escapes, then
+    a missing or wrong-case file. Empty for external links and #fragments."""
+    target = local_path(url, base_url)
+    if target is None:
+        return []
+    problems = []
+    bad = percent_problem(url)
+    if bad:
+        problems.append(bad)
+    missing = files.problem(target)
+    if missing:
+        problems.append(missing)
+    return problems
+
+
 def is_relative(url):
     url = (url or "").strip()
     return bool(url) and not url.startswith(("/", "#")) and not SCHEME.match(url)
@@ -484,15 +534,21 @@ def check_sync(pages, report):
                 continue
             line = other[j1][0] if j1 < len(other) else (other[-1][0] if other else 1)
             home_line = home[i1][0] if i1 < len(home) else (home[-1][0] if home else 1)
+            # Only spaces or indentation differ: show the lines with repr() so
+            # a trailing space or a tab is visible.
+            spaces_only = tag == "replace" and i2 - i1 == j2 - j1 and all(
+                re.sub(r"\s", "", a[i1 + k]) == re.sub(r"\s", "", b[j1 + k]) for k in range(i2 - i1))
+            show = repr if spaces_only else (lambda s: s.strip())
             detail = []
             for k in range(i1, min(i2, i1 + 2)):
-                detail.append("index.html:{}: {}".format(home[k][0], home[k][1].strip()))
+                detail.append("index.html:{}: {}".format(home[k][0], show(home[k][1])))
             for k in range(j1, min(j2, j1 + 2)):
-                detail.append("{}:{}: {}".format(rel, other[k][0], other[k][1].strip()))
+                detail.append("{}:{}: {}".format(rel, other[k][0], show(other[k][1])))
             report.error("sync", at(rel, line),
-                         "skip link/header/footer differs from index.html (near index.html:{}); "
-                         "they must be identical on all five pages except aria-current\n{}".format(
-                             home_line, "\n".join(detail)))
+                         "skip link/header/footer differs from index.html (near index.html:{}){}; "
+                         "they must be identical on all five pages except aria-current".format(
+                             home_line, ": it differs only in spaces or indentation" if spaces_only else ""),
+                         detail)
             shown += 1
             if shown == 3:
                 break
@@ -545,11 +601,7 @@ def check_paths(pages, files, report):
                                  '{}="{}" is relative; 404.html is served at any address, so use a path '
                                  'starting with /'.format(name, url))
                     continue
-                target = local_path(url, page.url)
-                if target is None:
-                    continue
-                problem = files.problem(target)
-                if problem:
+                for problem in path_problems(url, page.url, files):
                     report.error("paths", at(rel, node.line), '{}="{}": {}'.format(name, url, problem))
 
     css = read_text("style.css")
@@ -558,11 +610,7 @@ def check_paths(pages, files, report):
             url = m.group(2)
             if url.startswith("data:"):
                 continue
-            target = local_path(url, "/style.css")
-            if target is None:
-                continue
-            problem = files.problem(target)
-            if problem:
+            for problem in path_problems(url, "/style.css", files):
                 report.error("paths", at("style.css", number), "url({}): {}".format(url, problem))
 
     try:
@@ -576,11 +624,7 @@ def check_paths(pages, files, report):
     for name, url in entries:
         if not isinstance(url, str):
             continue
-        target = local_path(url, "/site.webmanifest")
-        if target is None:
-            continue
-        problem = files.problem(target)
-        if problem:
+        for problem in path_problems(url, "/site.webmanifest", files):
             report.error("paths", "site.webmanifest", '{} "{}": {}'.format(name, url, problem))
 
 
@@ -665,10 +709,22 @@ def check_gallery(pages, files, report):
                 used_thumbs.add(src_path)
             data_full = img.get("data-full")
             if not data_full:
-                report.error("gallery", at(rel, img.line),
-                             "memory {} has no thumbnail: every memory needs src=\"/assets/thumbs/...jpg\" "
-                             "and data-full=\"/assets/...\" (the original) inside <a class=\"memory__link\" "
-                             "href=\"ORIGINAL\"> (README.md -> Adding a new memory)".format(src))
+                # A bare <img>: its src is the original. If that original's
+                # thumbnail is already there, it belongs to this memory.
+                bare = files.lower.get(src_path.lower(), src_path) if src_path else None
+                existing = files.lower.get((expected_thumb(bare) or "").lower()) if bare else None
+                if existing:
+                    used_thumbs.add(existing)
+                    report.error("gallery", at(rel, img.line),
+                                 "memory {} has no thumbnail, but its thumbnail {} exists: point the memory at it, "
+                                 "with src=\"/{}\" and data-full=\"{}\" inside <a class=\"memory__link\" "
+                                 "href=\"{}\"> (README.md -> Adding a new memory)".format(
+                                     src, existing, urllib.parse.quote(existing), src, src))
+                else:
+                    report.error("gallery", at(rel, img.line),
+                                 "memory {} has no thumbnail: every memory needs src=\"/assets/thumbs/...jpg\" "
+                                 "and data-full=\"/assets/...\" (the original) inside <a class=\"memory__link\" "
+                                 "href=\"ORIGINAL\"> (README.md -> Adding a new memory)".format(src))
                 continue
             original = local_path(data_full, page.url)
             link = img.parent
@@ -689,12 +745,16 @@ def check_gallery(pages, files, report):
                 report.error("gallery", at(rel, img.line),
                              'data-full="{}" must point at an original under /assets/ (not /assets/thumbs/)'.format(data_full))
                 continue
+            # This memory's own thumbnail is in use even if src is wrong
+            # (missing, wrong depth, another memory's), so it's no orphan.
+            real_thumb = files.lower.get(thumb.lower())
+            if real_thumb:
+                used_thumbs.add(real_thumb)
             if src_path is None or src_path.lower() != thumb.lower():
                 report.error("gallery", at(rel, img.line),
                              'src="{}" should be the thumbnail /{} (same folder and name as the original, '
                              'under assets/thumbs/, ending in .jpg)'.format(src, urllib.parse.quote(thumb)))
                 continue
-            real_thumb = files.lower.get(thumb.lower())
             if real_thumb is None:
                 continue  # missing thumbnail: check 2
             if files.exists(src_path) and real_thumb != thumb:
@@ -792,8 +852,8 @@ def check_csp(pages, report):
         for rel, (policy, line) in policies.items():
             if policy != home:
                 report.error("csp", at(rel, line),
-                             "Content-Security-Policy differs from index.html's; change all five pages together\n"
-                             "index.html: {}\n{}: {}".format(home, rel, policy))
+                             "Content-Security-Policy differs from index.html's; change all five pages together",
+                             ["index.html: {}".format(home), "{}: {}".format(rel, policy)])
 
 
 # ---------------------------------------------------------------------------
@@ -926,9 +986,9 @@ def check_parity(pages, base, report):
                 caption = next((n.content().strip() for n in memory.walk() if n.tag == "p"), "") if memory else ""
                 report.error("parity", "{} (at {}, line {})".format(rel, base, img.line),
                              'memory #{} ({}{}) is gone from both /classic/ and /forever/, so its link {}#{} '
-                             'stops working.\nReviewer: confirm this removal (or rename) is on purpose before '
-                             'merging.'.format(slug, full_src(img), ', "' + caption + '"' if caption else "",
-                                               SITE + PAGES[rel], slug))
+                             'stops working.'.format(slug, full_src(img), ', "' + caption + '"' if caption else "",
+                                                     SITE + PAGES[rel], slug),
+                             ["Reviewer: confirm this removal (or rename) is on purpose before merging."])
 
 
 # ---------------------------------------------------------------------------
