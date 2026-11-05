@@ -60,18 +60,18 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 ## Adding a new memory
 
 1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below). Keep it at most 2560 pixels wide (scale larger screenshots down) and strip its metadata (EXIF, GPS, comments) before adding it. This is the original, the full-size picture the viewer opens.
-2. Make its thumbnail, the small copy shown on the gallery card: at most 800 pixels wide (a smaller screenshot keeps its size), JPEG quality 80, progressive, no metadata. Save it in `assets/thumbs/` in the same folder with the same name, ending in `.jpg`: `assets/MoP/garrosh.png` gets `assets/thumbs/MoP/garrosh.jpg`. With the free [ImageMagick](https://imagemagick.org) installed, this command (in PowerShell or Command Prompt, from the repository folder) makes it; change the two paths:
+2. Make its thumbnail, the small copy shown on the gallery card. Cards show a 16:9 crop, so the thumbnail is just big enough to fill an 800x450 box, keeping the screenshot's shape: 800 pixels wide for a 16:9 or narrower screenshot, 450 pixels tall for a wider one (a 1900x900 screenshot gets a 950x450 thumbnail). It's never made bigger than the screenshot: one too small to fill the box keeps its own size. JPEG quality 80, progressive, no metadata. Save it in `assets/thumbs/` in the same folder with the same name, ending in `.jpg`: `assets/MoP/garrosh.png` gets `assets/thumbs/MoP/garrosh.jpg`. With the free [ImageMagick](https://imagemagick.org) installed, this command (in PowerShell or Command Prompt, from the repository folder) makes it; change the two paths:
 
    ```
-   magick assets/MoP/garrosh.png -resize "800x>" -strip -quality 80 -interlace JPEG assets/thumbs/MoP/garrosh.jpg
+   magick assets/MoP/garrosh.png -resize "800x450^>" -strip -quality 80 -sampling-factor 4:2:0 -interlace JPEG assets/thumbs/MoP/garrosh.jpg
    ```
 
-   `"800x>"` (with the quotes) only ever shrinks. Never edit or replace the original to make the thumbnail.
+   `"800x450^>"` (with the quotes) fills the 800x450 box and only ever shrinks. Never edit or replace the original to make the thumbnail.
 3. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 4. Change these in the copy:
    - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`).
    - `src`: the path to the thumbnail, `/assets/thumbs/...`, also with exact case (`/assets/thumbs/tbc/Hyjal%202.jpg`).
-   - `width` and `height`: the thumbnail's size in pixels, for example `800` and `450` (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
+   - `width` and `height`: the thumbnail's size in pixels, for example `800` and `450`, or `950` and `450` for a wider screenshot (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
    - the `<p>` caption shown under the image.
 
@@ -104,7 +104,7 @@ Opening a link expands the image's era, switches the era filter to it and opens 
 
 - Links must be unique across the whole page, not just within one folder. If two images would get the same link, or an image's link matches another id on the page (such as an era's `#cataclysm`, or `#forever` on the Forever page), the second one gets no link and the browser console shows an error naming the image. So a screenshot named `forever.png` needs a `data-slug`.
 - To choose a link yourself, add `data-slug` to the `<img>`, for example `data-slug="garrosh-heroic"`.
-- Filenames are case-sensitive on the live site: `src="/assets/MoP/Garrosh.jpg"` won't find `garrosh.jpg`, even if it works on your own computer. That goes for `src`, `data-full` and `href`. Links themselves ignore case.
+- Filenames are case-sensitive on the live site: `data-full="/assets/MoP/Garrosh.png"` won't find `garrosh.png`, even if it works on your own computer. That goes for `src`, `data-full` and `href`. Links themselves ignore case.
 
 ## Adding a new expansion section
 
