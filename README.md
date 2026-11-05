@@ -13,7 +13,7 @@ Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it wo
 | `/` | `index.html` | Home: hero, "Where to find us" (the WoW Forever and MoP Classic cards, with the raid schedule), the guild record, three screenshots from the archive, leadership and how to join |
 | `/about/` | `about/index.html` | The guild's story, era by era, plus PvP, friends of the Guard and today's leadership |
 | `/classic/` | `classic/index.html` | Classic Memories: the gallery from Vanilla through Mists of Pandaria, one section per era, with an era filter |
-| `/forever/` | `forever/index.html` | Forever Memories: the WoW Forever gallery (placeholder frames until the first screenshot) and how to add a memory |
+| `/forever/` | `forever/index.html` | Forever Memories: the WoW Forever gallery and how to add a memory |
 | any missing address | `404.html` | "Page not found"; GitHub Pages serves it for any URL that doesn't exist |
 
 Every page has the same header (anchor emblem, guild name, the main nav and a "Join on Discord" button) and the same footer. On phones and other screens narrower than 1000px the nav folds behind a "Menu" button; without JavaScript it simply shows in full.
@@ -48,7 +48,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
 | `lightbox.js` | Classic and Forever: the click-to-enlarge viewer and shareable image links |
 | `site.webmanifest` | Name and icons used when someone adds the site to their home screen |
-| `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/` | Gallery screenshots, one folder per expansion. WoW Forever's folder, `assets/forever/`, is created with its first memory |
+| `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/`, `forever/` | Gallery screenshots, one folder per expansion (`forever/` for WoW Forever) |
 | `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `og-vanilla.jpg` on About) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
 | `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
@@ -58,7 +58,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 
 ## Adding a new memory
 
-1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below).
+1. Put the screenshot in the matching expansion folder, for example `assets/MoP/`. Give it a clear, unique filename, because the filename becomes the image's shareable link (see below). Keep it at most 2560 pixels wide (scale larger screenshots down) and strip its metadata (EXIF, GPS, comments) before adding it.
 2. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 3. Change these in the copy:
    - `src`: the path to your screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `src="/assets/tbc/Hyjal%202.PNG"`).
@@ -77,11 +77,11 @@ Example, for a new screenshot saved as `assets/MoP/garrosh.jpg`:
 
 Keep `loading="lazy" decoding="async"` on every gallery image so the page loads quickly.
 
-That's all. Every count updates itself: the era filter's numbers and the "76 moments" line on Classic, the "Show all N memories" buttons, "Memories in the archive" on Home and the Classic count on Forever. The written numbers in the HTML are only what shows if JavaScript is off or a count can't be read, so it's tidy (but not required) to bump the `76` in `index.html`, `classic/index.html` and `forever/index.html` too.
+That's all. Every count updates itself: the era filter's numbers and the "76 moments" line on Classic, the "Show all N memories" buttons, "Memories in the archive" on Home and the Classic count on Forever. The written numbers in the HTML are only what shows if JavaScript is off or a count can't be read, so it's tidy (but not required) to bump them too: Home's "Memories in the archive" in `index.html` counts Classic and Forever together, while the `76` in `classic/index.html` and in `forever/index.html` (its Classic teaser) counts Classic only.
 
 ### Adding a Forever memory
 
-Forever memories go in `forever/index.html`, inside `<section class="block forever-gallery wrap" id="forever">`, in its `<div class="memories">`. Create the folder `assets/forever/` for the screenshots and use the same `<div class="memory">` block as above, with `src="/assets/forever/your-file.jpg"`.
+Forever memories go in `forever/index.html`, inside `<section class="block forever-gallery wrap" id="forever">`, in its `<div class="memories">`. Put the screenshots in `assets/forever/` and use the same `<div class="memory">` block as above, with `src="/assets/forever/your-file.jpg"`.
 
 Until the first memory, the page shows placeholder frames ("Moments we're waiting to capture"). They hide themselves as soon as one memory is in the grid; you don't need to delete them. With one to four memories there's no "Show all" button; it appears from the fifth.
 
