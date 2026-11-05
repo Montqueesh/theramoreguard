@@ -681,23 +681,28 @@ def check_gallery(pages, files, report):
             if original is None:
                 report.error("gallery", at(rel, img.line), 'data-full="{}" is not a local path'.format(data_full))
                 continue
-            problem = files.problem(original)
-            if problem:
-                report.error("gallery", at(rel, img.line),
-                             'original data-full="{}": {}'.format(data_full, problem))
+            # A missing or wrong-case data-full or src is reported by check 2;
+            # go on from the real on-disk names so the advice here stays right.
+            original = files.lower.get(original.lower(), original)
             thumb = expected_thumb(original)
             if thumb is None:
                 report.error("gallery", at(rel, img.line),
                              'data-full="{}" must point at an original under /assets/ (not /assets/thumbs/)'.format(data_full))
                 continue
-            if src_path != thumb:
+            if src_path is None or src_path.lower() != thumb.lower():
                 report.error("gallery", at(rel, img.line),
                              'src="{}" should be the thumbnail /{} (same folder and name as the original, '
                              'under assets/thumbs/, ending in .jpg)'.format(src, urllib.parse.quote(thumb)))
                 continue
-            if files.problem(thumb):
-                continue  # a missing or wrong-case src is reported by check 2
-            check_thumb(rel, img, thumb, original, files, report, checked)
+            real_thumb = files.lower.get(thumb.lower())
+            if real_thumb is None:
+                continue  # missing thumbnail: check 2
+            if files.exists(src_path) and real_thumb != thumb:
+                report.error("gallery", at(rel, img.line),
+                             "thumbnail {} should match the original's folder and name exactly, case included: "
+                             "{}".format(real_thumb, thumb))
+            check_thumb(rel, img, real_thumb, original if files.exists(original) else None,
+                        files, report, checked)
 
     # Home's archive cards: thumbnails with no data-full; the original is the
     # file with the same folder and name in assets/.
@@ -745,8 +750,11 @@ def check_gallery(pages, files, report):
                 target = local_path(node.get(name) or "", page.url)
                 if target:
                     used_thumbs.add(target)
+    # Case-insensitive: a wrong-case reference is check 2's problem, and the
+    # thumbnail it points at is still in use.
+    used_lower = {u.lower() for u in used_thumbs}
     for thumb in sorted(f for f in files.all if f.startswith("assets/thumbs/")):
-        if thumb not in used_thumbs:
+        if thumb.lower() not in used_lower:
             report.error("gallery", thumb, "orphan thumbnail: no page uses it; delete it or add its memory")
 
 
