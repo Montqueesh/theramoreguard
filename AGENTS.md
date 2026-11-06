@@ -49,7 +49,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 ## Head and metadata
 
 - Each page has its own `<title>`, description, canonical and `og:url`. `<title>`, `og:title` and `twitter:title` are identical and under 70 characters; write "and", not `&amp;`. The three descriptions are identical too.
-- Preview image `assets/og-image.jpg` is 1200x630, on every page.
+- Preview image `assets/og-image.jpg` is 1200x630, on every page, with the same `og:image:alt`/`twitter:image:alt` everywhere. It's regenerated from a private template (the emblem and name over a Forever screenshot); if the picture changes, update the alt text on all five pages.
 - The `.ico` favicon link keeps `sizes="32x32"` so Chrome uses the SVG icon for tabs.
 - `404.html` uses root-absolute paths, `noindex` and no scripts. Its canonical and `og:url` point at `/404.html` (it isn't in the sitemap).
 - `sitemap.xml` lists the four pages. Bump a page's `<lastmod>` when its content changes.
