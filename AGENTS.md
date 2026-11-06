@@ -15,6 +15,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 ## Shared header and footer
 
 - The skip link, `<header class="site-header">` and `<footer class="site-footer">` are duplicated in all five pages and must stay identical, except `aria-current="page"` on the current page's nav link (none on 404). Change all five together. Each page except 404 has exactly one `aria-current="page"`, on the nav link to its own path; 404 has none. The site check's first check tests both (see "Site check"; README has the same checks as bash one-liners).
+- The footer's year (`<span class="year">`) is written in the HTML; script.js updates it, but 404 has no scripts. Bump it in all five footers each January; the site check warns when it's behind.
 - The phone nav is a disclosure: `<button class="menu-button" aria-expanded aria-controls="site-nav" hidden>`. script.js unhides it and toggles it (click, Enter/Space; Esc returns focus to the button; a tap outside the header or tabbing out closes it; widening to desktop closes it). Below 1000px the nav folds behind it only under `html.js`, so without JavaScript (and on 404) the nav shows in full.
 - script.js is loaded in `<head>` without `defer` so `html.js` is set before first paint. Other scripts use `defer`, except legacy-links.js (see "Old links").
 - The desktop header needs about 980px on one row; the Menu breakpoint is 999/1000px. Check those widths if nav items change.
@@ -49,7 +50,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 ## Head and metadata
 
 - Each page has its own `<title>`, description, canonical and `og:url`. `<title>`, `og:title` and `twitter:title` are identical and under 70 characters; write "and", not `&amp;`. The three descriptions are identical too.
-- Preview image `assets/og-image.jpg` is 1200x630, on every page.
+- Preview image `assets/og-image.jpg` is 1200x630, on every page, with the same `og:image:alt`/`twitter:image:alt` everywhere. It's regenerated from a private template (the emblem and name over a Forever screenshot); if the picture changes, update the alt text on all five pages.
 - The `.ico` favicon link keeps `sizes="32x32"` so Chrome uses the SVG icon for tabs.
 - `404.html` uses root-absolute paths, `noindex` and no scripts. Its canonical and `og:url` point at `/404.html` (it isn't in the sitemap).
 - `sitemap.xml` lists the four pages. Bump a page's `<lastmod>` when its content changes.
@@ -98,7 +99,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
   6. With `--base`: no memory's shareable link disappears from both gallery pages. A deliberate removal or rename still fails, so the reviewer has to confirm it was meant.
   7. `sitemap.xml` parses and lists exactly the four pages (`https://www.theramoreguard.com` URLs); `site.webmanifest` is valid JSON; `robots.txt` points at the sitemap.
   8. No email addresses in tracked files (a `noreply` address is allowed only under a dot path, which the site doesn't publish).
-  9. WARNING: the launch note's `data-until` date has come (`--today YYYY-MM-DD` previews another date).
+  9. WARNING: the launch note's `data-until` date has come; a footer year is behind the current year (`--today YYYY-MM-DD` previews another date).
 - The workflow is `.github/workflows/site-check.yml`: on pull requests to `main`, pushes to `main` and by hand; read-only permissions, no secrets, a 10-minute timeout. Its job id and name, `site-check`, is the required status check for `main`. Never rename it.
 - Actions are pinned to a full commit SHA with the version in a comment (only `actions/checkout`). Refresh the pin by hand from the action's latest release; no Dependabot.
 - `.github/` is never published: GitHub Pages builds the site with Jekyll (there's no `.nojekyll`), which skips files and folders whose names start with a dot.

@@ -22,6 +22,8 @@ Every page has the same header (anchor emblem, guild name, the main nav and a "J
 
 There's no build step, so the skip link, `<header>` and `<footer>` are written out in full in each of the five HTML files. When you change one, make the same change in all five. The only difference allowed is `aria-current="page"` on the nav link for the page itself (`404.html` has none).
 
+The footer's copyright year is written in the HTML too. `script.js` keeps it current, but `404.html` has no scripts, so each January bump the year in all five footers. The site check warns when it's due.
+
 To check they still match, run this in Git Bash (or any bash) from the repository folder. It should print `same:` four times:
 
 ```
@@ -53,7 +55,7 @@ The site check (see "Before you open a PR") runs both of these checks too.
 | `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/`, `forever/` | Gallery screenshots, one folder per expansion (`forever/` for WoW Forever). These are the full-size originals the viewer opens |
 | `assets/thumbs/` | Small copies of the gallery screenshots, shown on the gallery cards and Home's archive cards. Same folders and file names as the originals, always `.jpg` (`assets/MoP/sha1.PNG` → `assets/thumbs/MoP/sha1.jpg`) |
 | `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `og-vanilla.jpg` on About) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
-| `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere |
+| `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere: the anchor emblem and guild name over the Stormwind gate (1200x630). It's regenerated from a private template, so replace it as a whole rather than editing it |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
 | `assets/fonts/` | The site's fonts (Cinzel for headings, Source Sans 3 for text), hosted here instead of on Google, with their licenses in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
 | `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists the four pages; update a page's `<lastmod>` date when it changes in a way worth re-crawling |
@@ -174,4 +176,4 @@ From the repository folder, run the site check (`python` instead of `python3` on
 python3 .github/scripts/site-check.py
 ```
 
-It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.
+It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come, the footer year is behind) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.
