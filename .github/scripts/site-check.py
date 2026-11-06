@@ -22,7 +22,7 @@ Checks (AGENTS.md has the rules behind them):
   6. Memory parity with --base: no memory's shareable link disappears
   7. sitemap.xml, site.webmanifest and robots.txt
   8. No email addresses in tracked files
-  9. Reminders: the launch note's data-until date
+  9. Reminders: the launch note's data-until date; the footer year
 "Next raid" is not checked: raid-times.js only ever shows raids that haven't
 ended, so a past data-raids-start can't show a stale date.
 """
@@ -1123,6 +1123,24 @@ def check_reminders(pages, today, report):
                         ".launch-note rules in style.css and the README/AGENTS notes (AGENTS.md -> Raid "
                         "schedule), and bump Home's sitemap lastmod".format(until, today))
 
+    # The footer's written year: script.js updates it, but 404.html has no
+    # scripts and visitors without JavaScript see the HTML, so it's bumped by
+    # hand each January.
+    behind = []
+    for rel, page in pages.items():
+        for node in page.nodes:
+            if node.has_class("year") and node.closest(lambda a: a.has_class("site-footer")):
+                written = node.content().strip()
+                if not written.isdigit() or int(written) < today.year:
+                    behind.append((rel, node.line, written))
+    if behind:
+        rel, line, written = behind[0]
+        report.warn("reminders", at(rel, line),
+                    'the footer year ({}) is behind the current year ({}): bump the year in all five footers '
+                    '(<span class="year">{}</span>), since 404.html and visitors without JavaScript show the '
+                    'written year'.format(written, today.year, today.year),
+                    ["{}:{}: {}".format(r, n, w) for r, n, w in behind])
+
 
 # ---------------------------------------------------------------------------
 
@@ -1131,7 +1149,7 @@ def main():
     parser.add_argument("--base", metavar="REF",
                         help="git ref to compare memories with (e.g. origin/main); enables check 6")
     parser.add_argument("--today", metavar="YYYY-MM-DD", type=datetime.date.fromisoformat,
-                        help="pretend today (Eastern) is this date, for the reminders")
+                        help="pretend today (Eastern) is this date, for the reminders (launch note, footer year)")
     args = parser.parse_args()
 
     if hasattr(sys.stdout, "reconfigure"):

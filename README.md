@@ -22,6 +22,8 @@ Every page has the same header (anchor emblem, guild name, the main nav and a "J
 
 There's no build step, so the skip link, `<header>` and `<footer>` are written out in full in each of the five HTML files. When you change one, make the same change in all five. The only difference allowed is `aria-current="page"` on the nav link for the page itself (`404.html` has none).
 
+The footer's copyright year is written in the HTML too. `script.js` keeps it current, but `404.html` has no scripts, so each January bump the year in all five footers. The site check warns when it's due.
+
 To check they still match, run this in Git Bash (or any bash) from the repository folder. It should print `same:` four times:
 
 ```
@@ -174,4 +176,4 @@ From the repository folder, run the site check (`python` instead of `python3` on
 python3 .github/scripts/site-check.py
 ```
 
-It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.
+It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come, the footer year is behind) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.
