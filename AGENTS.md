@@ -87,6 +87,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 
 ## Site check
 
+- `main` is protected: every change goes through a pull request, and the `site-check` check must pass before it can merge. Never push to `main` directly.
 - Before every PR, run `python3 .github/scripts/site-check.py` (and html-validate); CI runs both on every PR. Run it from the repo root (`python` on Windows); add `--base origin/main` to include the memory parity check, as CI does on pull requests. It uses the Python standard library only, prints one line per problem (`file:line`) grouped by check, and exits 1 on any ERROR; WARNINGs never fail it.
 - What it checks:
   1. Header/footer sync and `aria-current`, exactly as in "Shared header and footer".
