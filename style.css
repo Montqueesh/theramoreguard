@@ -25,7 +25,7 @@
     /* Colors */
     --ground: #0B1220;        /* page background */
     --surface: #111A2C;       /* cards and bands */
-    --surface-deep: #0E1628;  /* placeholder frames, Forever header */
+    --surface-deep: #0E1628;  /* placeholder frames */
     --line: #24314A;          /* borders and rules */
     --chip-border: #33425E;   /* chips, outline buttons, dashed frames */
     --brass: #D4A94A;         /* accent: links, headings, solid buttons */
@@ -1147,7 +1147,7 @@ h3 {
     }
 }
 
-/* Shorter hero for inner pages (About) */
+/* Shorter hero for inner pages (About, Forever) */
 
 .hero--page {
     min-height: 380px;
@@ -1164,6 +1164,30 @@ h3 {
         linear-gradient(90deg, rgba(11, 18, 32, .7) 0%, rgba(11, 18, 32, .4) 50%, rgba(11, 18, 32, 0) 80%),
         linear-gradient(180deg, rgba(11, 18, 32, .45) 0%, rgba(11, 18, 32, .7) 60%, var(--ground) 100%),
         url(/assets/og-vanilla.jpg);
+}
+
+/* Forever: the Stormwind gate. A lighter top shade keeps the warm gate visible;
+   the side shade covers the bright sky behind the text. When the hero ends
+   mid-pixel, Chrome paints the screenshot one row past the shades; the inset
+   shadow covers that row with the page color. */
+.hero--forever {
+    background-image:
+        linear-gradient(90deg, rgba(11, 18, 32, .75) 0%, rgba(11, 18, 32, .45) 50%, rgba(11, 18, 32, 0) 80%),
+        linear-gradient(180deg, rgba(11, 18, 32, .15) 0%, rgba(11, 18, 32, .5) 60%, var(--ground) 100%),
+        url(/assets/forever-bg.jpg);
+    background-position: center 72%;
+    box-shadow: inset 0 -2px 0 var(--ground);
+}
+
+/* Below the Menu breakpoint the lede runs across the bright sky, so phones and
+   tablets get the stronger top-to-bottom shade. */
+@media (max-width: 999px) {
+    .hero--forever {
+        background-image:
+            linear-gradient(180deg, rgba(11, 18, 32, .3) 0%, rgba(11, 18, 32, .72) 45%, rgba(11, 18, 32, .85) 70%, var(--ground) 100%),
+            url(/assets/forever-bg.jpg);
+        background-position: 50% 50%;
+    }
 }
 
 .hero__title--page {
@@ -1676,49 +1700,11 @@ h3 {
     }
 }
 
-/* Large outline emblem (Forever header, 404) */
+/* Large outline emblem (404) */
 .emblem--large {
     width: 180px;
     height: 180px;
     stroke-width: 1.4;
-}
-
-/* Forever: header band with the emblem */
-
-.page-band {
-    border-bottom: 1px solid var(--line);
-    background: var(--surface-deep);
-}
-
-.page-band__inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 40px;
-    padding-top: 72px;
-    padding-bottom: 64px;
-}
-
-.page-band__text {
-    flex: 2 1 520px;
-    min-width: 0;
-}
-
-.page-band .hero__eyebrow {
-    margin-bottom: 8px;
-    padding: 0;
-    background: none;
-}
-
-.page-band .page-head__lede {
-    max-width: 58ch;
-    margin-top: 16px;
-}
-
-.page-band__art {
-    display: flex;
-    flex: 1 1 240px;
-    justify-content: center;
 }
 
 /* Forever gallery: real memories, or placeholder frames until the first one.
@@ -1869,16 +1855,6 @@ h3 {
 }
 
 @media (max-width: 599px) {
-    .page-band__inner {
-        gap: 24px;
-        padding-top: 40px;
-        padding-bottom: 36px;
-    }
-
-    .page-band__art {
-        display: none;
-    }
-
     .forever-gallery {
         padding-top: 40px;
     }
