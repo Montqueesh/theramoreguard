@@ -39,7 +39,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - Load order on Classic is gallery.js, eras.js, lightbox.js (all `defer`): eras.js listens for `gallery:expand` before lightbox.js opens a linked image, so the filter switches to that image's era.
 - Era filter counts, the Classic intro total (`[data-memory-total]`) and the `[data-memory-count]` numbers are computed from the DOM or fetched pages. The numbers written in the HTML are the no-JS fallback; memory-count.js keeps them when a page can't be read or has no `.block`.
 - Forever placeholder frames sit outside `.memories` and aren't `.memory` elements, so they never count. CSS hides them with `.forever-gallery:has(.memory) .placeholders`. gallery.js and lightbox.js must keep working with zero memories in a section (no "Show all" button, no errors).
-- Era banners are CSS backgrounds (`.era-band--<id>`, with the era id in lowercase, so `#MoP` uses `.era-band--mop`; each with `var(--band-shade)`): 1920x1080 JPEG, quality 82, progressive, no metadata. Exceptions so far: `assets/tbc.jpg` (1568x769) and the Home hero `assets/yogg.jpg` (1980x697). Keep them small.
+- Era banners are CSS backgrounds (`.era-band--<id>`, with the era id in lowercase, so `#MoP` uses `.era-band--mop`; each with `var(--band-shade)`): 1920x1080 JPEG, quality 82, progressive, no metadata. Exceptions so far: `assets/tbc.jpg` (1568x769) and the Home hero `assets/yogg.jpg` (1980x697). The Forever page's hero (`.hero--forever`, the same markup as About's `.hero--page`) uses `assets/forever-bg.jpg` in the same format, cropped from the gallery screenshot `assets/forever/khadod-stormwind-gate.jpg`, which stays untouched. Keep them small.
 
 ## Old links
 
