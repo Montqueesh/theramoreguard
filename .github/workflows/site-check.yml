@@ -1,0 +1,42 @@
+# Checks every pull request to main (and main itself) with
+# .github/scripts/site-check.py and html-validate. See AGENTS.md -> "Site check".
+# The job id and name "site-check" is the required status check: never rename it.
+name: Site check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  site-check:
+    name: site-check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      # Pinned to a full commit SHA; refresh by hand (no Dependabot).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Site check (with memory parity against main)
+        if: github.event_name == 'pull_request'
+        run: python3 .github/scripts/site-check.py --base origin/main
+
+      - name: Site check
+        if: github.event_name != 'pull_request'
+        run: python3 .github/scripts/site-check.py
+
+      - name: html-validate
+        if: ${{ !cancelled() }}
+        run: npx --yes html-validate@8.18.2 index.html about/index.html classic/index.html forever/index.html 404.html

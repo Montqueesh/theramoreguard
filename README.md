@@ -34,6 +34,8 @@ That check ignores `aria-current`, so it can't tell if a page marks the wrong na
 for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ forever/index.html:/forever/; do f=${p%%:*}; u=${p#*:}; [ "$(grep -o 'aria-current' "$f" | grep -c .)" = 1 ] && sed -n '/<nav class="site-nav"/,/<\/nav>/p' "$f" | grep -qF "<a href=\"$u\" aria-current=\"page\">" && echo "ok: $f" || echo "WRONG: $f"; done; [ "$(grep -c 'aria-current' 404.html)" = 0 ] && echo "ok: 404.html" || echo "WRONG: 404.html"
 ```
 
+The site check (see "Before you open a PR") runs both of these checks too.
+
 ## Files
 
 | Path | What it is |
@@ -56,6 +58,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
 | `assets/fonts/` | The site's fonts (Cinzel for headings, Source Sans 3 for text), hosted here instead of on Google, with their licenses in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
 | `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists the four pages; update a page's `<lastmod>` date when it changes in a way worth re-crawling |
 | `.gitattributes`, `.editorconfig` | Keep line endings as LF (Unix style) and set indents for editors, so files don't show whole-file changes when edited on Windows |
+| `.github/scripts/site-check.py`, `.github/workflows/site-check.yml` | The site check and the GitHub Actions workflow that runs it on every pull request (see "Before you open a PR"). Not published on the site |
 
 ## Adding a new memory
 
@@ -69,7 +72,7 @@ for p in index.html:/ about/index.html:/about/ classic/index.html:/classic/ fore
    `"800x450^>"` (with the quotes) fills the 800x450 box and only ever shrinks. Never edit or replace the original to make the thumbnail.
 3. In `classic/index.html`, find that era's section (for example `<section class="block era" id="MoP" ...>`) and copy one of its `<div class="memory">` blocks. Paste the copy where the new memory should appear in the grid.
 4. Change these in the copy:
-   - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`).
+   - `href` on the `<a>` and `data-full` on the `<img>`: both the path to the original screenshot, starting with `/assets/` and matching the filename's upper and lower case exactly. Write a space in the filename as `%20` (`Hyjal 2.PNG` is `/assets/tbc/Hyjal%202.PNG`). Avoid `%` in filenames; if one has it, write it as `%25`, because a bare `%` breaks the viewer and shareable links for the whole page (the site check rejects it).
    - `src`: the path to the thumbnail, `/assets/thumbs/...`, also with exact case (`/assets/thumbs/tbc/Hyjal%202.jpg`).
    - `width` and `height`: the thumbnail's size in pixels, for example `800` and `450`, or `950` and `450` for a wider screenshot (right-click the file > Properties > Details on Windows). The page uses them to keep the image's space reserved while it loads.
    - `alt`: a short description of what the screenshot shows, for screen readers and for when the image can't load.
@@ -86,7 +89,7 @@ Example, for a new screenshot saved as `assets/MoP/garrosh.png`, with its thumbn
 
 Keep `loading="lazy" decoding="async"` on every gallery image so the page loads quickly. The viewer opens the `data-full` original, so names on screen stay sharp; without JavaScript, clicking the card opens the original through the link.
 
-A memory without a thumbnail still works: write just the `<img>` with `src` pointing at the original (and the original's `width` and `height`), with no `<a>` and no `data-full`. The card then loads the full-size screenshot, which makes the page heavier, so add a thumbnail when you can.
+Every memory needs its thumbnail. A bare `<img>` pointing at the original would still show, but the card would load the full-size screenshot and make the page heavier, so the site check rejects it.
 
 That's all. Every count updates itself: the era filter's numbers and the "76 moments" line on Classic, the "Show all N memories" buttons, "Memories in the archive" on Home and the Classic count on Forever. The written numbers in the HTML are only what shows if JavaScript is off or a count can't be read, so it's tidy (but not required) to bump them too: Home's "Memories in the archive" in `index.html` counts Classic and Forever together, while the `76` in `classic/index.html` and in `forever/index.html` (its Classic teaser) counts Classic only.
 
@@ -162,3 +165,13 @@ python -m http.server --bind 127.0.0.1
 ```
 
 Then open <http://localhost:8000>. Use the local server rather than opening the files directly: the pages use paths that start with `/`, which only work through a server. If a page looks out of date after an edit, reload it with Ctrl+Shift+R, because this simple server lets the browser reuse old copies. It also doesn't show the custom 404 page for missing URLs the way GitHub Pages does; to check that page, open <http://localhost:8000/404.html>.
+
+## Before you open a PR
+
+From the repository folder, run the site check (`python` instead of `python3` on Windows):
+
+```
+python3 .github/scripts/site-check.py
+```
+
+It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. AGENTS.md ("Site check") lists everything it covers.
