@@ -1147,7 +1147,7 @@ h3 {
     }
 }
 
-/* Shorter hero for inner pages (About, Forever) */
+/* Shorter hero for inner pages (About, Classic, Forever) */
 
 .hero--page {
     min-height: 380px;
@@ -1187,6 +1187,29 @@ h3 {
             linear-gradient(180deg, rgba(11, 18, 32, .3) 0%, rgba(11, 18, 32, .72) 45%, rgba(11, 18, 32, .85) 70%, var(--ground) 100%),
             url(/assets/forever-bg.jpg);
         background-position: 50% 50%;
+    }
+}
+
+/* Classic: the group on the shore at sunset. The side shade dims the left of the
+   shot behind the text; the position keeps all five in frame. Same inset shadow
+   as Forever for the one-row seam at the bottom edge. */
+.hero--classic {
+    background-image:
+        linear-gradient(90deg, rgba(11, 18, 32, .6) 0%, rgba(11, 18, 32, .3) 50%, rgba(11, 18, 32, 0) 75%),
+        linear-gradient(180deg, rgba(11, 18, 32, 0) 0%, rgba(11, 18, 32, .25) 60%, var(--ground) 100%),
+        url(/assets/classic-bg.jpg);
+    background-position: center 75%;
+    box-shadow: inset 0 -2px 0 var(--ground);
+}
+
+/* Below the Menu breakpoint the lede runs up into the sunset sky, so phones and
+   tablets get the stronger top-to-bottom shade. */
+@media (max-width: 999px) {
+    .hero--classic {
+        background-image:
+            linear-gradient(180deg, rgba(11, 18, 32, .2) 0%, rgba(11, 18, 32, .6) 40%, rgba(11, 18, 32, .75) 70%, var(--ground) 100%),
+            url(/assets/classic-bg.jpg);
+        background-position: 40% 50%;
     }
 }
 
@@ -1429,29 +1452,6 @@ h3 {
     }
 }
 
-/* Gallery pages: title block without a hero image (Classic Memories) */
-
-.page-head {
-    padding-top: 56px;
-    padding-bottom: 8px;
-}
-
-.page-head .hero__eyebrow {
-    padding: 0;
-    background: none;
-}
-
-.page-head__title {
-    font-size: clamp(34px, 5vw, 56px);
-    line-height: 1.1;
-}
-
-.page-head__lede {
-    max-width: 64ch;
-    margin: 14px 0 0;
-    color: var(--text-2);
-}
-
 /* Era filter (eras.js builds it; there is none without JavaScript).
    It sticks to the top of the window while the gallery scrolls under it. */
 
@@ -1652,14 +1652,6 @@ h3 {
 }
 
 @media (max-width: 599px) {
-    .page-head {
-        padding-top: 36px;
-    }
-
-    .page-head__title {
-        font-size: 34px;
-    }
-
     /* One scrolling row of chips on phones, so the sticky bar stays short */
     .era-filter__inner {
         flex-wrap: nowrap;
