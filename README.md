@@ -54,7 +54,7 @@ The site check (see "Before you open a PR") runs both of these checks too.
 | `site.webmanifest` | Name and icons used when someone adds the site to their home screen |
 | `assets/vanilla/`, `tbc/`, `wotlk/`, `cataclysm/`, `MoP/`, `forever/` | Gallery screenshots, one folder per expansion (`forever/` for WoW Forever). These are the full-size originals the viewer opens |
 | `assets/thumbs/` | Small copies of the gallery screenshots, shown on the gallery cards and Home's archive cards. Same folders and file names as the originals, always `.jpg` (`assets/MoP/sha1.PNG` → `assets/thumbs/MoP/sha1.jpg`) |
-| `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `og-vanilla.jpg` on About, `classic-bg.jpg` on Classic, `forever-bg.jpg` on Forever) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
+| `assets/*.jpg` | Hero art (`yogg.jpg` on Home, `about-bg.jpg` on About (a brightened copy of `og-vanilla.jpg`), `classic-bg.jpg` on Classic, `forever-bg.jpg` on Forever) and the era banners on Classic (`og-vanilla.jpg`, `tbc.jpg`, `wotlk-bg.jpg`, `cataclysm-bg.jpg`, `mop-bg.jpg`) |
 | `assets/og-image.jpg` | Preview image shown when a link to the site is posted in Discord and elsewhere: the anchor emblem and guild name over the Stormwind gate (1200x630). It's regenerated from a private template, so replace it as a whole rather than editing it |
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
 | `assets/fonts/` | The site's fonts (Cinzel for headings, Source Sans 3 for text), hosted here instead of on Google, with their licenses in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |

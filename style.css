@@ -1159,11 +1159,27 @@ h3 {
     padding-bottom: 56px;
 }
 
+/* About: the guild in the hall, a brightened copy of og-vanilla.jpg. A soft radial
+   shade sits behind the text block, so the walls, rafters and right side stay light;
+   the title crosses the glowing staff, which sets the radial's strength. Same inset
+   shadow as Forever for the one-row seam at the bottom edge. */
 .hero--about {
     background-image:
-        linear-gradient(90deg, rgba(11, 18, 32, .7) 0%, rgba(11, 18, 32, .4) 50%, rgba(11, 18, 32, 0) 80%),
-        linear-gradient(180deg, rgba(11, 18, 32, .45) 0%, rgba(11, 18, 32, .7) 60%, var(--ground) 100%),
-        url(/assets/og-vanilla.jpg);
+        radial-gradient(ellipse 66% 75% at 38% 62%, rgba(11, 18, 32, .75) 0%, rgba(11, 18, 32, .65) 55%, rgba(11, 18, 32, .4) 80%, rgba(11, 18, 32, 0) 100%),
+        linear-gradient(180deg, rgba(11, 18, 32, 0) 0%, rgba(11, 18, 32, .05) 22%, rgba(11, 18, 32, .35) 40%, rgba(11, 18, 32, .45) 80%, var(--ground) 100%),
+        url(/assets/about-bg.jpg);
+    box-shadow: inset 0 -2px 0 var(--ground);
+}
+
+/* Below the Menu breakpoint the title and lede run to 80% of the width, so tablets
+   get a wider side shade; phones (below 600px) have their own rule further down. */
+@media (max-width: 999px) {
+    .hero--about {
+        background-image:
+            linear-gradient(90deg, rgba(11, 18, 32, .55) 0%, rgba(11, 18, 32, .48) 60%, rgba(11, 18, 32, .15) 85%, rgba(11, 18, 32, 0) 100%),
+            linear-gradient(180deg, rgba(11, 18, 32, 0) 0%, rgba(11, 18, 32, .05) 18%, rgba(11, 18, 32, .45) 36%, rgba(11, 18, 32, .5) 80%, var(--ground) 100%),
+            url(/assets/about-bg.jpg);
+    }
 }
 
 /* Forever: the Stormwind gate. A lighter top shade keeps the warm gate visible;
@@ -1397,8 +1413,8 @@ h3 {
 
     .hero--about {
         background-image:
-            linear-gradient(180deg, rgba(11, 18, 32, .5) 0%, rgba(11, 18, 32, .78) 45%, rgba(11, 18, 32, .88) 70%, var(--ground) 100%),
-            url(/assets/og-vanilla.jpg);
+            linear-gradient(180deg, rgba(11, 18, 32, .1) 0%, rgba(11, 18, 32, .15) 15%, rgba(11, 18, 32, .7) 32%, rgba(11, 18, 32, .78) 75%, var(--ground) 100%),
+            url(/assets/about-bg.jpg);
     }
 
     .hero__title--page {
