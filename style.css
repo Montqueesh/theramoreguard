@@ -1504,6 +1504,32 @@ h3 {
     color: var(--ground);
 }
 
+/* Until eras.js adds the filter, keep its room free so the gallery doesn't
+   jump down when it arrives: its 20px margin, 16px padding and 1px border,
+   plus one row of chips (1.4em line, 20px padding, 2px border). The chips
+   wrap to two rows (10px gap) from 600px up to the width where all six fit
+   on one row (908px now); re-measure that if an era is added or renamed.
+   Phones get one scrolling row of 44px chips. */
+.js #memories-block {
+    margin-top: calc(1.4em + 59px);
+}
+
+@media (min-width: 600px) and (max-width: 908px) {
+    .js #memories-block {
+        margin-top: calc(2.8em + 91px);
+    }
+}
+
+@media (max-width: 599px) {
+    .js #memories-block {
+        margin-top: 81px;
+    }
+}
+
+.js .era-filter + #memories-block {
+    margin-top: 0;
+}
+
 /* Room for the sticky filter when a link jumps to an era or the gallery */
 .js .gallery,
 .js .era {
@@ -1602,8 +1628,19 @@ h3 {
     line-height: 1.4;
 }
 
-.memories.is-collapsed .memory:nth-child(n+5) {
+/* Each section shows its first 4 memories until "Show all" (gallery.js, which
+   toggles .is-expanded; its VISIBLE must match the n+5 here). The hiding is
+   keyed on html.js, set before the first paint, so hidden cards never fetch
+   their lazy thumbnails; without JavaScript every memory shows. */
+.js .block .memories:not(.is-expanded) > .memory:nth-child(n+5) {
     display: none;
+}
+
+/* Until gallery.js adds the "Show all" button, keep its room free (its 20px
+   margin, a 1.6em line, 20px padding and 2px border) so the page below
+   doesn't jump. Not when the grid is expanded (script.js's fallback). */
+.js .block .memories:not(.is-expanded):has(> .memory:nth-child(5)):not(:has(+ .memories-toggle)) {
+    margin-bottom: calc(1.6em + 42px);
 }
 
 .memories-toggle {
