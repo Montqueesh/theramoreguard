@@ -43,12 +43,12 @@ The site check (see "Before you open a PR") runs both of these checks too.
 | Path | What it is |
 | --- | --- |
 | `style.css` | All styles for every page. Colors, fonts and sizes are custom properties at the top (`:root`) |
-| `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button |
+| `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button. On gallery pages, it shows every memory if `gallery.js` failed to run |
 | `legacy-links.js` | Home only: sends old one-page links (`/#about`, `/#wotlk`, `/#yogg`) to the new pages (see "Old links") |
 | `raid-times.js` | Home only: the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
 | `launch-note.js` | Home only: hides the "WoW Forever is live" line at the top of "Where to find us" once its `data-until` date (Eastern) arrives. Without JavaScript the line stays, so once the date has passed delete the paragraph, this file, its `<script>` tag and the `.launch-note` rules in `style.css` |
 | `memory-count.js` | Home and Forever: keeps the memory counts up to date by counting the memories on `/classic/` and `/forever/` |
-| `gallery.js` | Classic and Forever: collapses each gallery section to its first 4 memories behind a "Show all N memories" button |
+| `gallery.js` | Classic and Forever: adds the "Show all N memories" / "Show fewer" button to each gallery section with more than 4 memories. `style.css` hides the rest from the first paint (only with JavaScript on), so their thumbnails aren't downloaded until shown |
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
 | `lightbox.js` | Classic and Forever: the click-to-enlarge viewer and shareable image links |
 | `site.webmanifest` | Name and icons used when someone adds the site to their home screen |
@@ -126,7 +126,8 @@ Classic eras run in real-life order on `/classic/`. The examples below add a mad
 
 3. Create a folder for its screenshots, such as `assets/newexp/`, and one for their thumbnails, `assets/thumbs/newexp/`.
 4. On the About page (`about/index.html`), add a row to the "Our story" timeline linking to `/classic/#newexp`.
-5. Update the number of eras written in the text: "6 Eras, Vanilla to Forever" on Home, and "six eras" in the About page's heading and its three description tags (`description`, `og:description`, `twitter:description`).
+5. Check the era filter at 600–1000px wide: its buttons wrap to two rows below a certain width (908px with the current six eras). If the new button moves that point, update the `908px` in the `.js #memories-block` rules in `style.css` (AGENTS.md, "Layout shift").
+6. Update the number of eras written in the text: "6 Eras, Vanilla to Forever" on Home, and "six eras" in the About page's heading and its three description tags (`description`, `og:description`, `twitter:description`).
 
 ## Editing the raid schedule
 

@@ -1,5 +1,6 @@
 // Shared by every page except 404.html (which has no scripts): the phone
-// "Menu" button, the footer's copyright year and the Back to top button.
+// "Menu" button, the footer's copyright year, the Back to top button and the
+// gallery fallback below.
 //
 // It is loaded in <head> without defer, so the "js" class below is on <html>
 // before the first paint. style.css only folds the phone nav away under that
@@ -10,10 +11,22 @@
   document.documentElement.classList.add("js");
 
   document.addEventListener("DOMContentLoaded", function () {
+    galleryFallback();
     footerYear();
     phoneMenu();
     backToTop();
   });
+
+  // style.css hides gallery memories after the 4th from the first paint, and
+  // gallery.js adds the "Show all" buttons. DOMContentLoaded comes after the
+  // deferred scripts have run (or failed), so if gallery.js didn't finish,
+  // show every memory rather than leave them hidden with no button.
+  function galleryFallback() {
+    if (document.documentElement.classList.contains("gallery-ready")) return;
+    document.querySelectorAll(".block .memories").forEach(function (grid) {
+      grid.classList.add("is-expanded");
+    });
+  }
 
   function footerYear() {
     const year = String(new Date().getFullYear());
