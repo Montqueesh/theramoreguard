@@ -10,7 +10,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - Only website files belong in the repo: what the site serves, plus `CNAME`, `README.md`, `AGENTS.md`, `.gitattributes`, `.editorconfig` and the PR check (`.github/workflows/site-check.yml`, `.github/scripts/site-check.py`). No notes, plans, mockups or scratch files.
 - `CNAME` connects the domain to GitHub Pages. Never delete or rename it.
 - Content must work without JavaScript: every page reads in full, the nav shows expanded, every gallery image shows (the collapse to the first 4 per section applies only under `html.js`) and there are no era filter buttons.
-- Scripts per page (all in `<head>`): Home `legacy-links.js`, `script.js`, `raid-times.js`, `memory-count.js`, `launch-note.js`; About `script.js`; Classic `script.js`, `gallery.js`, `eras.js`, `lightbox.js`; Forever `script.js`, `memory-count.js`, `gallery.js`, `lightbox.js`; 404 none.
+- Scripts per page (all in `<head>`): Home `legacy-links.js`, `script.js`, `raid-times.js`, `memory-count.js`; About `script.js`; Classic `script.js`, `gallery.js`, `eras.js`, `lightbox.js`; Forever `script.js`, `memory-count.js`, `gallery.js`, `lightbox.js`; 404 none.
 
 ## Shared header and footer
 
@@ -73,7 +73,6 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - The "Your time" line (`.schedule__local`) is hidden when the visitor's offsets equal the slot zone's (Toronto counts as Eastern). It repeats the days only when they differ from the Eastern ones; slots whose local times differ in a DST-change week are listed as separate groups. English 12-hour times, en dash between them.
 - "Next raid" (`.schedule__next`) stays as the HTML text (TBD) unless the `.schedule` element has `data-raids-start="YYYY-MM-DD"`. The script writes only the value; the label is in the HTML.
 - No ticking timers and no live regions: it renders at load and on `visibilitychange`.
-- The launch line (`<p class="launch-note" data-until="YYYY-MM-DD">`, top of `#now`, no id) shows in the HTML; launch-note.js hides it from midnight Eastern on that date. On or after the date, remove the paragraph, launch-note.js, its `<script>` tag and the `.launch-note` rules in style.css, since visitors without JavaScript still see it.
 
 ## Files and line endings
 
@@ -102,7 +101,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
   6. With `--base`: no memory's shareable link disappears from both gallery pages. A deliberate removal or rename still fails, so the reviewer has to confirm it was meant.
   7. `sitemap.xml` parses and lists exactly the four pages (`https://www.theramoreguard.com` URLs); `site.webmanifest` is valid JSON; `robots.txt` points at the sitemap.
   8. No email addresses in tracked files (a `noreply` address is allowed only under a dot path, which the site doesn't publish).
-  9. WARNING: the launch note's `data-until` date has come; a footer year is behind the current year (`--today YYYY-MM-DD` previews another date).
+  9. WARNING: a footer year is behind the current year (`--today YYYY-MM-DD` previews another date).
 - The workflow is `.github/workflows/site-check.yml`: on pull requests to `main`, pushes to `main` and by hand; read-only permissions, no secrets, a 10-minute timeout. Its job id and name, `site-check`, is the required status check for `main`. Never rename it.
 - Actions are pinned to a full commit SHA with the version in a comment (only `actions/checkout`). Refresh the pin by hand from the action's latest release; no Dependabot.
 - `.github/` is never published: GitHub Pages builds the site with Jekyll (there's no `.nojekyll`), which skips files and folders whose names start with a dot.
