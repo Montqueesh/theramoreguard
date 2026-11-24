@@ -46,7 +46,6 @@ The site check (see "Before you open a PR") runs both of these checks too.
 | `script.js` | On every page except 404: the phone "Menu" button, the footer's copyright year and the Back to top button. On gallery pages, it shows every memory if `gallery.js` failed to run |
 | `legacy-links.js` | Home only: sends old one-page links (`/#about`, `/#wotlk`, `/#yogg`) to the new pages (see "Old links") |
 | `raid-times.js` | Home only: the raid schedule in the visitor's own time zone and, once raids have a start date, the next raid (see "Editing the raid schedule") |
-| `launch-note.js` | Home only: hides the "WoW Forever is live" line at the top of "Where to find us" once its `data-until` date (Eastern) arrives. Without JavaScript the line stays, so once the date has passed delete the paragraph, this file, its `<script>` tag and the `.launch-note` rules in `style.css` |
 | `memory-count.js` | Home and Forever: keeps the memory counts up to date by counting the memories on `/classic/` and `/forever/` |
 | `gallery.js` | Classic and Forever: adds the "Show all N memories" / "Show fewer" button to each gallery section with more than 4 memories. `style.css` hides the rest from the first paint (only with JavaScript on), so their thumbnails aren't downloaded until shown |
 | `eras.js` | Classic only: the era filter buttons ("All eras", "Vanilla", ...) and era links like `/classic/#wotlk` |
@@ -177,4 +176,4 @@ From the repository folder, run the site check (`python` instead of `python3` on
 python3 .github/scripts/site-check.py
 ```
 
-It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the launch note's date has come, the footer year is behind) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.
+It checks the shared header and footer, file paths and their case, every memory and thumbnail, the Content Security Policy rules, shareable links, the sitemap and more, and prints one line per problem. Fix every ERROR; a WARNING (a very large image, the footer year is behind) is a reminder and doesn't fail. GitHub runs the same check, plus html-validate, on every pull request, so a PR shows a failing "site-check" until it's fixed. Merging into `main` requires that check to pass, so run the site check before you open the PR. AGENTS.md ("Site check") lists everything it covers.

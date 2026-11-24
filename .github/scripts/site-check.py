@@ -22,7 +22,7 @@ Checks (AGENTS.md has the rules behind them):
   6. Memory parity with --base: no memory's shareable link disappears
   7. sitemap.xml, site.webmanifest and robots.txt
   8. No email addresses in tracked files
-  9. Reminders: the launch note's data-until date; the footer year
+  9. Reminders: the footer year
 "Next raid" is not checked: raid-times.js only ever shows raids that haven't
 ended, so a past data-raids-start can't show a stale date.
 """
@@ -1085,7 +1085,7 @@ def check_email(report):
 # 9. Reminders
 
 def eastern_today():
-    """Today's date in US Eastern time (launch-note.js compares with this)."""
+    """Today's date in US Eastern time."""
     try:
         from zoneinfo import ZoneInfo
         return datetime.datetime.now(ZoneInfo("America/New_York")).date()
@@ -1107,22 +1107,6 @@ def eastern_today():
 
 
 def check_reminders(pages, today, report):
-    for node in pages["index.html"].nodes:
-        if not node.has_class("launch-note") or node.get("data-until") is None:
-            continue
-        until = node.get("data-until")
-        try:
-            date = datetime.date.fromisoformat(until)
-        except ValueError:
-            report.warn("reminders", at("index.html", node.line), 'launch note data-until="{}" isn\'t a YYYY-MM-DD date'.format(until))
-            continue
-        if today >= date:
-            report.warn("reminders", at("index.html", node.line),
-                        "the launch note's data-until date ({}) has come (today is {} Eastern). Visitors without "
-                        "JavaScript still see it: remove the paragraph, launch-note.js, its <script> tag, the "
-                        ".launch-note rules in style.css and the README/AGENTS notes (AGENTS.md -> Raid "
-                        "schedule), and bump Home's sitemap lastmod".format(until, today))
-
     # The footer's written year: script.js updates it, but 404.html has no
     # scripts and visitors without JavaScript see the HTML, so it's bumped by
     # hand each January.
@@ -1149,7 +1133,7 @@ def main():
     parser.add_argument("--base", metavar="REF",
                         help="git ref to compare memories with (e.g. origin/main); enables check 6")
     parser.add_argument("--today", metavar="YYYY-MM-DD", type=datetime.date.fromisoformat,
-                        help="pretend today (Eastern) is this date, for the reminders (launch note, footer year)")
+                        help="pretend today (Eastern) is this date, for the reminders (footer year)")
     args = parser.parse_args()
 
     if hasattr(sys.stdout, "reconfigure"):
