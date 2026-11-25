@@ -470,12 +470,15 @@ h3 {
     }
 }
 
-/* Room under the footer on phones so Back to top never covers its links */
-@media (max-width: 999px) {
+/* Room under the footer so Back to top never covers its links. From 1440px
+   the button sits right of the footer's last link, so no room is needed. */
+@media (max-width: 1439px) {
     .site-footer__inner {
         padding-bottom: 88px;
     }
+}
 
+@media (max-width: 999px) {
     .to-top {
         right: 16px;
         bottom: 16px;
@@ -1377,6 +1380,42 @@ h3 {
     flex: 1 1 260px;
 }
 
+/* Reference text, quieter than the story (About: Privacy, Accessibility) */
+
+.section--fine {
+    padding-top: 0;
+    padding-bottom: 48px;
+    color: var(--text-2);
+    /* the heading isn't flush with the window's top edge after a #privacy jump */
+    scroll-margin-top: 24px;
+}
+
+.section--fine:last-child {
+    padding-bottom: 72px;
+}
+
+.section--fine .section-title {
+    font-size: 22px;
+}
+
+.section--fine p {
+    max-width: 72ch;
+    margin: 0 0 12px;
+}
+
+.section--fine p:last-child {
+    margin-bottom: 0;
+}
+
+/* A rule above the first one (Privacy), spaced like the gap above it
+   (Leadership's padding-bottom). Spans the text column, not the gutters. */
+.section--ruled::before {
+    content: "";
+    display: block;
+    margin-bottom: 72px;
+    border-top: 1px solid var(--line);
+}
+
 @media (max-width: 599px) {
     .hero--page {
         min-height: 320px;
@@ -1441,6 +1480,22 @@ h3 {
     .cta-row__action .button {
         display: block;
         width: 100%;
+    }
+
+    .section--fine {
+        padding-bottom: 32px;
+    }
+
+    .section--fine:last-child {
+        padding-bottom: 40px;
+    }
+
+    .section--fine .section-title {
+        font-size: 20px;
+    }
+
+    .section--ruled::before {
+        margin-bottom: 40px;
     }
 }
 

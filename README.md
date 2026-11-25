@@ -11,7 +11,7 @@ Before changing the site, read [AGENTS.md](AGENTS.md): the rules that keep it wo
 | Address | File | What's on it |
 | --- | --- | --- |
 | `/` | `index.html` | Home: hero, "Where to find us" (the WoW Forever and MoP Classic cards, with the raid schedule), the guild record, three screenshots from the archive, leadership and how to join |
-| `/about/` | `about/index.html` | The guild's story, era by era, plus PvP, friends of the Guard and today's leadership |
+| `/about/` | `about/index.html` | The guild's story, era by era, plus PvP, friends of the Guard, today's leadership, and the Privacy and Accessibility sections that every footer links to |
 | `/classic/` | `classic/index.html` | Classic Memories: the gallery from Vanilla through Mists of Pandaria, one section per era, with an era filter |
 | `/forever/` | `forever/index.html` | Forever Memories: the WoW Forever gallery and how to add a memory |
 | any missing address | `404.html` | "Page not found"; GitHub Pages serves it for any URL that doesn't exist |

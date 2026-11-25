@@ -17,6 +17,8 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 
 - The skip link, `<header class="site-header">` and `<footer class="site-footer">` are duplicated in all five pages and must stay identical, except `aria-current="page"` on the current page's nav link (none on 404). Change all five together. Each page except 404 has exactly one `aria-current="page"`, on the nav link to its own path; 404 has none. The site check's first check tests both (see "Site check"; README has the same checks as bash one-liners).
 - The footer's year (`<span class="year">`) is written in the HTML; script.js updates it, but 404 has no scripts. Bump it in all five footers each January; the site check warns when it's behind.
+- The footer links Discord, MoP Logs (Pagle), Privacy (`/about/#privacy`) and Accessibility (`/about/#accessibility`); the last two are plain internal links (no `target` or `rel`). Like the rest of the footer they stay identical in all five pages (site check 1 covers it).
+- Below 1440px the footer keeps 88px free under its links for the fixed Back to top button; if footer links are added, check the button still clears the last one between 1000 and 1439px.
 - The phone nav is a disclosure: `<button class="menu-button" aria-expanded aria-controls="site-nav" hidden>`. script.js unhides it and toggles it (click, Enter/Space; Esc returns focus to the button; a tap outside the header or tabbing out closes it; widening to desktop closes it). Below 1000px the nav folds behind it only under `html.js`, so without JavaScript (and on 404) the nav shows in full.
 - script.js is loaded in `<head>` without `defer` so `html.js` is set before first paint (the phone nav and the gallery collapse both depend on it). Other scripts use `defer`, except legacy-links.js (see "Old links").
 - The desktop header needs about 980px on one row; the Menu breakpoint is 999/1000px. Check those widths if nav items change.
@@ -27,6 +29,7 @@ Invariants for anyone (human or agent) changing this site. The maintainer guide 
 - No inline `<script>`, no `style="..."`, no `on*=` handlers. Code goes in `.js`, styles in `style.css`. Setting `element.style.x` from JS is fine.
 - Nothing from another origin (CDN, web fonts, embeds). `fetch` is same-origin only (memory-count.js).
 - `frame-ancestors` can't be set (a meta CSP ignores it, and Pages can't send headers).
+- The Privacy section on /about/ (`#privacy`) makes public promises the site must keep: no cookies, analytics, ads or trackers, no forms or sign-ins, fonts and images from the site itself, outbound links that send no referrer. A change that adds cookies, analytics, a third-party request or a form must update `#privacy` in the same PR.
 
 ## Gallery
 
