@@ -1383,6 +1383,8 @@ h3 {
     padding-top: 0;
     padding-bottom: 48px;
     color: var(--text-2);
+    /* the heading isn't flush with the window's top edge after a #privacy jump */
+    scroll-margin-top: 24px;
 }
 
 .section--fine:last-child {
