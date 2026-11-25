@@ -470,12 +470,15 @@ h3 {
     }
 }
 
-/* Room under the footer on phones so Back to top never covers its links */
-@media (max-width: 999px) {
+/* Room under the footer so Back to top never covers its links. From 1440px
+   the button sits right of the footer's last link, so no room is needed. */
+@media (max-width: 1439px) {
     .site-footer__inner {
         padding-bottom: 88px;
     }
+}
 
+@media (max-width: 999px) {
     .to-top {
         right: 16px;
         bottom: 16px;
