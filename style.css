@@ -1377,6 +1377,31 @@ h3 {
     flex: 1 1 260px;
 }
 
+/* Reference text, quieter than the story (About: Privacy, Accessibility) */
+
+.section--fine {
+    padding-top: 0;
+    padding-bottom: 48px;
+    color: var(--text-2);
+}
+
+.section--fine:last-child {
+    padding-bottom: 72px;
+}
+
+.section--fine .section-title {
+    font-size: 22px;
+}
+
+.section--fine p {
+    max-width: 72ch;
+    margin: 0 0 12px;
+}
+
+.section--fine p:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 599px) {
     .hero--page {
         min-height: 320px;
@@ -1441,6 +1466,18 @@ h3 {
     .cta-row__action .button {
         display: block;
         width: 100%;
+    }
+
+    .section--fine {
+        padding-bottom: 32px;
+    }
+
+    .section--fine:last-child {
+        padding-bottom: 40px;
+    }
+
+    .section--fine .section-title {
+        font-size: 20px;
     }
 }
 
