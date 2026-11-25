@@ -20,7 +20,8 @@ Checks (AGENTS.md has the rules behind them):
   5. Links and ids: unique shareable slugs, internal #links resolve,
      legacy-links.js targets and HOME_IDS
   6. Memory parity with --base: no memory's shareable link disappears
-  7. sitemap.xml, site.webmanifest and robots.txt
+  7. sitemap.xml, site.webmanifest, robots.txt and _config.yml (only the
+     exclude list, covering CNAME and every Markdown file)
   8. No email addresses in tracked files
   9. Reminders: the footer year
 "Next raid" is not checked: raid-times.js only ever shows raids that haven't
@@ -66,7 +67,7 @@ CHECKS = [
     ("csp", "4. CSP hygiene"),
     ("links", "5. Shareable links, internal #links and old links"),
     ("parity", "6. Memory parity with the base branch"),
-    ("meta", "7. sitemap.xml, site.webmanifest, robots.txt"),
+    ("meta", "7. sitemap.xml, site.webmanifest, robots.txt, _config.yml"),
     ("email", "8. No email addresses"),
     ("reminders", "9. Reminders"),
 ]
@@ -992,7 +993,7 @@ def check_parity(pages, base, report):
 
 
 # ---------------------------------------------------------------------------
-# 7. sitemap.xml, site.webmanifest, robots.txt
+# 7. sitemap.xml, site.webmanifest, robots.txt, _config.yml
 
 def check_meta(files, report):
     try:
@@ -1038,6 +1039,42 @@ def check_meta(files, report):
     sitemaps = [m.group(1) for m in re.finditer(r"(?im)^\s*sitemap:\s*(\S+)", robots)]
     if SITE + "/sitemap.xml" not in sitemaps:
         report.error("meta", "robots.txt", "should have the line: Sitemap: {}/sitemap.xml".format(SITE))
+    check_jekyll_config(files, report)
+
+
+MARKDOWN_EXTS = (".md", ".markdown", ".mkd", ".mkdn", ".mkdown")
+
+
+def check_jekyll_config(files, report):
+    # _config.yml only keeps the docs out of GitHub Pages' Jekyll build (AGENTS.md -> Shape).
+    # Its exclude list replaces Pages' default ["CNAME"], so CNAME is listed too.
+    try:
+        lines = read_text("_config.yml").split("\n")
+    except OSError:
+        report.error("meta", "_config.yml", "is missing; without it GitHub Pages publishes AGENTS.md and README.md")
+        return
+    exclude, in_list = [], False
+    for number, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if line == "exclude:":
+            in_list = True
+            continue
+        item = re.fullmatch(r"\s+-\s+(\S+)", line)
+        if in_list and item:
+            exclude.append(item.group(1).strip("\"'"))
+            continue
+        report.error("meta", at("_config.yml", number),
+                     "only comments and the exclude list belong here (no theme, plugins or other settings): {}".format(stripped))
+    if "CNAME" not in exclude:
+        report.error("meta", "_config.yml", "exclude should list CNAME (a custom exclude list replaces GitHub Pages' "
+                                            "default, which excludes it)")
+    for rel in sorted(files.all):
+        if any(part.startswith(".") for part in rel.split("/")) or not rel.lower().endswith(MARKDOWN_EXTS):
+            continue
+        if not any(rel == e.rstrip("/") or rel.startswith(e.rstrip("/") + "/") for e in exclude):
+            report.error("meta", rel, "this Markdown file would be published on the site; add it to exclude in _config.yml")
 
 
 # ---------------------------------------------------------------------------

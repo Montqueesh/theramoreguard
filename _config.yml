@@ -1,0 +1,5 @@
+# Keeps the repository's docs off the website: GitHub Pages' Jekyll build skips these files.
+exclude:
+  - AGENTS.md
+  - README.md
+  - CNAME
