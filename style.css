@@ -1407,6 +1407,15 @@ h3 {
     margin-bottom: 0;
 }
 
+/* A rule above the first one (Privacy), spaced like the gap above it
+   (Leadership's padding-bottom). Spans the text column, not the gutters. */
+.section--ruled::before {
+    content: "";
+    display: block;
+    margin-bottom: 72px;
+    border-top: 1px solid var(--line);
+}
+
 @media (max-width: 599px) {
     .hero--page {
         min-height: 320px;
@@ -1483,6 +1492,10 @@ h3 {
 
     .section--fine .section-title {
         font-size: 20px;
+    }
+
+    .section--ruled::before {
+        margin-bottom: 40px;
     }
 }
 
