@@ -58,6 +58,7 @@ The site check (see "Before you open a PR") runs both of these checks too.
 | `assets/favicon.ico`, `assets/icons/` | Browser tab and home-screen icons |
 | `assets/fonts/` | The site's fonts (Cinzel for headings, Source Sans 3 for text), hosted here instead of on Google, with their licenses in `OFL.txt`. Only the Latin character set is included, so a character outside it (Cyrillic, say) shows in a system font |
 | `robots.txt`, `sitemap.xml` | For search engines. The sitemap lists the four pages; update a page's `<lastmod>` date when it changes in a way worth re-crawling |
+| `_config.yml` | Keeps `README.md`, `AGENTS.md` and `CNAME` out of the published site (GitHub Pages builds it with Jekyll). Add any new Markdown file to its `exclude` list; nothing else goes in it (AGENTS.md, "Shape") |
 | `.gitattributes`, `.editorconfig` | Keep line endings as LF (Unix style) and set indents for editors, so files don't show whole-file changes when edited on Windows |
 | `.github/scripts/site-check.py`, `.github/workflows/site-check.yml` | The site check and the GitHub Actions workflow that runs it on every pull request (see "Before you open a PR"). Not published on the site |
 
